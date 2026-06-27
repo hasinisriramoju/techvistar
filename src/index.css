@@ -1,0 +1,215 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* OnIT India–aligned palette: green primary (#16a34a), emerald accents, mint neutrals */
+    --background: 150 25% 98%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    /* #16a34a — brand green (matches onitindia.com theme-color) */
+    --primary: 142 76% 36%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 152 35% 94%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 150 30% 96%;
+    --muted-foreground: 215 16% 42%;
+
+    /* Mint surfaces (OnIT-style #ecfdf5 / #d1fae5 family) */
+    --accent: 152 45% 92%;
+    --accent-foreground: 160 55% 18%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 152 22% 90%;
+    --input: 152 22% 90%;
+    --ring: 142 76% 36%;
+
+    --radius: 0.625rem;
+
+    --gradient-start: 142 76% 36%;
+    --gradient-end: 160 84% 36%;
+    --glow-primary: 142 76% 36%;
+    --glow-accent: 158 64% 42%;
+
+    --surface-elevated: 0 0% 100%;
+    --surface-overlay: 150 30% 97%;
+
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 222 47% 11%;
+    --sidebar-primary: 142 76% 36%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 152 35% 94%;
+    --sidebar-accent-foreground: 222 47% 11%;
+    --sidebar-border: 152 22% 90%;
+    --sidebar-ring: 142 76% 36%;
+  }
+
+  .dark {
+    --background: 160 45% 6%;
+    --foreground: 144 30% 97%;
+    --card: 160 40% 9%;
+    --card-foreground: 144 30% 97%;
+    --popover: 160 40% 9%;
+    --popover-foreground: 144 30% 97%;
+    --primary: 142 71% 45%;
+    --primary-foreground: 160 45% 6%;
+    --secondary: 160 32% 14%;
+    --secondary-foreground: 144 30% 97%;
+    --muted: 160 28% 12%;
+    --muted-foreground: 215 20% 70%;
+    --accent: 160 32% 18%;
+    --accent-foreground: 144 30% 97%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 160 28% 16%;
+    --input: 160 28% 16%;
+    --ring: 142 71% 45%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+}
+
+@layer utilities {
+  .gradient-text {
+    @apply bg-gradient-to-r from-[hsl(var(--gradient-start))] to-[hsl(var(--gradient-end))] bg-clip-text text-transparent;
+  }
+
+  .gradient-border {
+    @apply relative;
+  }
+
+  .gradient-border::before {
+    content: '';
+    @apply absolute inset-0 rounded-lg p-px;
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+
+  .glow-primary {
+    box-shadow: 0 0 40px -10px hsl(var(--glow-primary) / 0.28);
+  }
+
+  .glow-accent {
+    box-shadow: 0 0 40px -10px hsl(var(--glow-accent) / 0.22);
+  }
+
+  .grid-pattern {
+    background-image:
+      linear-gradient(hsl(var(--border) / 0.65) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--border) / 0.65) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .grid-pattern-dark {
+    background-image:
+      linear-gradient(rgb(255 255 255 / 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(255 255 255 / 0.06) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  /* Homepage announcement ticker — two identical spans, move -50% for seamless loop */
+  .marquee-track {
+    animation: announcement-marquee 52s linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      animation: none;
+    }
+  }
+}
+
+@keyframes announcement-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@layer components {
+  .card-glass {
+    @apply bg-card/95 backdrop-blur-sm border border-border shadow-sm;
+  }
+
+  .btn-glow {
+    @apply relative overflow-hidden;
+  }
+
+  .btn-glow::before {
+    content: '';
+    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+    background: linear-gradient(135deg, hsl(var(--primary) / 0.12), hsl(var(--accent) / 0.12));
+  }
+
+  .btn-glow:hover::before {
+    @apply opacity-100;
+  }
+
+  .section-padding {
+    @apply py-16 md:py-24 lg:py-28;
+  }
+
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Off-screen until focused — keyboard and assistive tech */
+  .skip-link {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .skip-link:focus {
+    position: fixed;
+    left: 1rem;
+    top: 1rem;
+    z-index: 100;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+    @apply rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-lg outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+}
