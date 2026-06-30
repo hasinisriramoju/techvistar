@@ -40,49 +40,35 @@ export const ProcessSection = () => {
 
         {/* ── Header ── */}
         <div className="mx-auto mb-16 max-w-4xl text-center">
-          {/* Badge */}
-          <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-[#BFE7D3] bg-[#EEF6F2] px-4 py-1.5">
-            <span
-              className="h-1.5 w-1.5 rounded-full bg-emerald-400"
-              style={{ boxShadow: '0 0 6px 2px rgba(52,211,153,0.7)' }}
-            />
-            <span className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.28em] style={{ color: '#075c8eff' }}">
-              {SECTION_PROCESS.tag}
-            </span>
-          </div>
-
           {/* Heading — white + bright green highlight */}
           <h2
             id="process-heading"
-            className="font-display text-5xl font-bold leading-[1.08] tracking-tight font-display text-5xl font-bold leading-[1.08] tracking-tight text-slate-900 sm:text-6xl lg:text-7xl sm:text-6xl lg:text-7xl"
+            className="font-display text-4xl font-bold leading-tight tracking-tight text-[#13263A] sm:text-5xl"
           >
             {SECTION_PROCESS.title}{' '}
-            <span
-              className="font-bold"
-              style={{ color: '#34d399' }}
-            >
+            <span className="font-bold text-[#6CD99C]">
               {SECTION_PROCESS.highlight}
             </span>
           </h2>
 
           {/* Description */}
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-slate-700 sm:text-lg">
+          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-[#475569]">
             {SECTION_PROCESS.description}
           </p>
         </div>
 
         {/* ── Operating principles ── */}
         <div className="mx-auto mb-24 max-w-3xl">
-          <p className="mb-4 text-center font-mono text-[0.6rem] font-semibold uppercase tracking-[0.28em] text-slate-700">
+          <p className="mb-4 text-center font-mono text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[#475569]">
             Operating Principles
           </p>
           <ul
-            className="flex flex-wrap items-center justify-center border-y border-white/[0.05] px-4 py-3 sm:flex-nowrap sm:divide-x sm:divide-white/[0.05] sm:px-0"
+            className="flex flex-wrap items-center justify-center gap-y-3 border-y border-white/[0.05] px-4 py-3 sm:flex-nowrap sm:divide-x sm:divide-white/[0.05] sm:gap-y-0 sm:px-0"
             aria-label="Operating principles"
           >
             {PROCESS_PILLARS.map((word) => (
               <li key={word} className="text-center sm:px-12">
-                <span className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.22em] text-slate-700">
+                <span className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[#475569]">
                   {word}
                 </span>
               </li>
@@ -120,47 +106,42 @@ export const ProcessSection = () => {
                   transition={{ duration: 0.5, delay: index * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
                   className="relative flex flex-col lg:flex-row lg:items-center"
                 >
-                  {/* LEFT SLOT */}
+                  {/* LEFT SLOT — always renders the card on mobile; on desktop only for even steps */}
                   <div className="lg:w-[calc(50%-2.5rem)] lg:pr-10 lg:flex lg:justify-end">
                     {isLeft ? (
+                      /* Desktop left + mobile (all cards) */
                       <div className="w-full lg:max-w-[420px]">
                         <Card item={item} Icon={Icon} stepLabel={stepLabel} />
                       </div>
                     ) : (
-                      /* Mobile: render non-left cards here too */
-                      <div className="lg:hidden w-full">
+                      /* Odd steps: hidden on desktop (card goes in right slot); visible on mobile */
+                      <div className="w-full lg:hidden">
                         <Card item={item} Icon={Icon} stepLabel={stepLabel} />
                       </div>
                     )}
                   </div>
 
-                  {/* CENTER NODE */}
+                  {/* CENTER NODE — desktop only */}
                   <div className="hidden lg:flex lg:w-20 lg:shrink-0 lg:justify-center">
                     <div
                       className="relative z-10 flex h-11 w-11 items-center justify-center rounded-full"
                       style={{
                         background: '#E1EBF0',
                         border: '1.5px solid #CBD5E1',
-                        boxShadow:
-'0 0 0 6px #E1EBF0',
+                        boxShadow: '0 0 0 6px #E1EBF0',
                       }}
                     >
                       <div
-                        className="h-3 w-3 rounded-full bg-emerald-400"
-                        style={{ boxShadow: '0 0 10px 3px rgba(52,211,153,0.60)' }}
+                        className="h-3 w-3 rounded-full bg-[#6CD99C]"
+                        style={{ boxShadow: '0 0 10px 3px rgba(108,217,156,0.60)' }}
                       />
                     </div>
                   </div>
 
-                  {/* RIGHT SLOT */}
-                  <div className="lg:w-[calc(50%-2.5rem)] lg:pl-10">
-                    {!isLeft ? (
-                      <div className="hidden lg:block lg:max-w-[420px]">
-                        <Card item={item} Icon={Icon} stepLabel={stepLabel} />
-                      </div>
-                    ) : (
-                      /* Mobile: render left cards on the right too (hidden on desktop) */
-                      <div className="lg:hidden w-full">
+                  {/* RIGHT SLOT — desktop only, odd steps only */}
+                  <div className="hidden lg:block lg:w-[calc(50%-2.5rem)] lg:pl-10">
+                    {!isLeft && (
+                      <div className="lg:max-w-[420px]">
                         <Card item={item} Icon={Icon} stepLabel={stepLabel} />
                       </div>
                     )}
@@ -172,7 +153,7 @@ export const ProcessSection = () => {
         </div>
 
         {/* ── Footer note ── */}
-        <p className="mx-auto mt-24 max-w-2xl text-center text-sm leading-relaxed text-slate-700">
+        <p className="mx-auto mt-24 max-w-2xl text-center text-base leading-relaxed text-[#475569]">
           The same phases apply whether discovery is a focused workshop or a full audit, and whether
           build is one squad or several—governance, documentation, and sign-off stay consistent throughout.
         </p>
@@ -271,17 +252,17 @@ border: '1px solid #C6EAD9',
             }}
             aria-hidden
           >
-            <Icon className="h-5 w-5 font-display text-5xl font-bold leading-[1.08] tracking-tight text-slate-900 sm:text-6xl lg:text-7xl/80" strokeWidth={1.5} />
+            <Icon className="h-5 w-5 text-[#13263A]" strokeWidth={1.5} />
           </div>
         </div>
 
         {/* Title */}
-        <h3 className="mb-3 text-xl font-bold leading-snug tracking-tight style={{ color: '#13263A' }} sm:text-2xl">
+        <h3 className="mb-3 font-display text-xl font-bold leading-snug tracking-tight sm:text-2xl" style={{ color: '#13263A' }}>
           {item.title}
         </h3>
 
         {/* Description */}
-        <p className="text-sm leading-relaxed text-slate-700 sm:text-[0.9375rem]">
+        <p className="text-base leading-relaxed text-[#475569]">
           {item.description}
         </p>
 
@@ -295,11 +276,11 @@ border: '1px solid #C6EAD9',
         {/* Deliverables */}
         <ul className="space-y-3">
           {item.deliverables.map((line) => (
-            <li key={line} className="flex items-start gap-3 text-sm leading-snug text-slate-700">
+            <li key={line} className="flex items-start gap-3 text-base leading-snug text-[#475569]">
               <span
-                className="mt-[5px] h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400"
+                className="mt-[5px] h-1.5 w-1.5 shrink-0 rounded-full bg-[#6CD99C]"
                 aria-hidden
-                style={{ boxShadow: '0 0 5px 1px rgba(52,211,153,0.50)' }}
+                style={{ boxShadow: '0 0 5px 1px rgba(108,217,156,0.50)' }}
               />
               <span>{line}</span>
             </li>

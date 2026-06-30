@@ -7,7 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { useAnimatedSection } from '@/hooks/useAnimatedSection';
 import { SiteSection } from '@/components/SiteSection';
-import { SectionHeader } from '@/components/ui/SectionHeader';
+
 import { CONTACT_INFO, CONTACT_SIDEBAR, SECTION_CONTACT } from '@/lib/constants';
 
 interface FormData {
@@ -96,27 +96,34 @@ export const ContactSection = () => {
       />
 
       <div className="container-custom relative z-10">
-        <SectionHeader
-          tag={SECTION_CONTACT.tag}
-          title={SECTION_CONTACT.title}
-          highlight={SECTION_CONTACT.highlight}
-          description={SECTION_CONTACT.description}
-          isInView={isInView}
-          headingId="contact-heading"
-        />
+        <motion.div
+          className="mb-12 text-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+        >
+          <p className="mb-3 font-mono text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[#6CD99C]">
+            {SECTION_CONTACT.tag}
+          </p>
+          <h2
+            id="contact-heading"
+            className="mx-auto mb-4 max-w-2xl font-display text-4xl font-bold leading-tight tracking-tight text-[#13263A] sm:text-5xl"
+          >
+            {SECTION_CONTACT.title}{'\u0020'}
+            <span className="text-[#6CD99C]">{SECTION_CONTACT.highlight}</span>
+          </h2>
+          <p className="mx-auto max-w-2xl text-base leading-relaxed text-[#475569]">
+            {SECTION_CONTACT.description}
+          </p>
+        </motion.div>
 
-        <div className="grid lg:grid-cols-5 gap-12 lg:gap-14">
+        <div className="grid md:grid-cols-5 gap-12 lg:gap-14 items-start">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.45 }}
-            className="lg:col-span-2 space-y-8"
+            className="md:col-span-2 space-y-5"
           >
-            <div>
-              <h3 className="text-2xl font-bold font-display mb-3" style={{ color: '#13263A' }}>{CONTACT_SIDEBAR.title}</h3>
-              <p className="leading-relaxed" style={{ color: '#475569' }}>{CONTACT_SIDEBAR.lead}</p>
-            </div>
-
             <div className="space-y-5">
               {CONTACT_INFO.map((info, index) => (
                 <motion.div
@@ -150,7 +157,7 @@ export const ContactSection = () => {
             initial={{ opacity: 0, x: 20 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.45, delay: 0.06 }}
-            className="lg:col-span-3"
+            className="md:col-span-3"
           >
             <form
               onSubmit={handleSubmit}

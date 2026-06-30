@@ -120,7 +120,7 @@ export const Footer = () => {
                 className="bg-emerald-950/50 border-emerald-800/80 text-white placeholder:text-emerald-200/40 text-sm"
                 required
               />
-              <Button type="submit" size="default" className="shrink-0 bg-primary hover:bg-primary/90">
+              <Button type="submit" size="default" className="shrink-0" style={{ background: '#6CD99C', color: '#13263A', border: 'none' }}>
                 Subscribe
               </Button>
             </form>

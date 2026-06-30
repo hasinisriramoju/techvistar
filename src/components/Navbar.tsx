@@ -171,7 +171,7 @@ export const Navbar = () => {
             />
             <span
               className={cn(
-                'text-lg font-bold font-display tracking-tight transition-colors',
+                'text-lg font-bold font-display tracking-tight transition-colors hidden xs:inline sm:inline',
                 onDarkHero ? 'text-white' : 'text-slate-900'
               )}
             >
@@ -201,6 +201,7 @@ export const Navbar = () => {
                 'rounded-full font-semibold',
                 onDarkHero && 'shadow-lg shadow-primary/25'
               )}
+              style={{ background: '#6CD99C', color: '#13263A', border: 'none' }}
               onClick={openRegisterModal}
             >
               Register now
@@ -241,7 +242,7 @@ export const Navbar = () => {
                   {link.label}
                 </Link>
               ))}
-              <Button variant="hero" size="lg" className="mt-4 w-full" onClick={openRegisterModal}>
+              <Button variant="hero" size="lg" className="mt-4 w-full" style={{ background: '#6CD99C', color: '#13263A', border: 'none' }} onClick={openRegisterModal}>
                 Register now
               </Button>
             </div>
@@ -291,7 +292,7 @@ export const Navbar = () => {
                 required
               />
             </div>
-            <Button type="submit" variant="hero" className="w-full" disabled={isSubmitting}>
+            <Button type="submit" variant="hero" className="w-full" style={{ background: '#6CD99C', color: '#13263A', border: 'none' }} disabled={isSubmitting}>
               {isSubmitting ? 'Submitting…' : 'Submit'}
             </Button>
           </form>

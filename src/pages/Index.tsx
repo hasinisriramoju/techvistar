@@ -1,14 +1,13 @@
-import { JsonLd } from '@/components/JsonLd';
-import { Navbar } from '@/components/Navbar';
-import { HeroSection } from '@/components/HeroSection';
+import { JsonLd } from "@/components/JsonLd";
+import { Navbar } from "@/components/Navbar";
+import { HeroSection } from "@/components/HeroSection";
 
-import { ServicesSection } from '@/components/ServicesSection';
-import { ProcessSection } from '@/components/ProcessSection';
-import { BenefitsSection } from '@/components/BenefitsSection';
-import { ProjectsSection } from '@/components/ProjectsSection';
-import { TestimonialsSection } from '@/components/TestimonialsSection';
-import { ContactSection } from '@/components/ContactSection';
-import { Footer } from '@/components/Footer';
+import { ServicesSection } from "@/components/ServicesSection";
+import { ProcessSection } from "@/components/ProcessSection";
+import { BenefitsSection } from "@/components/BenefitsSection";
+import { ProjectsSection } from "@/components/ProjectsSection";
+import { ContactSection } from "@/components/ContactSection";
+import { Footer } from "@/components/Footer";
 
 const Index = () => {
   return (
@@ -25,7 +24,6 @@ const Index = () => {
         <ProjectsSection />
         <ProcessSection />
         <BenefitsSection />
-        <TestimonialsSection />
         <ContactSection />
         <Footer />
       </main>

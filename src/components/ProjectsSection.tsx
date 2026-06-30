@@ -4,7 +4,7 @@ import { ExternalLink, Github, ArrowUpRight } from "lucide-react";
 import { useMemo } from "react";
 import { useAnimatedSection } from "@/hooks/useAnimatedSection";
 import { SiteSection } from "@/components/SiteSection";
-import { SectionHeader } from "@/components/ui/SectionHeader";
+
 import {
   Carousel,
   CarouselContent,
@@ -150,14 +150,26 @@ export const ProjectsSection = () => {
       style={{ backgroundColor: "#E1EBF0" }}
     >
       <div className="container-custom relative z-10">
-        <SectionHeader
-          tag={SECTION_PROJECTS.tag}
-          title={SECTION_PROJECTS.title}
-          highlight={SECTION_PROJECTS.highlight}
-          description={SECTION_PROJECTS.description}
-          isInView={isInView}
-          headingId="projects-heading"
-        />
+        <motion.div
+          className="mb-12 text-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+        >
+          <p className="mb-3 font-mono text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[#6CD99C]">
+            {SECTION_PROJECTS.tag}
+          </p>
+          <h2
+            id="projects-heading"
+            className="mx-auto mb-4 max-w-2xl font-display text-4xl font-bold leading-tight tracking-tight text-[#13263A] sm:text-5xl"
+          >
+            {SECTION_PROJECTS.title}{'\u0020'}
+            <span className="text-[#6CD99C]">{SECTION_PROJECTS.highlight}</span>
+          </h2>
+          <p className="mx-auto max-w-2xl text-base leading-relaxed text-[#475569]">
+            {SECTION_PROJECTS.description}
+          </p>
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -174,7 +186,7 @@ export const ProjectsSection = () => {
               {PROJECTS.map((project, index) => (
                 <CarouselItem
                   key={project.id}
-                  className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3"
+                  className="pl-2 md:pl-4 basis-[88%] sm:basis-[75%] md:basis-1/2 lg:basis-1/3"
                 >
                   <motion.div
                     initial={{ opacity: 0, y: 12 }}
@@ -213,19 +225,19 @@ export const ProjectsSection = () => {
                         <span
                           className="inline-block rounded-md px-2 py-1 text-xs font-medium"
                           style={{
-                            background: "#EEF6F2",
-                            color: "#059669",
-                            border: "1px solid #BFE7D3",
+                            background: "rgba(108,217,156,0.12)",
+                            color: "#13263A",
+                            border: "1px solid rgba(108,217,156,0.35)",
                           }}
                         >
                           {project.category}
                         </span>
-                        <h3 className="text-lg font-bold font-display text-slate-900 leading-snug" >
+                        <h3 className="font-display text-xl font-bold text-[#13263A] leading-snug">
                           {project.title}
                         </h3>
                         <p
-                          className="text-sm leading-relaxed line-clamp-[6]"
-                         style={{ color: '#475569' }}
+                          className="text-base leading-relaxed line-clamp-[6]"
+                          style={{ color: '#475569' }}
                         >
                           {project.description}
                         </p>
@@ -237,8 +249,8 @@ export const ProjectsSection = () => {
                               key={tech}
                               className="px-2 py-1 rounded-md text-xs font-medium"
                               style={{
-  background: '#F0F9F5',
-  color: '#059669',
+  background: 'rgba(108,217,156,0.10)',
+  color: '#6CD99C',
   border: '1px solid #C6EAD9'
 }}
                             >
@@ -341,9 +353,9 @@ export const ProjectsSection = () => {
           <a
             href="/#contact"
             className="inline-flex items-center gap-2 text-sm font-semibold transition-colors"
-            style={{ color: '#059669' }}
+            style={{ color: '#6CD99C' }}
             onMouseEnter={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.color = '#80e4aa';
+              (e.currentTarget as HTMLAnchorElement).style.color = '#80E4AA';
             }}
             onMouseLeave={(e) => {
               (e.currentTarget as HTMLAnchorElement).style.color = "#6CD99C";
