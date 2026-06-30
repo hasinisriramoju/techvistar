@@ -8,43 +8,31 @@ import { SiteSection } from '@/components/SiteSection';
 // ─── Card data ────────────────────────────────────────────────────────────────
 const CARDS = [
   {
-    concept: 'Concept 1',
-    title: 'The Growth Engine Core',
     pillar: { n: '01', label: 'Engineering discipline' },
     desc: 'Version control, environments that mirror production, and repeatable releases—so deploys are boring in the right way.',
     illustration: 'engine',
   },
   {
-    concept: 'Concept 2',
-    title: 'Minimalist Radar Chart Navigation',
     pillar: { n: '02', label: 'Security & reliability' },
     desc: 'Threat-aware design, sensible defaults, and testing matched to your risk profile, data sensitivity, and compliance needs.',
     illustration: 'radar',
   },
   {
-    concept: 'Concept 3',
-    title: 'Asymmetric Terminal & Timeline',
     pillar: { n: '03', label: 'Revenue alignment' },
     desc: "Shared truth on backlog, demos, funnel metrics, and documentation so sales, marketing, and product agree on what 'done' means.",
     illustration: 'terminal',
   },
   {
-    concept: 'Concept 4',
-    title: 'Connected Tech Stack Layers',
     pillar: { n: '04', label: 'Quality & handover' },
     desc: 'Test evidence, runbooks, and training so your internal team owns the system after go-live.',
     illustration: 'stack',
   },
   {
-    concept: 'Concept 5',
-    title: 'Transparent Terms Ledger',
     pillar: { n: '05', label: 'Transparent terms' },
     desc: 'Effort-based or milestone billing with written assumptions—no surprise line items without prior approval.',
     illustration: 'ledger',
   },
   {
-    concept: 'Concept 6',
-    title: 'Full-Stack Continuity Web',
     pillar: { n: '06', label: 'Full-stack continuity' },
     desc: 'One partner for UI, APIs, data, automation, and docs reduces integration risk and speeds root-cause resolution.',
     illustration: 'web',
@@ -355,30 +343,6 @@ function WebIllustration() {
   );
 }
 
-// ─── Tooltip ──────────────────────────────────────────────────────────────────
-function Tooltip({
-  pillar,
-  position = 'bottom-left',
-}: {
-  pillar: { n: string; label: string };
-  desc: string;
-  position?: 'bottom-left' | 'top-right' | 'bottom-right';
-}) {
-  const posClass =
-    position === 'bottom-left' ? 'bottom-4 left-4' :
-    position === 'top-right' ? 'top-4 right-4' :
-    'bottom-4 right-4';
-
-  return (
-    <div className={`absolute ${posClass} max-w-[160px] rounded-xl bg-white p-3 shadow-[0_4px_20px_-4px_rgba(19,38,58,0.18)] border border-[#e2ecef]`}>
-      <p className="mb-1 font-mono text-xs font-semibold tracking-widest text-[#80E4AA]">
-        Pillar {pillar.n}
-      </p>
-      <p className="text-sm font-bold leading-tight text-[#13263A]">{pillar.label}</p>
-    </div>
-  );
-}
-
 // ─── Card ─────────────────────────────────────────────────────────────────────
 function BenefitCard({
   card,
@@ -398,9 +362,11 @@ function BenefitCard({
       className="flex flex-col rounded-2xl bg-white shadow-[0_4px_24px_-8px_rgba(19,38,58,0.1)] border border-[#e2ecef] overflow-hidden"
     >
       {/* Card header */}
-      <div className="px-5 pt-5 pb-2">
-        <p className="text-sm font-bold leading-tight text-[#13263A]">{card.title}</p>
-        <p className="text-xs text-[#4a6070] mt-0.5">{card.concept}</p>
+      <div className="flex items-center gap-2.5 px-5 pt-5 pb-2">
+        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#EAF8EF] font-mono text-[11px] font-bold text-[#0a6640]">
+          {card.pillar.n}
+        </span>
+        <p className="text-sm font-bold leading-tight text-[#13263A]">{card.pillar.label}</p>
       </div>
 
       {/* Illustration area */}
@@ -417,16 +383,6 @@ function BenefitCard({
         {card.illustration === 'stack' && <StackIllustration />}
         {card.illustration === 'ledger' && <LedgerIllustration />}
         {card.illustration === 'web' && <WebIllustration />}
-
-        <Tooltip
-          pillar={card.pillar}
-          desc={''}
-          position={
-            card.illustration === 'terminal' ? 'top-right' :
-            card.illustration === 'stack' ? 'bottom-right' :
-            'bottom-left'
-          }
-        />
       </div>
 
       {/* Bottom padding */}
@@ -475,7 +431,7 @@ export const BenefitsSection = () => {
         {/* 6-card grid */}
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
           {CARDS.map((card, i) => (
-            <BenefitCard key={card.concept} card={card} delay={i * 0.08} />
+            <BenefitCard key={card.pillar.n} card={card} delay={i * 0.08} />
           ))}
         </div>
       </div>
