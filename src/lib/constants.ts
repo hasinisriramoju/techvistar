@@ -34,7 +34,7 @@ export const NAV_LINKS = [
   { label: 'Services', href: '/#services' },
   { label: 'Process', href: '/#process' },
   { label: 'Work', href: '/#projects' },
-  { label: 'Contact', href: '/#contact' },
+  { label: 'Talk', href: '/#contact' },
 ] as const;
 
 
@@ -128,7 +128,7 @@ export const HERO_COPY = {
     'Engineering web, AI, and automation systems that transform business ambition into measurable growth.',
   ctaPrimary: 'Get in touch',
   ctaSecondary: 'View services',
-  locationLine: 'Hyderabad · Remote worldwide',
+  locationLine: '',
 } as const;
 
 export const ABOUT_COPY = {
@@ -256,7 +256,7 @@ export const SERVICES = [
 ] as const;
 
 export const SECTION_SERVICES = {
-  tag: 'Our services',
+  tag: '',
   title: 'Productized growth',
   highlight: 'you can scope and measure',
   description:
@@ -328,7 +328,7 @@ export const PROCESS_STEPS = [
 
 /** Benefits grid — mirrors “Key benefits” style landing pages */
 export const SECTION_BENEFITS = {
-  tag: 'Benefits',
+  tag: '',
   title: 'Why teams choose',
   highlight: 'technology-first growth',
   description:
@@ -375,7 +375,7 @@ export const BENEFITS = [
 ] as const;
 
 export const SECTION_PROJECTS = {
-  tag: 'Case highlights',
+  tag: '',
   title: 'Representative work',
   highlight: 'across stacks',
   description:
@@ -498,7 +498,7 @@ export const CONTACT_INFO = [
 ] as const;
 
 export const SECTION_CONTACT = {
-  tag: 'Contact',
+  tag: '',
   title: 'Start a',
   highlight: 'growth conversation',
   description:
@@ -527,10 +527,8 @@ export const FOOTER_LINKS = {
   company: [
     { label: 'About', href: '/about' },
     { label: 'Process', href: '/#process' },
-
-    { label: 'Benefits', href: '/#benefits' },
     { label: 'Clients', href: '/#testimonials' },
-    { label: 'Contact', href: '/#contact' },
+    { label: 'Talk', href: '/#contact' },
   ],
   social: [
     { icon: Linkedin, href: 'https://www.linkedin.com/company/techvistar', label: 'LinkedIn' },

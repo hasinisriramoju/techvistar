@@ -156,14 +156,16 @@ export const ProjectsSection = () => {
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
-          <p className="mb-3 font-mono text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[#6CD99C]">
-            {SECTION_PROJECTS.tag}
-          </p>
+          {SECTION_PROJECTS.tag && (
+            <p className="mb-3 font-mono text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[#6CD99C]">
+              {SECTION_PROJECTS.tag}
+            </p>
+          )}
           <h2
             id="projects-heading"
             className="mx-auto mb-4 max-w-2xl font-display text-4xl font-bold leading-tight tracking-tight text-[#13263A] sm:text-5xl"
           >
-            {SECTION_PROJECTS.title}{'\u0020'}
+            {SECTION_PROJECTS.title}{" "}
             <span className="text-[#6CD99C]">{SECTION_PROJECTS.highlight}</span>
           </h2>
           <p className="mx-auto max-w-2xl text-base leading-relaxed text-[#475569]">
@@ -237,7 +239,7 @@ export const ProjectsSection = () => {
                         </h3>
                         <p
                           className="text-base leading-relaxed line-clamp-[6]"
-                          style={{ color: '#475569' }}
+                          style={{ color: "#475569" }}
                         >
                           {project.description}
                         </p>
@@ -249,10 +251,10 @@ export const ProjectsSection = () => {
                               key={tech}
                               className="px-2 py-1 rounded-md text-xs font-medium"
                               style={{
-  background: 'rgba(108,217,156,0.10)',
-  color: '#6CD99C',
-  border: '1px solid #C6EAD9'
-}}
+                                background: "rgba(108,217,156,0.10)",
+                                color: "#6CD99C",
+                                border: "1px solid #C6EAD9",
+                              }}
                             >
                               {tech}
                             </span>
@@ -261,10 +263,10 @@ export const ProjectsSection = () => {
                             <span
                               className="px-2 py-1 rounded-md text-xs font-medium"
                               style={{
-  background: '#F3F6F8',
-  color: '#64748B',
-  border: '1px solid #D6E2EA'
-}}
+                                background: "#F3F6F8",
+                                color: "#64748B",
+                                border: "1px solid #D6E2EA",
+                              }}
                             >
                               +{project.technologies.length - 3}
                             </span>
@@ -285,10 +287,10 @@ export const ProjectsSection = () => {
                                 : ""
                             }`}
                             style={{
-  background: '#FFFFFF',
-  border: '1px solid #031021ff',
-  color: '#05090eff'
-}}
+                              background: "#FFFFFF",
+                              border: "1px solid #031021ff",
+                              color: "#05090eff",
+                            }}
                             onClick={(e) =>
                               project.liveUrl === "#" && e.preventDefault()
                             }
@@ -309,11 +311,11 @@ export const ProjectsSection = () => {
                                 ? "cursor-not-allowed opacity-40"
                                 : ""
                             }`}
-                           style={{
-  background: '#FFFFFF',
-  border: '1px solid #000204ff',
-  color: '#334155'
-}}
+                            style={{
+                              background: "#FFFFFF",
+                              border: "1px solid #000204ff",
+                              color: "#334155",
+                            }}
                             onClick={(e) =>
                               project.githubUrl === "#" && e.preventDefault()
                             }
@@ -329,13 +331,13 @@ export const ProjectsSection = () => {
               ))}
             </CarouselContent>
             <div className="hidden md:block">
-             <CarouselPrevious
-  className="-left-4 text-white/70 hover:text-[#80E4AA] transition-colors"
-  style={{
-    background: '#13263A',
-    border: '1px solid #1E3A56',
-  }}
-/>
+              <CarouselPrevious
+                className="-left-4 text-white/70 hover:text-[#80E4AA] transition-colors"
+                style={{
+                  background: "#13263A",
+                  border: "1px solid #1E3A56",
+                }}
+              />
               <CarouselNext
                 className="-right-4 text-white/70 hover:text-[#6CD99C] transition-colors"
                 style={{ background: "#15222E", border: "1px solid #223547" }}
@@ -353,9 +355,9 @@ export const ProjectsSection = () => {
           <a
             href="/#contact"
             className="inline-flex items-center gap-2 text-sm font-semibold transition-colors"
-            style={{ color: '#6CD99C' }}
+            style={{ color: "#6CD99C" }}
             onMouseEnter={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.color = '#80E4AA';
+              (e.currentTarget as HTMLAnchorElement).style.color = "#80E4AA";
             }}
             onMouseLeave={(e) => {
               (e.currentTarget as HTMLAnchorElement).style.color = "#6CD99C";
@@ -371,12 +373,13 @@ export const ProjectsSection = () => {
       <div
         aria-hidden
         style={{
-          position: 'absolute',
+          position: "absolute",
           bottom: 0,
-          left: '5%',
-          right: '5%',
-          height: '1px',
-          background: 'linear-gradient(to right, transparent, rgba(19,38,58,0.14) 20%, rgba(19,38,58,0.14) 80%, transparent)',
+          left: "5%",
+          right: "5%",
+          height: "1px",
+          background:
+            "linear-gradient(to right, transparent, rgba(19,38,58,0.14) 20%, rgba(19,38,58,0.14) 80%, transparent)",
         }}
       />
     </SiteSection>

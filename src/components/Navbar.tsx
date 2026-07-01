@@ -1,34 +1,34 @@
-import { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 
-import { useToast } from '@/hooks/use-toast';
-import { NAV_LINKS } from '@/lib/constants';
-import logo from '../logo.webp';
+import { useToast } from "@/hooks/use-toast";
+import { NAV_LINKS } from "@/lib/constants";
+import logo from "../logo.webp";
 
 export const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const isHome = location.pathname === '/';
+  const isHome = location.pathname === "/";
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [registerData, setRegisterData] = useState({
-    name: '',
-    email: '',
-    phone: '',
+    name: "",
+    email: "",
+    phone: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
@@ -36,12 +36,12 @@ export const Navbar = () => {
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 20);
     onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, [location.pathname]);
 
   useEffect(() => {
-    if (location.hash === '#register') {
+    if (location.hash === "#register") {
       setIsRegisterOpen(true);
       setIsMobileMenuOpen(false);
     }
@@ -49,31 +49,32 @@ export const Navbar = () => {
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
   const scrollToSection = (hash: string) => {
-    const sectionId = hash.replace('#', '');
+    const sectionId = hash.replace("#", "");
     const target = document.getElementById(sectionId);
     if (!target) return;
 
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    window.history.replaceState(null, '', hash);
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
+    window.history.replaceState(null, "", hash);
   };
 
-  const handleNavClick = (href: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (!href.startsWith('/#')) {
+  const handleNavClick =
+    (href: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
+      if (!href.startsWith("/#")) {
+        closeMobileMenu();
+        return;
+      }
+
+      e.preventDefault();
       closeMobileMenu();
-      return;
-    }
+      const hash = href.replace("/", "");
 
-    e.preventDefault();
-    closeMobileMenu();
-    const hash = href.replace('/', '');
+      if (isHome) {
+        scrollToSection(hash);
+        return;
+      }
 
-    if (isHome) {
-      scrollToSection(hash);
-      return;
-    }
-
-    navigate(`/${hash}`);
-  };
+      navigate(`/${hash}`);
+    };
 
   const openRegisterModal = () => {
     closeMobileMenu();
@@ -86,37 +87,37 @@ export const Navbar = () => {
 
     try {
       const params = new URLSearchParams();
-      params.append('name', registerData.name);
-      params.append('email', registerData.email);
-      params.append('subject', 'Internship registration');
-      params.append('message', `Phone: ${registerData.phone}`);
+      params.append("name", registerData.name);
+      params.append("email", registerData.email);
+      params.append("subject", "Internship registration");
+      params.append("message", `Phone: ${registerData.phone}`);
 
       const response = await fetch(
-        'https://script.google.com/macros/s/AKfycbyVFalUML0Mnb-S2RuoCA68d5422p5MvMWF_id4Uw-MIQyiH5PxiglxPGdHDV47QJ22/exec',
+        "https://script.google.com/macros/s/AKfycbyVFalUML0Mnb-S2RuoCA68d5422p5MvMWF_id4Uw-MIQyiH5PxiglxPGdHDV47QJ22/exec",
         {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            "Content-Type": "application/x-www-form-urlencoded",
           },
           body: params.toString(),
-        }
+        },
       );
 
       if (!response.ok) {
-        throw new Error('Failed to submit registration');
+        throw new Error("Failed to submit registration");
       }
 
       toast({
-        title: 'Registration submitted',
-        description: 'Thank you. Our team will contact you shortly.',
+        title: "Registration submitted",
+        description: "Thank you. Our team will reply shortly.",
       });
-      setRegisterData({ name: '', email: '', phone: '' });
+      setRegisterData({ name: "", email: "", phone: "" });
       setIsRegisterOpen(false);
     } catch {
       toast({
-        title: 'Submission failed',
-        description: 'Unable to submit now. Please try again shortly.',
-        variant: 'destructive',
+        title: "Submission failed",
+        description: "Unable to submit now. Please try again shortly.",
+        variant: "destructive",
       });
     } finally {
       setIsSubmitting(false);
@@ -127,24 +128,28 @@ export const Navbar = () => {
   const onDarkHero = isHome && !isScrolled;
 
   const linkClass = cn(
-    'text-sm font-medium transition-colors relative py-1',
-    onDarkHero ? 'text-white/85 hover:text-white' : 'text-slate-600 hover:text-slate-900'
+    "text-sm font-medium transition-colors relative py-1",
+    onDarkHero
+      ? "text-white/85 hover:text-white"
+      : "text-slate-600 hover:text-slate-900",
   );
 
   const underlineClass = cn(
-    'absolute -bottom-0.5 left-0 h-0.5 rounded-full transition-all duration-300',
-    onDarkHero ? 'bg-white/80 w-0 group-hover:w-full' : 'bg-primary w-0 group-hover:w-full'
+    "absolute -bottom-0.5 left-0 h-0.5 rounded-full transition-all duration-300",
+    onDarkHero
+      ? "bg-white/80 w-0 group-hover:w-full"
+      : "bg-primary w-0 group-hover:w-full",
   );
 
   return (
-    <motion.header    //Navbar now enters smoothly instead of appearing instantly.
+    <motion.header //Navbar now enters smoothly instead of appearing instantly.
       initial={{
         opacity: 0,
-        filter: 'blur(10px)',
+        filter: "blur(10px)",
       }}
       animate={{
         opacity: 1,
-        filter: 'blur(0px)',
+        filter: "blur(0px)",
       }}
       transition={{
         duration: 1.8,
@@ -152,10 +157,10 @@ export const Navbar = () => {
         ease: [0.22, 1, 0.36, 1],
       }}
       className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
         onDarkHero
-          ? 'border-b border-transparent bg-transparent'
-          : 'border-b border-slate-200/90 bg-white/95 shadow-sm backdrop-blur-md'
+          ? "border-b border-transparent bg-transparent"
+          : "border-b border-slate-200/90 bg-white/95 shadow-sm backdrop-blur-md",
       )}
     >
       <nav className="container-custom">
@@ -165,14 +170,14 @@ export const Navbar = () => {
               src={logo}
               alt="TechVistar"
               className={cn(
-                'h-11 w-11 rounded-full object-cover ring-2 transition-all',
-                onDarkHero ? 'ring-white/20' : 'ring-slate-200'
+                "h-11 w-11 rounded-full object-cover ring-2 transition-all",
+                onDarkHero ? "ring-white/20" : "ring-slate-200",
               )}
             />
             <span
               className={cn(
-                'text-lg font-bold font-display tracking-tight transition-colors hidden xs:inline sm:inline',
-                onDarkHero ? 'text-white' : 'text-slate-900'
+                "text-lg font-bold font-display tracking-tight transition-colors hidden xs:inline sm:inline",
+                onDarkHero ? "text-white" : "text-slate-900",
               )}
             >
               TechVistar
@@ -184,7 +189,7 @@ export const Navbar = () => {
               <Link
                 key={link.label}
                 to={link.href}
-                className={cn(linkClass, 'group')}
+                className={cn(linkClass, "group")}
                 onClick={handleNavClick(link.href)}
               >
                 {link.label}
@@ -198,10 +203,14 @@ export const Navbar = () => {
               variant="hero"
               size="default"
               className={cn(
-                'rounded-full font-semibold',
-                onDarkHero && 'shadow-lg shadow-primary/25'
+                "rounded-full font-semibold",
+                onDarkHero && "shadow-lg shadow-primary/25",
               )}
-              style={{ background: '#6CD99C', color: '#13263A', border: 'none' }}
+              style={{
+                background: "#6CD99C",
+                color: "#13263A",
+                border: "none",
+              }}
               onClick={openRegisterModal}
             >
               Register now
@@ -210,8 +219,8 @@ export const Navbar = () => {
 
           <button
             className={cn(
-              'rounded-lg p-2 transition-colors md:hidden',
-              onDarkHero ? 'text-white' : 'text-slate-900'
+              "rounded-lg p-2 transition-colors md:hidden",
+              onDarkHero ? "text-white" : "text-slate-900",
             )}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
@@ -221,13 +230,11 @@ export const Navbar = () => {
         </div>
       </nav>
 
-
-
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
+            animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             className="border-b border-slate-200 bg-white shadow-lg md:hidden"
           >
@@ -242,7 +249,17 @@ export const Navbar = () => {
                   {link.label}
                 </Link>
               ))}
-              <Button variant="hero" size="lg" className="mt-4 w-full" style={{ background: '#6CD99C', color: '#13263A', border: 'none' }} onClick={openRegisterModal}>
+              <Button
+                variant="hero"
+                size="lg"
+                className="mt-4 w-full"
+                style={{
+                  background: "#328f5aff",
+                  color: "#13263A",
+                  border: "none",
+                }}
+                onClick={openRegisterModal}
+              >
                 Register now
               </Button>
             </div>
@@ -253,9 +270,12 @@ export const Navbar = () => {
       <Dialog open={isRegisterOpen} onOpenChange={setIsRegisterOpen}>
         <DialogContent className="sm:max-w-[480px]">
           <DialogHeader>
-            <DialogTitle className="font-display text-xl">Register now</DialogTitle>
+            <DialogTitle className="font-display text-xl">
+              Register now
+            </DialogTitle>
             <DialogDescription>
-              Share your details and our team will connect with you about the next batch.
+              Share your details and our team will connect with you about the
+              next batch.
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleRegisterSubmit} className="space-y-4">
@@ -265,7 +285,9 @@ export const Navbar = () => {
                 id="reg-name"
                 type="text"
                 value={registerData.name}
-                onChange={(e) => setRegisterData((prev) => ({ ...prev, name: e.target.value }))}
+                onChange={(e) =>
+                  setRegisterData((prev) => ({ ...prev, name: e.target.value }))
+                }
                 placeholder="Your full name"
                 required
               />
@@ -276,7 +298,12 @@ export const Navbar = () => {
                 id="reg-email"
                 type="email"
                 value={registerData.email}
-                onChange={(e) => setRegisterData((prev) => ({ ...prev, email: e.target.value }))}
+                onChange={(e) =>
+                  setRegisterData((prev) => ({
+                    ...prev,
+                    email: e.target.value,
+                  }))
+                }
                 placeholder="name@example.com"
                 required
               />
@@ -287,13 +314,28 @@ export const Navbar = () => {
                 id="reg-phone"
                 type="tel"
                 value={registerData.phone}
-                onChange={(e) => setRegisterData((prev) => ({ ...prev, phone: e.target.value }))}
+                onChange={(e) =>
+                  setRegisterData((prev) => ({
+                    ...prev,
+                    phone: e.target.value,
+                  }))
+                }
                 placeholder="+91 9876543210"
                 required
               />
             </div>
-            <Button type="submit" variant="hero" className="w-full" style={{ background: '#6CD99C', color: '#13263A', border: 'none' }} disabled={isSubmitting}>
-              {isSubmitting ? 'Submitting…' : 'Submit'}
+            <Button
+              type="submit"
+              variant="hero"
+              className="w-full"
+              style={{
+                background: "#328f5aff",
+                color: "#13263A",
+                border: "none",
+              }}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Submitting…" : "Submit"}
             </Button>
           </form>
         </DialogContent>

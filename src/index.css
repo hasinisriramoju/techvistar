@@ -14,8 +14,8 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
 
-    /* #16a34a — brand green (matches onitindia.com theme-color) */
-    --primary: 142 76% 36%;
+    /* Brand green (#6CD99C) */
+    --primary: 146 59% 64%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 152 35% 94%;
@@ -33,13 +33,13 @@
 
     --border: 152 22% 90%;
     --input: 152 22% 90%;
-    --ring: 142 76% 36%;
+    --ring: 146 59% 64%;
 
     --radius: 0.625rem;
 
-    --gradient-start: 142 76% 36%;
+    --gradient-start: 146 59% 64%;
     --gradient-end: 160 84% 36%;
-    --glow-primary: 142 76% 36%;
+    --glow-primary: 146 59% 64%;
     --glow-accent: 158 64% 42%;
 
     --surface-elevated: 0 0% 100%;
@@ -47,12 +47,12 @@
 
     --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 222 47% 11%;
-    --sidebar-primary: 142 76% 36%;
+    --sidebar-primary: 146 59% 64%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 152 35% 94%;
     --sidebar-accent-foreground: 222 47% 11%;
     --sidebar-border: 152 22% 90%;
-    --sidebar-ring: 142 76% 36%;
+    --sidebar-ring: 146 59% 64%;
   }
 
   .dark {

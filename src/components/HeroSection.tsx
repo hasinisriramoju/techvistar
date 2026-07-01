@@ -109,6 +109,7 @@ function SystemDiagram() {
         aspectRatio: "1 / 0.95",
         maxWidth: 860,
         transform: "translateX(6%)",
+        opacity: 0.5,
       }}
     >
       {/* Concentric dashed rings */}
@@ -509,13 +510,15 @@ export const HeroSection = ({
             </motion.div>
 
             {/* Location line */}
-            <motion.p
-              variants={fadeUp}
-              className="mt-12 text-xs font-medium tracking-[0.12em]"
-              style={{ color: "#8FA0B0" }}
-            >
-              {HERO_COPY.locationLine}
-            </motion.p>
+            {HERO_COPY.locationLine && (
+              <motion.p
+                variants={fadeUp}
+                className="mt-12 text-xs font-medium tracking-[0.12em]"
+                style={{ color: "#8FA0B0" }}
+              >
+                {HERO_COPY.locationLine}
+              </motion.p>
+            )}
           </motion.div>
 
           {/* ── COLUMN 2 · Analytical illustration ────────────────────────────── */}
