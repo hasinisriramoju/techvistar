@@ -10,7 +10,6 @@ import ServiceDetail from "./pages/ServiceDetail";
 import Process from "./pages/Process";
 import Work from "./pages/Work";
 import Contact from "./pages/Contact";
-import Internship from "./pages/Internship";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,7 +28,6 @@ const App = () => (
           <Route path="/process" element={<Process />} />
           <Route path="/work" element={<Work />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/internship" element={<Internship />} />
           {/* Catch-all */}
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -212,7 +212,7 @@ const Contact = () => {
                     {[
                       { label: 'View services', href: '/services' },
                       { label: 'Read about us', href: '/about' },
-                      { label: 'AI & Python program', href: '/internship' },
+                      { label: 'Our process', href: '/process' },
                     ].map((link) => (
                       <a
                         key={link.href}

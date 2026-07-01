@@ -188,41 +188,18 @@ export const Navbar = () => {
                     exit="exit"
                     onMouseEnter={cancelClose}
                     onMouseLeave={scheduleClose}
-                    className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[820px] rounded-2xl border border-white/[0.08] bg-ink-2/95 backdrop-blur-2xl shadow-[0_24px_64px_-12px_rgba(0,0,0,0.9)] p-3"
+                    className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[600px] rounded-2xl border border-white/[0.08] bg-ink-2/95 backdrop-blur-2xl shadow-[0_24px_64px_-12px_rgba(0,0,0,0.9)] p-3"
                     style={{ transformOrigin: 'top center' }}
                   >
-                    <div className="grid grid-cols-[1fr_200px] gap-3">
-                      {/* Left: service items */}
-                      <div>
+                    <div>
+                       {/* Services items */}
+                       <div>
                         <p className="label-mono text-white/25 px-3 pt-2 pb-2">Solutions</p>
                         <div className="grid grid-cols-2 gap-x-2 gap-y-0.5">
                           {NAV_STRUCTURE.services.items.map((item) => (
                             <ServiceItem key={item.href} item={item} />
                           ))}
                         </div>
-                      </div>
-
-                      {/* Right: featured */}
-                      <div className="border-l border-white/[0.06] pl-3">
-                        <p className="label-mono text-white/25 pt-2 pb-2">Featured</p>
-                        <Link
-                          to={NAV_STRUCTURE.services.featured.href}
-                          className="group block rounded-xl p-3 transition-all duration-150 hover:bg-white/[0.04] border border-white/[0.05] hover:border-[#6E7FEF]/30"
-                        >
-                          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#6E7FEF]/15 border border-[#6E7FEF]/20 mb-3">
-                            <span className="text-[#8B9CF4] text-sm font-bold">AI</span>
-                          </div>
-                          <p className="text-xs font-semibold text-white/80 group-hover:text-white leading-snug transition-colors">
-                            {NAV_STRUCTURE.services.featured.title}
-                          </p>
-                          <p className="text-[11px] text-white/35 mt-1 leading-snug">
-                            {NAV_STRUCTURE.services.featured.description}
-                          </p>
-                          <div className="mt-3 flex items-center gap-1 text-[#8B9CF4] text-[11px] font-medium">
-                            Register now
-                            <ArrowRight className="h-3 w-3" />
-                          </div>
-                        </Link>
                       </div>
                     </div>
                   </motion.div>
@@ -286,7 +263,6 @@ export const Navbar = () => {
             {/* Direct links */}
             {[
               { label: 'Work', href: '/work' },
-              { label: 'Internship', href: '/internship' },
             ].map((link) => (
               <Link
                 key={link.href}
@@ -443,7 +419,6 @@ export const Navbar = () => {
                 {/* Direct mobile links */}
                 {[
                   { label: 'Work', href: '/work' },
-                  { label: 'Internship', href: '/internship' },
                 ].map((link) => (
                   <Link
                     key={link.href}

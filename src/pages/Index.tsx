@@ -6,7 +6,6 @@ import { TrustBar } from '@/components/home/TrustBar';
 import { ServicesBento } from '@/components/home/ServicesBento';
 import { ProcessPreview } from '@/components/home/ProcessPreview';
 import { FeaturedWork } from '@/components/home/FeaturedWork';
-import { InternshipCTA } from '@/components/home/InternshipCTA';
 import { FinalCTA } from '@/components/home/FinalCTA';
 
 const Index = () => {
@@ -23,7 +22,6 @@ const Index = () => {
         <ServicesBento />
         <ProcessPreview />
         <FeaturedWork />
-        <InternshipCTA />
         <FinalCTA />
       </main>
       <Footer />

@@ -111,12 +111,6 @@ export const NAV_STRUCTURE = {
         color: '#F472B6',
       },
     ],
-    featured: {
-      label: 'Featured Program',
-      title: '3-Month AI & Python',
-      description: 'Structured pathway from Python to Applied AI',
-      href: '/internship',
-    },
   },
   company: {
     label: 'Company',
@@ -852,7 +846,6 @@ export const FOOTER_LINKS = {
     { label: 'About', href: '/about' },
     { label: 'Process', href: '/process' },
     { label: 'Work', href: '/work' },
-    { label: 'Internship', href: '/internship' },
     { label: 'Contact', href: '/contact' },
   ],
   social: [

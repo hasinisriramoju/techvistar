@@ -99,7 +99,7 @@ export function Hero() {
 
       <motion.div
         style={{ opacity, y }}
-        className="container-site relative z-10 pt-32 pb-24 lg:pt-40 lg:pb-32"
+        className="container-site relative z-10 pt-24 pb-20 lg:pt-32 lg:pb-28"
       >
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-8 items-center">
           {/* ── Left: text ── */}
@@ -117,11 +117,11 @@ export function Hero() {
 
             {/* Headline */}
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-[-0.04em] leading-[1.0] text-white mb-6">
-              We build
+              Technology-first
               <br />
-              <CyclingWord />
+              <span className="text-gradient-signal"><CyclingWord /></span>
               <br />
-              <span className="text-white/30">for growth</span>
+              <span className="text-white/30">Without the chaos.</span>
             </h1>
 
             {/* Subheadline */}
