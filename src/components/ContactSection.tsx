@@ -90,17 +90,18 @@ export const ContactSection = () => {
       id="contact"
       variant="muted"
       aria-labelledby="contact-heading"
-      style={{
-        background: "#E1EBF0",
-        borderTop: "1px solid rgba(19,38,58,0.10)",
-      }}
+      className="relative overflow-hidden bg-background border-b border-border-subtle"
     >
+      {/* Grid background */}
+      <div className="pointer-events-none absolute inset-0 bg-grid-pattern-dark opacity-[0.15]" />
+
       <div
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[min(90vw,520px)] w-[min(90vw,520px)] -translate-x-1/2 -translate-y-1/2 rounded-full"
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full"
         style={{
           background:
-            "radial-gradient(circle, rgba(255,255,255,.45), transparent 70%)",
+            "radial-gradient(circle, rgba(0, 113, 227, 0.08) 0%, transparent 60%)",
         }}
+        aria-hidden
       />
 
       <div className="container-custom relative z-10">
@@ -111,18 +112,18 @@ export const ContactSection = () => {
           transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
           {SECTION_CONTACT.tag && (
-            <p className="mb-3 font-mono text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[#6CD99C]">
+            <p className="mb-3 font-mono text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary">
               {SECTION_CONTACT.tag}
             </p>
           )}
           <h2
             id="contact-heading"
-            className="mx-auto mb-4 max-w-2xl font-display text-4xl font-bold leading-tight tracking-tight text-[#13263A] sm:text-5xl"
+            className="mx-auto mb-4 max-w-2xl font-display text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl"
           >
             {SECTION_CONTACT.title}{" "}
-            <span className="text-[#6CD99C]">{SECTION_CONTACT.highlight}</span>
+            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">{SECTION_CONTACT.highlight}</span>
           </h2>
-          <p className="mx-auto max-w-2xl text-base leading-relaxed text-[#475569]">
+          <p className="mx-auto max-w-2xl text-sm leading-relaxed text-muted-foreground">
             {SECTION_CONTACT.description}
           </p>
         </motion.div>
@@ -141,25 +142,20 @@ export const ContactSection = () => {
                   initial={{ opacity: 0, x: -12 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ duration: 0.35, delay: 0.06 + index * 0.04 }}
-                  className="flex gap-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm"
+                  className="flex gap-4 rounded-xl border border-border-subtle bg-surface-charcoal/40 p-4 shadow-xl shadow-black/20"
                 >
                   <div
-                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg"
-                    style={{
-                      background: "rgba(19,38,58,0.08)",
-                      color: "#13263A",
-                    }}
+                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary border border-primary/20"
                   >
                     <info.icon className="h-5 w-5" aria-hidden />
                   </div>
                   <div>
                     <h4
-                      className="font-semibold font-display"
-                      style={{ color: "#13263A" }}
+                      className="font-semibold font-display text-white text-sm"
                     >
                       {info.title}
                     </h4>
-                    <p className="text-sm mt-0.5" style={{ color: "#475569" }}>
+                    <p className="text-xs mt-0.5 text-muted-foreground">
                       {info.details}
                     </p>
                   </div>
@@ -167,16 +163,14 @@ export const ContactSection = () => {
               ))}
             </div>
 
-            <div className="rounded-xl border border-[rgba(19,38,58,0.15)] bg-white p-6 shadow-sm">
+            <div className="rounded-xl border border-border-subtle bg-surface-charcoal/50 backdrop-blur-xl p-6 shadow-xl shadow-black/25">
               <h4
-                className="font-semibold font-display mb-2"
-                style={{ color: "#13263A" }}
+                className="font-semibold font-display text-primary text-sm mb-2"
               >
                 {CONTACT_SIDEBAR.slaTitle}
               </h4>
               <p
-                className="text-sm leading-relaxed"
-                style={{ color: "#475569" }}
+                className="text-xs leading-relaxed text-muted-foreground"
               >
                 {CONTACT_SIDEBAR.slaBody}
               </p>
@@ -191,15 +185,14 @@ export const ContactSection = () => {
           >
             <form
               onSubmit={handleSubmit}
-              className="rounded-2xl border border-slate-200 bg-white p-6 md:p-8 shadow-md"
+              className="rounded-2xl border border-border-subtle bg-surface-charcoal/30 backdrop-blur-xl p-6 md:p-8 shadow-2xl shadow-black/40"
               aria-label="Project inquiry form"
             >
               <div className="grid sm:grid-cols-2 gap-6 mb-6">
                 <div>
                   <label
                     htmlFor="name"
-                    className="block text-sm font-semibold mb-2"
-                    style={{ color: "#13263A" }}
+                    className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2"
                   >
                     Full name
                   </label>
@@ -212,14 +205,13 @@ export const ContactSection = () => {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="bg-background border-border focus-visible:ring-[#13263A]"
+                    className="bg-background border-border-subtle text-white focus-visible:ring-primary focus-visible:border-primary placeholder:text-muted-foreground/30 text-xs"
                   />
                 </div>
                 <div>
                   <label
                     htmlFor="email"
-                    className="block text-sm font-semibold mb-2"
-                    style={{ color: "#13263A" }}
+                    className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2"
                   >
                     Work email
                   </label>
@@ -232,7 +224,7 @@ export const ContactSection = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="bg-background border-border focus-visible:ring-[#13263A]"
+                    className="bg-background border-border-subtle text-white focus-visible:ring-primary focus-visible:border-primary placeholder:text-muted-foreground/30 text-xs"
                   />
                 </div>
               </div>
@@ -240,8 +232,7 @@ export const ContactSection = () => {
               <div className="mb-6">
                 <label
                   htmlFor="subject"
-                  className="block text-sm font-semibold mb-2"
-                  style={{ color: "#13263A" }}
+                  className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2"
                 >
                   Subject / reference
                 </label>
@@ -253,15 +244,14 @@ export const ContactSection = () => {
                   value={formData.subject}
                   onChange={handleChange}
                   required
-                  className="bg-background border-border focus-visible:ring-[#13263A]"
+                  className="bg-background border-border-subtle text-white focus-visible:ring-primary focus-visible:border-primary placeholder:text-muted-foreground/30 text-xs"
                 />
               </div>
 
               <div className="mb-6">
                 <label
                   htmlFor="message"
-                  className="block text-sm font-semibold mb-2"
-                  style={{ color: "#13263A" }}
+                  className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2"
                 >
                   Requirements summary
                 </label>
@@ -273,24 +263,19 @@ export const ContactSection = () => {
                   onChange={handleChange}
                   required
                   rows={6}
-                  className="bg-background border-border focus-visible:ring-[#13263A] resize-none"
+                  className="bg-background border-border-subtle text-white focus-visible:ring-primary focus-visible:border-primary resize-none placeholder:text-muted-foreground/30 text-xs"
                 />
               </div>
 
               <Button
-                variant="hero"
+                variant="default"
                 size="lg"
                 type="submit"
-                className="w-full group"
+                className="w-full group bg-primary text-background font-bold text-xs uppercase tracking-wider h-11 shadow-[0_0_15px_-3px_rgba(171,199,255,0.3)] hover:opacity-95 border-none"
                 disabled={isSubmitting}
-                style={{
-                  background: "#13263A",
-                  color: "#ffffff",
-                  border: "none",
-                }}
               >
                 {isSubmitting ? "Submitting…" : "Submit inquiry"}
-                <Send className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                <Send className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
               </Button>
             </form>
           </motion.div>

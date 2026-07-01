@@ -147,8 +147,11 @@ export const ProjectsSection = () => {
       id="projects"
       variant="default"
       aria-labelledby="projects-heading"
-      style={{ backgroundColor: "#E1EBF0" }}
+      className="relative overflow-hidden bg-background border-b border-border-subtle"
     >
+      {/* Grid background */}
+      <div className="pointer-events-none absolute inset-0 bg-grid-pattern-dark opacity-[0.15]" />
+
       <div className="container-custom relative z-10">
         <motion.div
           className="mb-12 text-center"
@@ -157,18 +160,18 @@ export const ProjectsSection = () => {
           transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
           {SECTION_PROJECTS.tag && (
-            <p className="mb-3 font-mono text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[#6CD99C]">
+            <p className="mb-3 font-mono text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary">
               {SECTION_PROJECTS.tag}
             </p>
           )}
           <h2
             id="projects-heading"
-            className="mx-auto mb-4 max-w-2xl font-display text-4xl font-bold leading-tight tracking-tight text-[#13263A] sm:text-5xl"
+            className="mx-auto mb-4 max-w-2xl font-display text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl"
           >
             {SECTION_PROJECTS.title}{" "}
-            <span className="text-[#6CD99C]">{SECTION_PROJECTS.highlight}</span>
+            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">{SECTION_PROJECTS.highlight}</span>
           </h2>
-          <p className="mx-auto max-w-2xl text-base leading-relaxed text-[#475569]">
+          <p className="mx-auto max-w-2xl text-sm leading-relaxed text-muted-foreground">
             {SECTION_PROJECTS.description}
           </p>
         </motion.div>
@@ -197,82 +200,53 @@ export const ProjectsSection = () => {
                     className="h-full"
                   >
                     <div
-                      className="group h-full flex flex-col overflow-hidden rounded-2xl transition-all duration-300"
-                      style={{
-                        background: "#f4f6f8ff",
-                        border: "1px solid #C9D7E3",
-                        boxShadow: "0 8px 24px rgba(15,23,42,0.06)",
-                      }}
-                      onMouseEnter={(e) => {
-                        (e.currentTarget as HTMLDivElement).style.borderColor =
-                          "rgba(108,217,156,0.30)";
-                      }}
-                      onMouseLeave={(e) => {
-                        (e.currentTarget as HTMLDivElement).style.borderColor =
-                          "#223547";
-                      }}
+                      className="group h-full flex flex-col overflow-hidden rounded-2xl border border-border-subtle bg-surface-charcoal/40 hover:border-primary/45 transition-all duration-300 shadow-xl shadow-black/25"
                     >
                       <div
-                        className="relative h-48 overflow-hidden"
-                        style={{ borderBottom: "1px solid #D6E2EA" }}
+                        className="relative h-48 overflow-hidden border-b border-border-subtle/50"
                       >
                         <img
                           src={project.image}
                           alt={project.title}
                           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                         />
+                        <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-60" />
                       </div>
-                      <div className="p-5 space-y-3 pb-2">
+                      <div className="p-5 space-y-3 pb-2 flex-grow">
                         {/* Category tag */}
                         <span
-                          className="inline-block rounded-md px-2 py-1 text-xs font-medium"
-                          style={{
-                            background: "rgba(108,217,156,0.12)",
-                            color: "#13263A",
-                            border: "1px solid rgba(108,217,156,0.35)",
-                          }}
+                          className="inline-block rounded px-2.5 py-0.5 text-[10px] font-mono font-semibold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20"
                         >
                           {project.category}
                         </span>
-                        <h3 className="font-display text-xl font-bold text-[#13263A] leading-snug">
+                        <h3 className="font-display text-lg font-bold text-white leading-snug">
                           {project.title}
                         </h3>
                         <p
-                          className="text-base leading-relaxed line-clamp-[6]"
-                          style={{ color: "#475569" }}
+                          className="text-xs leading-relaxed text-muted-foreground line-clamp-[5]"
                         >
                           {project.description}
                         </p>
                       </div>
-                      <div className="flex flex-col flex-grow px-5 pb-5 pt-0">
-                        <div className="flex flex-wrap gap-2 mb-6">
+                      <div className="flex flex-col px-5 pb-5 pt-0">
+                        <div className="flex flex-wrap gap-1.5 mb-5">
                           {project.technologies.slice(0, 3).map((tech) => (
                             <span
                               key={tech}
-                              className="px-2 py-1 rounded-md text-xs font-medium"
-                              style={{
-                                background: "rgba(108,217,156,0.10)",
-                                color: "#6CD99C",
-                                border: "1px solid #C6EAD9",
-                              }}
+                              className="px-2 py-0.5 rounded text-[10px] font-mono text-on-surface-variant bg-white/[0.03] border border-white/[0.06]"
                             >
                               {tech}
                             </span>
                           ))}
                           {project.technologies.length > 3 && (
                             <span
-                              className="px-2 py-1 rounded-md text-xs font-medium"
-                              style={{
-                                background: "#F3F6F8",
-                                color: "#64748B",
-                                border: "1px solid #D6E2EA",
-                              }}
+                              className="px-2 py-0.5 rounded text-[10px] font-mono text-muted-foreground bg-white/[0.02] border border-white/[0.04]"
                             >
                               +{project.technologies.length - 3}
                             </span>
                           )}
                         </div>
-                        <div className="flex gap-3 mt-auto">
+                        <div className="flex gap-3">
                           <a
                             href={
                               project.liveUrl !== "#"
@@ -281,21 +255,16 @@ export const ProjectsSection = () => {
                             }
                             target="_blank"
                             rel="noopener noreferrer"
-                            className={`flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 ${
+                            className={`flex-1 flex items-center justify-center gap-1.5 h-9 rounded-lg text-xs font-bold uppercase tracking-wider transition-all duration-200 ${
                               project.liveUrl === "#"
-                                ? "cursor-not-allowed opacity-40"
-                                : ""
+                                ? "cursor-not-allowed opacity-40 bg-white/[0.04] text-muted-foreground border border-white/[0.06]"
+                                : "bg-primary text-background hover:opacity-95"
                             }`}
-                            style={{
-                              background: "#FFFFFF",
-                              border: "1px solid #031021ff",
-                              color: "#05090eff",
-                            }}
                             onClick={(e) =>
                               project.liveUrl === "#" && e.preventDefault()
                             }
                           >
-                            <ExternalLink className="w-4 h-4" />
+                            <ExternalLink className="w-3.5 h-3.5" />
                             Demo
                           </a>
                           <a
@@ -306,21 +275,16 @@ export const ProjectsSection = () => {
                             }
                             target="_blank"
                             rel="noopener noreferrer"
-                            className={`flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 ${
+                            className={`flex-1 flex items-center justify-center gap-1.5 h-9 rounded-lg text-xs font-bold uppercase tracking-wider transition-all duration-200 border border-border-subtle ${
                               project.githubUrl === "#"
-                                ? "cursor-not-allowed opacity-40"
-                                : ""
+                                ? "cursor-not-allowed opacity-40 bg-white/[0.04] text-muted-foreground"
+                                : "bg-surface-charcoal text-white hover:bg-white/[0.04]"
                             }`}
-                            style={{
-                              background: "#FFFFFF",
-                              border: "1px solid #000204ff",
-                              color: "#334155",
-                            }}
                             onClick={(e) =>
                               project.githubUrl === "#" && e.preventDefault()
                             }
                           >
-                            <Github className="w-4 h-4" />
+                            <Github className="w-3.5 h-3.5" />
                             Code
                           </a>
                         </div>
@@ -332,15 +296,10 @@ export const ProjectsSection = () => {
             </CarouselContent>
             <div className="hidden md:block">
               <CarouselPrevious
-                className="-left-4 text-white/70 hover:text-[#80E4AA] transition-colors"
-                style={{
-                  background: "#13263A",
-                  border: "1px solid #1E3A56",
-                }}
+                className="-left-4 text-white hover:text-primary transition-colors border-border-subtle bg-surface-charcoal/80"
               />
               <CarouselNext
-                className="-right-4 text-white/70 hover:text-[#6CD99C] transition-colors"
-                style={{ background: "#15222E", border: "1px solid #223547" }}
+                className="-right-4 text-white hover:text-primary transition-colors border-border-subtle bg-surface-charcoal/80"
               />
             </div>
           </Carousel>
@@ -354,14 +313,7 @@ export const ProjectsSection = () => {
         >
           <a
             href="/#contact"
-            className="inline-flex items-center gap-2 text-sm font-semibold transition-colors"
-            style={{ color: "#6CD99C" }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.color = "#80E4AA";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.color = "#6CD99C";
-            }}
+            className="inline-flex items-center gap-2 text-sm font-semibold transition-colors text-primary hover:text-primary-container"
           >
             Request a technical scoping call
             <ArrowUpRight className="h-4 w-4" />
@@ -379,7 +331,7 @@ export const ProjectsSection = () => {
           right: "5%",
           height: "1px",
           background:
-            "linear-gradient(to right, transparent, rgba(19,38,58,0.14) 20%, rgba(19,38,58,0.14) 80%, transparent)",
+            "linear-gradient(to right, transparent, rgba(255,255,255,0.08) 20%, rgba(255,255,255,0.08) 80%, transparent)",
         }}
       />
     </SiteSection>

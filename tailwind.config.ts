@@ -2,22 +2,47 @@ import type { Config } from "tailwindcss";
 
 export default {
   darkMode: ["class"],
-  content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
+  content: [
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   prefix: "",
   theme: {
     container: {
       center: true,
       padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
+      screens: { "2xl": "1400px" },
     },
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+        sans: ["Inter", "system-ui", "-apple-system", "sans-serif"],
+        mono: ["JetBrains Mono", "Fira Code", "monospace"],
       },
       colors: {
+        /* ── New design tokens ── */
+        ink: {
+          DEFAULT: "#0A0A0A",
+          2: "#111114",
+          3: "#1A1A1E",
+        },
+        fog: {
+          DEFAULT: "#9E9EA7",
+          2: "#616169",
+        },
+        snow: "#FAFAFA",
+        signal: {
+          DEFAULT: "#6E7FEF",
+          dim: "rgba(94,106,210,0.15)",
+          glow: "rgba(94,106,210,0.35)",
+        },
+        edge: {
+          DEFAULT: "rgba(255,255,255,0.06)",
+          bright: "rgba(255,255,255,0.12)",
+        },
+
+        /* ── shadcn compat ── */
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -51,25 +76,25 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        surface: {
-          elevated: "hsl(var(--surface-elevated))",
-          overlay: "hsl(var(--surface-overlay))",
-        },
-        sidebar: {
-          DEFAULT: "hsl(var(--sidebar-background))",
-          foreground: "hsl(var(--sidebar-foreground))",
-          primary: "hsl(var(--sidebar-primary))",
-          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
-          accent: "hsl(var(--sidebar-accent))",
-          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
-          border: "hsl(var(--sidebar-border))",
-          ring: "hsl(var(--sidebar-ring))",
-        },
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      spacing: {
+        "18": "4.5rem",
+        "22": "5.5rem",
+        "88": "22rem",
+        "112": "28rem",
+        "128": "32rem",
+      },
+      fontSize: {
+        "2xs": ["0.625rem", { lineHeight: "1rem" }],
+        "display-sm": ["2.25rem", { lineHeight: "1.1", letterSpacing: "-0.03em" }],
+        "display-md": ["3rem", { lineHeight: "1.05", letterSpacing: "-0.04em" }],
+        "display-lg": ["4rem", { lineHeight: "1", letterSpacing: "-0.04em" }],
+        "display-xl": ["5.5rem", { lineHeight: "0.95", letterSpacing: "-0.05em" }],
       },
       keyframes: {
         "accordion-down": {
@@ -88,77 +113,59 @@ export default {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
         },
-        "glow-pulse": {
-          "0%, 100%": { opacity: "0.4" },
-          "50%": { opacity: "0.8" },
-        },
         float: {
           "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-10px)" },
+          "50%": { transform: "translateY(-8px)" },
         },
-        /** Hero background — continuous drift */
-        "hero-blob-1": {
-          "0%, 100%": { transform: "translate3d(0, 0, 0) scale(1)" },
-          "33%": { transform: "translate3d(6%, -8%, 0) scale(1.08)" },
-          "66%": { transform: "translate3d(-5%, 6%, 0) scale(0.96)" },
+        shimmer: {
+          "0%": { backgroundPosition: "-200% center" },
+          "100%": { backgroundPosition: "200% center" },
         },
-        "hero-blob-2": {
-          "0%, 100%": { transform: "translate3d(0, 0, 0) scale(1)" },
-          "40%": { transform: "translate3d(-10%, 5%, 0) scale(1.1)" },
-          "80%": { transform: "translate3d(8%, -6%, 0) scale(0.94)" },
+        marquee: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
         },
-        "hero-blob-3": {
-          "0%, 100%": { transform: "translate3d(0, 0, 0) rotate(0deg) scale(1)" },
-          "50%": { transform: "translate3d(4%, 10%, 0) rotate(8deg) scale(1.06)" },
+        "spin-slow": {
+          from: { transform: "rotate(0deg)" },
+          to: { transform: "rotate(360deg)" },
         },
-        "hero-grid-drift": {
-          "0%": { backgroundPosition: "0px 0px, 0px 0px" },
-          "100%": { backgroundPosition: "48px 48px, 48px 48px" },
+        "signal-pulse": {
+          "0%, 100%": { opacity: "0.4", transform: "scale(1)" },
+          "50%": { opacity: "0.8", transform: "scale(1.05)" },
         },
-        "hero-starfield-drift": {
-          "0%": { backgroundPosition: "0 0" },
-          "100%": { backgroundPosition: "384px 288px" },
-        },
-        "hero-shimmer": {
-          "0%": { transform: "translate3d(-30%, 0, 0) rotate(12deg)", opacity: "0.15" },
-          "50%": { opacity: "0.28" },
-          "100%": { transform: "translate3d(30%, 0, 0) rotate(12deg)", opacity: "0.15" },
-        },
-        /** One soft circle that moves subtly and continuously */
-        "hero-circle-orbit": {
-          "0%, 100%": {
-            transform: "translate(-50%, -50%) translate3d(12vw, 16vh, 0) scale(1)",
-          },
-          "25%": {
-            transform: "translate(-50%, -50%) translate3d(16vw, 13vh, 0) scale(1.015)",
-          },
-          "50%": {
-            transform: "translate(-50%, -50%) translate3d(19vw, 17vh, 0) scale(0.99)",
-          },
-          "75%": {
-            transform: "translate(-50%, -50%) translate3d(14vw, 20vh, 0) scale(1.01)",
-          },
+        "border-glow": {
+          "0%, 100%": { borderColor: "rgba(94,106,210,0.2)" },
+          "50%": { borderColor: "rgba(94,106,210,0.5)" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-up": "fade-up 0.6s ease-out forwards",
-        "fade-in": "fade-in 0.6s ease-out forwards",
-        "glow-pulse": "glow-pulse 3s ease-in-out infinite",
+        "fade-in": "fade-in 0.5s ease-out forwards",
         float: "float 6s ease-in-out infinite",
-        "hero-blob-1": "hero-blob-1 24s ease-in-out infinite",
-        "hero-blob-2": "hero-blob-2 32s ease-in-out infinite",
-        "hero-blob-3": "hero-blob-3 20s ease-in-out infinite",
-        "hero-grid-drift": "hero-grid-drift 22s linear infinite",
-        "hero-starfield-drift": "hero-starfield-drift 85s linear infinite",
-        "hero-shimmer": "hero-shimmer 14s ease-in-out infinite",
-        "hero-circle-orbit": "hero-circle-orbit 80s linear infinite",
+        shimmer: "shimmer 3s linear infinite",
+        marquee: "marquee 40s linear infinite",
+        "spin-slow": "spin-slow 20s linear infinite",
+        "signal-pulse": "signal-pulse 3s ease-in-out infinite",
+        "border-glow": "border-glow 3s ease-in-out infinite",
       },
       backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-primary': 'linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)))',
-        'gradient-dark': 'linear-gradient(180deg, hsl(var(--background)), hsl(var(--surface-overlay)))',
+        "gradient-signal": "linear-gradient(135deg, #6E7FEF, #A78BFA)",
+        "gradient-dark": "linear-gradient(180deg, #0A0A0A, #111114)",
+        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+        "grid-dots": "radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px)",
+        "grid-lines": "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)",
+      },
+      backdropBlur: {
+        xs: "2px",
+      },
+      boxShadow: {
+        signal: "0 0 40px -10px rgba(94,106,210,0.5), 0 0 80px -20px rgba(94,106,210,0.25)",
+        "signal-sm": "0 0 20px -8px rgba(94,106,210,0.4)",
+        card: "0 20px 40px -15px rgba(0,0,0,0.8)",
+        "card-hover": "0 30px 60px -15px rgba(0,0,0,0.9), 0 0 30px -15px rgba(94,106,210,0.2)",
+        "nav": "0 8px 32px -8px rgba(0,0,0,0.5)",
       },
     },
   },

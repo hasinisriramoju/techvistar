@@ -12,9 +12,10 @@ export const ProcessSection = () => {
       id="process"
       variant="default"
       aria-labelledby="process-heading"
-      className="relative overflow-hidden bg-[#E1EBF0]"
+      className="relative overflow-hidden bg-background border-b border-border-subtle"
     >
-      
+      {/* Grid background */}
+      <div className="pointer-events-none absolute inset-0 bg-grid-pattern-dark opacity-[0.15]" />
 
       {/* Radial vignette to fade grid at edges */}
       <div
@@ -22,17 +23,7 @@ export const ProcessSection = () => {
         aria-hidden
         style={{
           background:
-'radial-gradient(circle at top, rgba(255,255,255,0.6), transparent 70%)',
-        }}
-      />
-
-      {/* Faint green ambient behind heading */}
-      <div
-        className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-[700px] -translate-x-1/2 -translate-y-1/4"
-        aria-hidden
-        style={{
-          background:
-'radial-gradient(circle, rgba(255,255,255,0.45), transparent 70%)',
+            'radial-gradient(circle at top, rgba(0, 113, 227, 0.08) 0%, transparent 60%)',
         }}
       />
 
@@ -40,35 +31,34 @@ export const ProcessSection = () => {
 
         {/* ── Header ── */}
         <div className="mx-auto mb-16 max-w-4xl text-center">
-          {/* Heading — white + bright green highlight */}
           <h2
             id="process-heading"
-            className="font-display text-4xl font-bold leading-tight tracking-tight text-[#13263A] sm:text-5xl"
+            className="font-display text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl"
           >
             {SECTION_PROCESS.title}{' '}
-            <span className="font-bold text-[#6CD99C]">
+            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               {SECTION_PROCESS.highlight}
             </span>
           </h2>
 
           {/* Description */}
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-[#475569]">
+          <p className="mx-auto mt-6 max-w-2xl text-sm leading-relaxed text-muted-foreground">
             {SECTION_PROCESS.description}
           </p>
         </div>
 
         {/* ── Operating principles ── */}
         <div className="mx-auto mb-24 max-w-3xl">
-          <p className="mb-4 text-center font-mono text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[#475569]">
+          <p className="mb-4 text-center font-mono text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-muted-foreground/60">
             Operating Principles
           </p>
           <ul
-            className="flex flex-wrap items-center justify-center gap-y-3 border-y border-white/[0.05] px-4 py-3 sm:flex-nowrap sm:divide-x sm:divide-white/[0.05] sm:gap-y-0 sm:px-0"
+            className="flex flex-wrap items-center justify-center gap-y-3 border-y border-border-subtle px-4 py-3 sm:flex-nowrap sm:divide-x sm:divide-border-subtle sm:gap-y-0 sm:px-0"
             aria-label="Operating principles"
           >
             {PROCESS_PILLARS.map((word) => (
               <li key={word} className="text-center sm:px-12">
-                <span className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[#475569]">
+                <span className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-muted-foreground/80">
                   {word}
                 </span>
               </li>
@@ -84,10 +74,10 @@ export const ProcessSection = () => {
             className="absolute left-1/2 top-0 hidden h-full w-px -translate-x-1/2 lg:block"
             aria-hidden
             style={{
-  width: '2px',
-  background:
-    'linear-gradient(to bottom, transparent, #B7C8D6 10%, #B7C8D6 90%, transparent)',
-}}
+              width: '1px',
+              background:
+                'linear-gradient(to bottom, transparent, #2A2D32 10%, #2A2D32 90%, transparent)',
+            }}
           />
 
           {/* Steps */}
@@ -124,16 +114,11 @@ export const ProcessSection = () => {
                   {/* CENTER NODE — desktop only */}
                   <div className="hidden lg:flex lg:w-20 lg:shrink-0 lg:justify-center">
                     <div
-                      className="relative z-10 flex h-11 w-11 items-center justify-center rounded-full"
-                      style={{
-                        background: '#E1EBF0',
-                        border: '1.5px solid #CBD5E1',
-                        boxShadow: '0 0 0 6px #E1EBF0',
-                      }}
+                      className="relative z-10 flex h-10 w-10 items-center justify-center rounded-full bg-background border border-border-subtle shadow-[0_0_0_5px_#08090A]"
                     >
                       <div
-                        className="h-3 w-3 rounded-full bg-[#6CD99C]"
-                        style={{ boxShadow: '0 0 10px 3px rgba(108,217,156,0.60)' }}
+                        className="h-2.5 w-2.5 rounded-full bg-electric-teal"
+                        style={{ boxShadow: '0 0 10px 2px rgba(0,245,255,0.60)' }}
                       />
                     </div>
                   </div>
@@ -153,7 +138,7 @@ export const ProcessSection = () => {
         </div>
 
         {/* ── Footer note ── */}
-        <p className="mx-auto mt-24 max-w-2xl text-center text-base leading-relaxed text-[#475569]">
+        <p className="mx-auto mt-24 max-w-2xl text-center text-xs leading-relaxed text-muted-foreground">
           The same phases apply whether discovery is a focused workshop or a full audit, and whether
           build is one squad or several—governance, documentation, and sign-off stay consistent throughout.
         </p>
@@ -168,7 +153,7 @@ export const ProcessSection = () => {
           left: '5%',
           right: '5%',
           height: '1px',
-          background: 'linear-gradient(to right, transparent, rgba(19,38,58,0.14) 20%, rgba(19,38,58,0.14) 80%, transparent)',
+          background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.08) 20%, rgba(255,255,255,0.08) 80%, transparent)',
         }}
       />
     </SiteSection>
@@ -186,101 +171,50 @@ function Card({
 }) {
   return (
     <article
-      className="relative overflow-hidden rounded-2xl"
-     style={{
-  background: 'rgba(255,255,255,0.35)',
-  backdropFilter: 'blur(18px)',
-  WebkitBackdropFilter: 'blur(18px)',
-
-  border: '1.5px solid #13263A',
-
-boxShadow: `
-0 0 12px rgba(19,38,58,0.45),
-0 0 28px rgba(19,38,58,0.35),
-0 0 60px rgba(19,38,58,0.28),
-0 25px 60px rgba(15,23,42,0.12)
-`,
-
-  transition: 'all 0.35s ease',
-}}
-
-onMouseEnter={(e) => {
-  const card = e.currentTarget as HTMLDivElement;
-
-  card.style.transform = 'translateY(-6px)';
-
-  card.style.boxShadow = `
-    0 0 0 1px rgba(19,38,58,0.25),
-    0 0 18px rgba(19,38,58,0.30),
-    0 0 40px rgba(19,38,58,0.25),
-    0 0 80px rgba(19,38,58,0.18),
-    0 25px 45px rgba(55, 114, 178, 0.12),
-    inset 0 1px 0 rgba(255,255,255,0.7)
-  `;
-}}
-
-onMouseLeave={(e) => {
-  const card = e.currentTarget as HTMLDivElement;
-
-  card.style.transform = 'translateY(0)';
-
-  card.style.boxShadow = `
-    0 0 0 1px rgba(19,38,58,0.15),
-    0 0 12px rgba(19,38,58,0.20),
-    0 0 30px rgba(19,38,58,0.15),
-    0 15px 35px rgba(19,38,58,0.08),
-    inset 0 1px 0 rgba(255,255,255,0.55)
-  `;
-}}
+      className="relative overflow-hidden rounded-2xl border border-border-subtle bg-surface-charcoal/40 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/40 hover:bg-surface-charcoal/70 hover:shadow-2xl hover:shadow-primary/5 shadow-xl shadow-black/25"
     >
       <div className="p-7 sm:p-8">
         {/* Step number + Icon row */}
         <div className="mb-6 flex items-start justify-between">
           <span
-            className="font-mono text-sm font-bold"
-            style={{ color: '#13263A'}}
+            className="font-mono text-sm font-bold text-primary"
           >
             {stepLabel}
           </span>
 
           {/* Icon container */}
           <div
-            className="flex h-11 w-11 items-center justify-center rounded-xl"
-            style={{
-              background: '#EEF6F2',
-border: '1px solid #C6EAD9',
-            }}
+            className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 border border-primary/20 text-primary"
             aria-hidden
           >
-            <Icon className="h-5 w-5 text-[#13263A]" strokeWidth={1.5} />
+            <Icon className="h-5 w-5" strokeWidth={1.5} />
           </div>
         </div>
 
         {/* Title */}
-        <h3 className="mb-3 font-display text-xl font-bold leading-snug tracking-tight sm:text-2xl" style={{ color: '#13263A' }}>
+        <h3 className="mb-3 font-display text-xl font-bold leading-snug tracking-tight text-white sm:text-2xl">
           {item.title}
         </h3>
 
         {/* Description */}
-        <p className="text-base leading-relaxed text-[#475569]">
+        <p className="text-xs leading-relaxed text-muted-foreground">
           {item.description}
         </p>
 
         {/* Divider */}
         <div
-          className="my-5 h-px w-full"
+          className="my-5 h-px w-full bg-border-subtle/50"
           aria-hidden
-          style={{ background: '#D6E2EA'}}
         />
 
         {/* Deliverables */}
         <ul className="space-y-3">
           {item.deliverables.map((line) => (
-            <li key={line} className="flex items-start gap-3 text-base leading-snug text-[#475569]">
+            <li key={line} className="flex items-start gap-3 text-xs leading-snug text-on-surface-variant">
               <span
-                className="mt-[5px] h-1.5 w-1.5 shrink-0 rounded-full bg-[#6CD99C]"
+                className="mt-[5px] h-1.5 w-1.5 shrink-0 rounded-full bg-electric-teal"
                 aria-hidden
-                style={{ boxShadow: '0 0 5px 1px rgba(108,217,156,0.50)' }}
+                style={{ boxShadow: '0 0 5px 1px rgba(0,245,255,0.50)' }}
               />
               <span>{line}</span>
             </li>

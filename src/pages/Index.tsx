@@ -1,33 +1,33 @@
-import { JsonLd } from "@/components/JsonLd";
-import { Navbar } from "@/components/Navbar";
-import { HeroSection } from "@/components/HeroSection";
-
-import { ServicesSection } from "@/components/ServicesSection";
-import { ProcessSection } from "@/components/ProcessSection";
-import { BenefitsSection } from "@/components/BenefitsSection";
-import { ProjectsSection } from "@/components/ProjectsSection";
-import { ContactSection } from "@/components/ContactSection";
-import { Footer } from "@/components/Footer";
+import { useEffect } from 'react';
+import { Navbar } from '@/components/layout/Navbar';
+import { Footer } from '@/components/layout/Footer';
+import { Hero } from '@/components/home/Hero';
+import { TrustBar } from '@/components/home/TrustBar';
+import { ServicesBento } from '@/components/home/ServicesBento';
+import { ProcessPreview } from '@/components/home/ProcessPreview';
+import { FeaturedWork } from '@/components/home/FeaturedWork';
+import { InternshipCTA } from '@/components/home/InternshipCTA';
+import { FinalCTA } from '@/components/home/FinalCTA';
 
 const Index = () => {
-  return (
-    <>
-      <JsonLd />
-      <a href="#main-content" className="skip-link">
-        Skip to main content
-      </a>
-      <main id="main-content" className="min-h-screen bg-background">
-        <Navbar />
-        <HeroSection showAnnouncementBar />
+  useEffect(() => {
+    document.title = 'TechVistar — Technology-First Growth Partner';
+  }, []);
 
-        <ServicesSection />
-        <ProjectsSection />
-        <ProcessSection />
-        <BenefitsSection />
-        <ContactSection />
-        <Footer />
+  return (
+    <div className="min-h-screen bg-ink">
+      <Navbar />
+      <main id="main-content">
+        <Hero />
+        <TrustBar />
+        <ServicesBento />
+        <ProcessPreview />
+        <FeaturedWork />
+        <InternshipCTA />
+        <FinalCTA />
       </main>
-    </>
+      <Footer />
+    </div>
   );
 };
 

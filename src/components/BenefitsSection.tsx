@@ -1,773 +1,405 @@
-"use client";
+'use client';
 
-import { useRef } from "react";
-import { motion } from "framer-motion";
-import { useAnimatedSection } from "@/hooks/useAnimatedSection";
-import { SiteSection } from "@/components/SiteSection";
-import { SECTION_BENEFITS } from "@/lib/constants";
+import { useEffect, useRef, useState, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useAnimatedSection } from '@/hooks/useAnimatedSection';
+import { SiteSection } from '@/components/SiteSection';
 
-// ─── Card data ────────────────────────────────────────────────────────────────
-const CARDS = [
+// ─── Pillar data ──────────────────────────────────────────────────────────────
+const PILLARS = [
   {
-    pillar: { n: "01", label: "Engineering discipline" },
-    desc: "Version control, environments that mirror production, and repeatable releases—so deploys are boring in the right way.",
-    illustration: "engine",
+    n: '01', abbr: 'ED', title: 'Engineering discipline',
+    desc: 'Version control, environments that mirror production, and repeatable releases—so deploys are boring in the right way.',
+    color: '#00F5FF',
   },
   {
-    pillar: { n: "02", label: "Security & reliability" },
-    desc: "Threat-aware design, sensible defaults, and testing matched to your risk profile, data sensitivity, and compliance needs.",
-    illustration: "radar",
+    n: '02', abbr: 'SR', title: 'Security & reliability',
+    desc: 'Threat-aware design, sensible defaults, and testing matched to your risk profile, data sensitivity, and compliance needs.',
+    color: '#7dd3fc',
   },
   {
-    pillar: { n: "03", label: "Revenue alignment" },
+    n: '03', abbr: 'RA', title: 'Revenue alignment',
     desc: "Shared truth on backlog, demos, funnel metrics, and documentation so sales, marketing, and product agree on what 'done' means.",
-    illustration: "terminal",
+    color: '#c4b5fd',
   },
   {
-    pillar: { n: "04", label: "Quality & handover" },
-    desc: "Test evidence, runbooks, and training so your internal team owns the system after go-live.",
-    illustration: "stack",
+    n: '04', abbr: 'QH', title: 'Quality & handover',
+    desc: 'Test evidence, runbooks, and training so your internal team owns the system after go-live.',
+    color: '#abc7ff',
   },
   {
-    pillar: { n: "05", label: "Transparent terms" },
-    desc: "Effort-based or milestone billing with written assumptions—no surprise line items without prior approval.",
-    illustration: "ledger",
+    n: '05', abbr: 'TT', title: 'Transparent terms',
+    desc: 'Effort-based or milestone billing with written assumptions—no surprise line items without prior approval.',
+    color: '#fb923c',
   },
   {
-    pillar: { n: "06", label: "Full-stack continuity" },
-    desc: "One partner for UI, APIs, data, automation, and docs reduces integration risk and speeds root-cause resolution.",
-    illustration: "web",
+    n: '06', abbr: 'FC', title: 'Full-stack continuity',
+    desc: 'One partner for UI, APIs, data, automation, and docs reduces integration risk and speeds root-cause resolution.',
+    color: '#abc7ff',
   },
 ] as const;
 
-// ─── SVG Illustrations ────────────────────────────────────────────────────────
+type Pillar = (typeof PILLARS)[number];
 
-function EngineIllustration() {
+// ─── Panel ────────────────────────────────────────────────────────────────────
+function PillarPanel({ pillar }: { pillar: Pillar | null }) {
   return (
-    <svg
-      viewBox="0 0 320 200"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="w-full h-full"
-    >
-      {/* Soft background accent */}
-      <circle cx="160" cy="100" r="72" fill="#80E4AA" fillOpacity="0.06" />
-
-      {/* Connecting belt between gears */}
-      <path
-        d="M118 70 Q90 90 100 130"
-        stroke="#9bc2cf"
-        strokeWidth="1.2"
-        fill="none"
-        strokeDasharray="3 4"
-      />
-      <path
-        d="M202 70 Q230 90 220 130"
-        stroke="#9bc2cf"
-        strokeWidth="1.2"
-        fill="none"
-        strokeDasharray="3 4"
-      />
-
-      {/* Small gear top-left */}
-      {(() => {
-        const cx = 95,
-          cy = 58,
-          rOut = 20,
-          rIn = 13,
-          teeth = 8;
-        const pts = Array.from({ length: teeth * 2 }, (_, i) => {
-          const angle = (Math.PI * i) / teeth;
-          const r = i % 2 === 0 ? rOut : rIn;
-          return `${cx + Math.cos(angle) * r},${cy + Math.sin(angle) * r}`;
-        }).join(" ");
-        return (
-          <g>
-            <polygon
-              points={pts}
-              fill="#eef6f8"
-              stroke="#9bc2cf"
-              strokeWidth="1"
-            />
-            <circle
-              cx={cx}
-              cy={cy}
-              r="6"
-              fill="#ffffff"
-              stroke="#9bc2cf"
-              strokeWidth="1"
-            />
-          </g>
-        );
-      })()}
-
-      {/* Small gear bottom-right */}
-      {(() => {
-        const cx = 232,
-          cy = 142,
-          rOut = 17,
-          rIn = 11,
-          teeth = 7;
-        const pts = Array.from({ length: teeth * 2 }, (_, i) => {
-          const angle = (Math.PI * i) / teeth;
-          const r = i % 2 === 0 ? rOut : rIn;
-          return `${cx + Math.cos(angle) * r},${cy + Math.sin(angle) * r}`;
-        }).join(" ");
-        return (
-          <g>
-            <polygon
-              points={pts}
-              fill="#eef6f8"
-              stroke="#9bc2cf"
-              strokeWidth="1"
-            />
-            <circle
-              cx={cx}
-              cy={cy}
-              r="5"
-              fill="#ffffff"
-              stroke="#9bc2cf"
-              strokeWidth="1"
-            />
-          </g>
-        );
-      })()}
-
-      {/* Main large gear, center */}
-      {(() => {
-        const cx = 160,
-          cy = 100,
-          rOut = 46,
-          rIn = 33,
-          teeth = 12;
-        const pts = Array.from({ length: teeth * 2 }, (_, i) => {
-          const angle = (Math.PI * i) / teeth;
-          const r = i % 2 === 0 ? rOut : rIn;
-          return `${cx + Math.cos(angle) * r},${cy + Math.sin(angle) * r}`;
-        }).join(" ");
-        return (
-          <g>
-            <polygon
-              points={pts}
-              fill="#ffffff"
-              stroke="#80E4AA"
-              strokeWidth="1.6"
-            />
-            <circle
-              cx={cx}
-              cy={cy}
-              r="22"
-              fill="none"
-              stroke="#80E4AA"
-              strokeWidth="1.2"
-              strokeOpacity="0.5"
-            />
-            <circle
-              cx={cx}
-              cy={cy}
-              r="9"
-              fill="#80E4AA"
-              fillOpacity="0.25"
-              stroke="#80E4AA"
-              strokeWidth="1.4"
-            />
-          </g>
-        );
-      })()}
-
-      {/* Tick marks radiating from center, like a build/release rhythm */}
-      {Array.from({ length: 16 }).map((_, i) => {
-        const angle = (Math.PI * 2 * i) / 16;
-        const x1 = 160 + Math.cos(angle) * 58;
-        const y1 = 100 + Math.sin(angle) * 58;
-        const x2 = 160 + Math.cos(angle) * 64;
-        const y2 = 100 + Math.sin(angle) * 64;
-        return (
-          <line
-            key={i}
-            x1={x1}
-            y1={y1}
-            x2={x2}
-            y2={y2}
-            stroke="#c3dbe2"
-            strokeWidth="1"
-          />
-        );
-      })}
-    </svg>
-  );
-}
-
-function RadarIllustration() {
-  const axes = 6;
-  const cx = 160,
-    cy = 96,
-    r = 64;
-  const rings = [0.33, 0.58, 0.82, 1];
-  const dataPoints = [0.85, 0.55, 0.75, 0.65, 0.9, 0.7]; // highlighted axis 4 = Security
-
-  const point = (ring: number, i: number) => {
-    const angle = (Math.PI * 2 * i) / axes - Math.PI / 2;
-    return {
-      x: cx + Math.cos(angle) * r * ring,
-      y: cy + Math.sin(angle) * r * ring,
-    };
-  };
-
-  const dataPath =
-    dataPoints
-      .map((v, i) => {
-        const p = point(v, i);
-        return `${i === 0 ? "M" : "L"}${p.x},${p.y}`;
-      })
-      .join(" ") + "Z";
-
-  return (
-    <svg
-      viewBox="0 0 320 192"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="w-full h-full"
-    >
-      {/* Axis labels */}
-      {[
-        "Quality",
-        "Security",
-        "Reliability",
-        "Scope",
-        "Engineering",
-        "Speed",
-      ].map((label, i) => {
-        const angle = (Math.PI * 2 * i) / axes - Math.PI / 2;
-        const lx = cx + Math.cos(angle) * (r + 18);
-        const ly = cy + Math.sin(angle) * (r + 18);
-        return (
-          <text
-            key={i}
-            x={lx}
-            y={ly}
-            textAnchor="middle"
-            dominantBaseline="middle"
-            fontSize="8"
-            fill="#7a9bac"
-            fontFamily="sans-serif"
+    <div className="flex h-full min-h-[360px] w-full max-w-[440px] flex-col justify-center">
+      <AnimatePresence mode="wait">
+        {pillar ? (
+          <motion.div
+            key={pillar.n}
+            initial={{ opacity: 0, x: 18 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -12 }}
+            transition={{ duration: 0.32, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="rounded-2xl border border-border-subtle bg-surface-charcoal/50 backdrop-blur-xl p-10 shadow-2xl shadow-black/35"
           >
-            {label}
-          </text>
-        );
-      })}
-      {/* Rings */}
-      {rings.map((rv, ri) => {
-        const pts = Array.from({ length: axes }, (_, i) => point(rv, i));
-        const d =
-          pts.map((p, i) => `${i === 0 ? "M" : "L"}${p.x},${p.y}`).join(" ") +
-          "Z";
-        return (
-          <path key={ri} d={d} stroke="#c8dae3" strokeWidth="0.8" fill="none" />
-        );
-      })}
-      {/* Axis lines */}
-      {Array.from({ length: axes }, (_, i) => {
-        const tip = point(1, i);
-        return (
-          <line
-            key={i}
-            x1={cx}
-            y1={cy}
-            x2={tip.x}
-            y2={tip.y}
-            stroke="#c8dae3"
-            strokeWidth="0.8"
-          />
-        );
-      })}
-      {/* Data polygon */}
-      <path
-        d={dataPath}
-        fill="#80E4AA"
-        fillOpacity="0.18"
-        stroke="#80E4AA"
-        strokeWidth="1.5"
-      />
-      {/* Highlighted dot on Security axis (index 1) */}
-      {(() => {
-        const p = point(dataPoints[1], 1);
-        return (
-          <>
-            <circle cx={p.x} cy={p.y} r="5" fill="#80E4AA" />
-            <circle cx={p.x} cy={p.y} r="9" fill="#80E4AA" fillOpacity="0.2" />
-            {/* Pill label */}
-            <rect
-              x={p.x + 12}
-              y={p.y - 9}
-              width={84}
-              height={18}
-              rx="9"
-              fill="#13263A"
-            />
-            <text
-              x={p.x + 54}
-              y={p.y + 1}
-              textAnchor="middle"
-              dominantBaseline="middle"
-              fontSize="8"
-              fill="#80E4AA"
-              fontFamily="sans-serif"
-              fontWeight="600"
-            >
-              Revenue alignment
-            </text>
-          </>
-        );
-      })()}
-    </svg>
-  );
-}
-
-function TerminalIllustration() {
-  const steps = [
-    "Step 1",
-    "Step 2",
-    "Step 3",
-    "Step 4",
-    "Step 5",
-    "Step 6",
-    "Step 7",
-  ];
-  return (
-    <svg
-      viewBox="0 0 320 200"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="w-full h-full"
-    >
-      {/* Left panel - light mint */}
-      <rect x="8" y="8" width="118" height="184" rx="8" fill="#e8f5f0" />
-      {steps.map((s, i) => {
-        const active = i === 3;
-        return (
-          <g key={i}>
-            <rect
-              x="14"
-              y={22 + i * 24}
-              width="106"
-              height="18"
-              rx="4"
-              fill={active ? "#80E4AA" : "transparent"}
-            />
-            <text
-              x="26"
-              y={22 + i * 24 + 10}
-              fontSize="8.5"
-              fill={active ? "#0a6640" : "#7a9bac"}
-              fontFamily="sans-serif"
-              fontWeight={active ? "700" : "400"}
-            >
-              {s}
-            </text>
-            {active && (
-              <text
-                x="82"
-                y={22 + i * 24 + 10}
-                fontSize="7.5"
-                fill="#0a6640"
-                fontFamily="sans-serif"
-                fontWeight="600"
-              >
-                Active
-              </text>
-            )}
-          </g>
-        );
-      })}
-      {/* Right panel - dark navy */}
-      <rect x="136" y="8" width="176" height="184" rx="8" fill="#0b1929" />
-      {/* Chart line */}
-      <polyline
-        points="148,170 166,155 184,148 202,138 220,122 238,108 256,90 274,72 292,52"
-        stroke="#80E4AA"
-        strokeWidth="2"
-        fill="none"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      {/* Area fill */}
-      <polygon
-        points="148,170 166,155 184,148 202,138 220,122 238,108 256,90 274,72 292,52 292,180 148,180"
-        fill="#80E4AA"
-        fillOpacity="0.07"
-      />
-      {/* Dot */}
-      <circle cx="274" cy="72" r="4" fill="#80E4AA" />
-      <circle cx="274" cy="72" r="7" fill="#80E4AA" fillOpacity="0.2" />
-      {/* Grid lines */}
-      {[40, 80, 120, 160].map((y, i) => (
-        <line
-          key={i}
-          x1="148"
-          y1={y + 20}
-          x2="300"
-          y2={y + 20}
-          stroke="#ffffff"
-          strokeOpacity="0.05"
-          strokeWidth="0.8"
-        />
-      ))}
-    </svg>
-  );
-}
-
-function StackIllustration() {
-  const layers = [
-    { label: "Security", y: 30, highlight: false },
-    { label: "Alignment", y: 62, highlight: false },
-    { label: "Integration", y: 94, highlight: false },
-    { label: "Quality & handover", y: 126, highlight: true },
-    { label: "Engineering discipline", y: 158, highlight: false },
-    { label: "Infrastructure", y: 190, highlight: false },
-  ];
-
-  // Isometric layer helper
-  const iso = (y: number, highlight: boolean) => {
-    const top = y;
-    const h = 26;
-    const w = 200;
-    const skewX = 30;
-    const skewY = 12;
-    const fillColor = highlight ? "#80E4AA" : "#1a3a52";
-    const strokeColor = highlight ? "#80E4AA" : "#2d5a7a";
-
-    // Top face (parallelogram)
-    const topFace = `M${60},${top} L${60 + w * 0.7},${top - skewY} L${60 + w * 0.7 + skewX},${top - skewY + 10} L${60 + skewX},${top + 10}Z`;
-    // Front face
-    const frontFace = `M${60 + skewX},${top + 10} L${60 + w * 0.7 + skewX},${top - skewY + 10} L${60 + w * 0.7 + skewX},${top - skewY + 10 + h} L${60 + skewX},${top + 10 + h}Z`;
-
-    return {
-      topFace,
-      frontFace,
-      fillColor,
-      strokeColor,
-      highlight,
-      top,
-      skewX,
-      w,
-      skewY,
-      h,
-    };
-  };
-
-  return (
-    <svg
-      viewBox="0 0 320 240"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="w-full h-full"
-    >
-      {/* Dark background */}
-      <rect width="320" height="240" fill="#0b1929" rx="0" />
-      {layers.map((layer, i) => {
-        const {
-          topFace,
-          frontFace,
-          fillColor,
-          strokeColor,
-          highlight,
-          top,
-          skewX,
-          w,
-          skewY,
-          h,
-        } = iso(layer.y, layer.highlight);
-        return (
-          <g key={i}>
-            <path
-              d={frontFace}
-              fill={fillColor}
-              fillOpacity={highlight ? 0.3 : 0.15}
-              stroke={strokeColor}
-              strokeWidth="0.8"
-            />
-            <path
-              d={topFace}
-              fill={fillColor}
-              fillOpacity={highlight ? 0.5 : 0.2}
-              stroke={strokeColor}
-              strokeWidth="0.8"
-            />
-            <text
-              x={60 + skewX + (w * 0.7) / 2}
-              y={top + 4}
-              textAnchor="middle"
-              fontSize={highlight ? "8.5" : "7.5"}
-              fill={highlight ? "#80E4AA" : "#7ec8e3"}
-              fontFamily="sans-serif"
-              fontWeight={highlight ? "700" : "400"}
-            >
-              {layer.label}
-            </text>
-          </g>
-        );
-      })}
-    </svg>
-  );
-}
-
-function LedgerIllustration() {
-  const rows = [
-    { label: "Discovery sprint", amount: "$4,200", done: true },
-    { label: "API integration", amount: "$6,800", done: true },
-    { label: "QA & handover", amount: "$3,100", done: false },
-    { label: "Change request #1", amount: "$0", done: false, flagged: true },
-  ];
-  return (
-    <svg
-      viewBox="0 0 320 200"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="w-full h-full"
-    >
-      <rect
-        x="20"
-        y="14"
-        width="280"
-        height="118"
-        rx="10"
-        fill="#ffffff"
-        stroke="#dce8ec"
-        strokeWidth="1"
-      />
-      <line x1="20" y1="42" x2="300" y2="42" stroke="#e2ecef" strokeWidth="1" />
-      <text
-        x="34"
-        y="30"
-        fontSize="9"
-        fontWeight="700"
-        fill="#13263A"
-        fontFamily="sans-serif"
-      >
-        Milestone ledger
-      </text>
-      {rows.map((row, i) => {
-        const y = 56 + i * 22;
-        return (
-          <g key={i}>
-            <circle
-              cx="38"
-              cy={y}
-              r="4.5"
-              fill={row.flagged ? "#fcd34d" : row.done ? "#80E4AA" : "#dce8ec"}
-            />
-            {row.done && !row.flagged && (
-              <path
-                d={`M35,${y} l2,2 l4,-5`}
-                stroke="#0a6640"
-                strokeWidth="1.2"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            )}
-            <text
-              x="52"
-              y={y + 3}
-              fontSize="8.5"
-              fill="#3a5060"
-              fontFamily="sans-serif"
-            >
-              {row.label}
-            </text>
-            <text
-              x="288"
-              y={y + 3}
-              fontSize="8.5"
-              fontWeight="600"
-              textAnchor="end"
-              fill={row.flagged ? "#b88a00" : "#13263A"}
-              fontFamily="sans-serif"
-            >
-              {row.amount}
-            </text>
-            {row.flagged && (
-              <rect
-                x="190"
-                y={y - 8}
-                width="92"
-                height="15"
-                rx="7.5"
-                fill="#fdf3d7"
-              />
-            )}
-            {row.flagged && (
-              <text
-                x="236"
-                y={y + 3}
-                fontSize="7"
-                fontWeight="600"
-                textAnchor="middle"
-                fill="#b88a00"
-                fontFamily="sans-serif"
-              >
-                Needs approval
-              </text>
-            )}
-          </g>
-        );
-      })}
-    </svg>
-  );
-}
-
-function WebIllustration() {
-  // Central node with surrounding connected nodes representing full-stack continuity
-  const center = { x: 160, y: 100 };
-  const nodes = [
-    { x: 60, y: 50, label: "UI" },
-    { x: 60, y: 150, label: "APIs" },
-    { x: 160, y: 30, label: "Data" },
-    { x: 260, y: 50, label: "Automation" },
-    { x: 260, y: 150, label: "Docs" },
-    { x: 160, y: 170, label: "Infra" },
-  ];
-  return (
-    <svg
-      viewBox="0 0 320 200"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="w-full h-full"
-    >
-      {nodes.map((n, i) => (
-        <line
-          key={i}
-          x1={center.x}
-          y1={center.y}
-          x2={n.x}
-          y2={n.y}
-          stroke="#80E4AA"
-          strokeWidth="1.2"
-          strokeOpacity="0.5"
-        />
-      ))}
-      {/* connect adjacent outer nodes lightly */}
-      {nodes.map((n, i) => {
-        const next = nodes[(i + 1) % nodes.length];
-        return (
-          <line
-            key={`o${i}`}
-            x1={n.x}
-            y1={n.y}
-            x2={next.x}
-            y2={next.y}
-            stroke="#b0cdd8"
-            strokeWidth="0.8"
-            strokeOpacity="0.4"
-          />
-        );
-      })}
-      {/* outer nodes */}
-      {nodes.map((n, i) => (
-        <g key={`n${i}`}>
-          <circle
-            cx={n.x}
-            cy={n.y}
-            r="14"
-            fill="#ffffff"
-            stroke="#80E4AA"
-            strokeWidth="1.3"
-          />
-          <text
-            x={n.x}
-            y={n.y + 3}
-            fontSize="7"
-            textAnchor="middle"
-            fill="#13263A"
-            fontFamily="sans-serif"
-            fontWeight="600"
+            <div className="mb-2 flex items-center gap-2">
+              <span className="font-mono text-xs font-semibold tracking-widest text-primary">
+                Pillar {pillar.n}
+              </span>
+            </div>
+            <div className="mt-1 mb-3 h-[3px] w-9 rounded-full" style={{ background: pillar.color }} />
+            <h3 className="mb-3 text-[1.35rem] font-bold leading-snug text-white">
+              {pillar.title}
+            </h3>
+            <p className="text-sm leading-relaxed text-muted-foreground">{pillar.desc}</p>
+          </motion.div>
+        ) : (
+          <motion.div
+            key="empty"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="rounded-2xl border border-dashed border-border-subtle bg-surface-charcoal/20 p-6 text-center"
           >
-            {n.label}
-          </text>
-        </g>
-      ))}
-      {/* center node */}
-      <circle
-        cx={center.x}
-        cy={center.y}
-        r="22"
-        fill="#80E4AA"
-        fillOpacity="0.15"
-        stroke="#80E4AA"
-        strokeWidth="1.5"
-      />
-      <circle cx={center.x} cy={center.y} r="9" fill="#80E4AA" />
-      <text
-        x={center.x}
-        y={center.y + 36}
-        fontSize="8"
-        textAnchor="middle"
-        fill="#4a6070"
-        fontFamily="sans-serif"
-      >
-        One partner
-      </text>
-    </svg>
+            <p className="text-sm text-muted-foreground">
+              Click a label or face to explore each pillar
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }
 
-// ─── Card ─────────────────────────────────────────────────────────────────────
-function BenefitCard({
-  card,
-  delay,
-}: {
-  card: (typeof CARDS)[number];
-  delay: number;
-}) {
-  const { ref, isInView } = useAnimatedSection();
+// ─── 3D Canvas + floating HTML labels ────────────────────────────────────────
+const SIZE = 560; // canvas size in px
+
+function Scene({ onPillarSelect }: { onPillarSelect: (i: number) => void }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  // One ref per label pill — we update them directly in rAF, no React state
+  const labelRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  const stateRef = useRef({
+    isDragging: false,
+    prevX: 0,
+    prevY: 0,
+    velX: 0,
+    velY: 0,
+    rotX: 0.3,
+    rotY: 0,
+    t: 0,
+    animId: 0,
+  });
+
+  const sceneRef = useRef<{
+    THREE: typeof import('three') | null;
+    renderer: import('three').WebGLRenderer | null;
+    scene: import('three').Scene | null;
+    camera: import('three').PerspectiveCamera | null;
+    mesh: import('three').Mesh | null;
+    wire: import('three').Mesh | null;
+    glow: import('three').Mesh | null;
+    vertexPositions: import('three').Vector3[];
+  }>({
+    THREE: null,
+    renderer: null,
+    scene: null,
+    camera: null,
+    mesh: null,
+    wire: null,
+    glow: null,
+    vertexPositions: [],
+  });
+
+  const onPillarSelectRef = useRef(onPillarSelect);
+  onPillarSelectRef.current = onPillarSelect;
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const animationState = stateRef.current;
+    const sceneState = sceneRef.current;
+    let cancelled = false;
+
+    async function init() {
+      const THREE = (await import('three')).default ?? (await import('three'));
+      if (cancelled || !canvas) return;
+
+      const s = sceneState;
+      s.THREE = THREE;
+
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setSize(SIZE, SIZE);
+      renderer.setClearColor(0x000000, 0);
+      s.renderer = renderer;
+
+      const scene = new THREE.Scene();
+      s.scene = scene;
+      const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+      camera.position.set(0, 0, 5.5);
+      s.camera = camera;
+
+      // Lights
+      scene.add(new THREE.AmbientLight(0xffffff, 0.35));
+      const d1 = new THREE.DirectionalLight(0xffffff, 1.8);
+      d1.position.set(3, 4, 3);
+      scene.add(d1);
+      const d2 = new THREE.DirectionalLight(0xabc7ff, 1.2); // primary blue-grey
+      d2.position.set(-3, -2, 2);
+      scene.add(d2);
+      const d3 = new THREE.DirectionalLight(0x00F5FF, 0.8); // electric teal
+      d3.position.set(0, -4, -2);
+      scene.add(d3);
+
+      // Main icosahedron — glassy electric blue
+      const geo = new THREE.IcosahedronGeometry(1.65, 0);
+      const mat = new THREE.MeshPhongMaterial({
+        color: 0x0071e3,
+        emissive: 0x002c5c,
+        emissiveIntensity: 0.2,
+        shininess: 180,
+        specular: 0xffffff,
+        transparent: true,
+        opacity: 0.22,
+        side: THREE.DoubleSide,
+        flatShading: true,
+      });
+      const mesh = new THREE.Mesh(geo, mat);
+      scene.add(mesh);
+      s.mesh = mesh;
+
+      // Wireframe — electric teal edges
+      const wireGeo = new THREE.IcosahedronGeometry(1.68, 0);
+      const wireMat = new THREE.MeshBasicMaterial({
+        color: 0x00F5FF,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.45,
+      });
+      const wire = new THREE.Mesh(wireGeo, wireMat);
+      scene.add(wire);
+      s.wire = wire;
+
+
+
+
+      // ── Pick 6 well-separated icosahedron vertices ────────────────────────
+      const posAttr = geo.attributes.position;
+      const seen = new Map<string, THREE.Vector3>();
+      for (let i = 0; i < posAttr.count; i++) {
+        const v = new THREE.Vector3().fromBufferAttribute(posAttr, i);
+        const key = `${v.x.toFixed(3)},${v.y.toFixed(3)},${v.z.toFixed(3)}`;
+        if (!seen.has(key)) seen.set(key, v);
+      }
+      const unique = Array.from(seen.values());
+      const picked: THREE.Vector3[] = [unique[0]];
+      while (picked.length < 6) {
+        let best: THREE.Vector3 | null = null;
+        let bestDist = -Infinity;
+        for (const v of unique) {
+          const minD = Math.min(...picked.map(p => p.distanceTo(v)));
+          if (minD > bestDist) { bestDist = minD; best = v; }
+        }
+        if (best) picked.push(best);
+      }
+      s.vertexPositions = picked;
+
+      // ── Animation loop — update DOM labels directly, no React setState ───
+      const tmpVec = new THREE.Vector3();
+
+      function animate() {
+        const st = stateRef.current;
+        st.animId = requestAnimationFrame(animate);
+        st.t += 0.008;
+
+        if (!st.isDragging) {
+          st.velX *= 0.96;
+          st.velY *= 0.96;
+          st.rotY += 0.003 + st.velX;
+          st.rotX += 0.001 + st.velY;
+        }
+
+        if (s.mesh) { s.mesh.rotation.y = st.rotY; s.mesh.rotation.x = st.rotX; }
+        if (s.wire) { s.wire.rotation.y = st.rotY; s.wire.rotation.x = st.rotX; }
+
+
+        // Project each vertex → canvas px → update pill DOM directly
+        if (s.mesh && s.camera && s.vertexPositions.length) {
+          s.vertexPositions.forEach((localPos, idx) => {
+            const el = labelRefs.current[idx];
+            if (!el) return;
+
+            tmpVec.copy(localPos).applyMatrix4(s.mesh!.matrixWorld);
+            const ndc = tmpVec.clone().project(s.camera!);
+
+            const x = (ndc.x * 0.5 + 0.5) * SIZE;
+            const y = (-ndc.y * 0.5 + 0.5) * SIZE;
+            const depth = ndc.z; // –1 = front, +1 = back
+
+            // Depth-based visual cues
+            const t = (depth + 1) / 2;            // 0 front → 1 back
+            const opacity = Math.max(0.3, 1 - t * 0.6);
+            const scale = Math.max(0.8, 1 - t * 0.15);
+            const zIndex = Math.round((1 - t) * 20);
+
+            el.style.left = `${x}px`;
+            el.style.top = `${y}px`;
+            el.style.transform = `translate(-50%, -50%) scale(${scale})`;
+            el.style.opacity = String(opacity);
+            el.style.zIndex = String(zIndex);
+            el.style.display = depth < 1.05 ? 'flex' : 'none';
+          });
+        }
+
+        renderer.render(scene, camera);
+      }
+      animate();
+    }
+
+    init();
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(animationState.animId);
+      sceneState.renderer?.dispose();
+    };
+  }, []);
+
+  // ── Pointer / touch handlers ──────────────────────────────────────────────
+  const onMouseDown = useCallback((e: React.MouseEvent) => {
+    const st = stateRef.current;
+    st.isDragging = true; st.prevX = e.clientX; st.prevY = e.clientY;
+    st.velX = 0; st.velY = 0;
+  }, []);
+
+  const onMouseMove = useCallback((e: React.MouseEvent) => {
+    const st = stateRef.current;
+    if (!st.isDragging) return;
+    const dx = e.clientX - st.prevX, dy = e.clientY - st.prevY;
+    st.velX = dx * 0.012; st.velY = dy * 0.012;
+    st.rotY += st.velX; st.rotX += st.velY;
+    st.prevX = e.clientX; st.prevY = e.clientY;
+  }, []);
+
+  const onMouseUp = useCallback(() => { stateRef.current.isDragging = false; }, []);
+
+  const onTouchStart = useCallback((e: React.TouchEvent) => {
+    const t = e.touches[0], st = stateRef.current;
+    st.isDragging = true; st.prevX = t.clientX; st.prevY = t.clientY;
+    st.velX = 0; st.velY = 0;
+  }, []);
+
+  const onTouchMove = useCallback((e: React.TouchEvent) => {
+    e.preventDefault();
+    const t = e.touches[0], st = stateRef.current;
+    if (!st.isDragging) return;
+    const dx = t.clientX - st.prevX, dy = t.clientY - st.prevY;
+    st.velX = dx * 0.012; st.velY = dy * 0.012;
+    st.rotY += st.velX; st.rotX += st.velY;
+    st.prevX = t.clientX; st.prevY = t.clientY;
+  }, []);
+
+  const onTouchEnd = useCallback(() => { stateRef.current.isDragging = false; }, []);
+
+  const onClick = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
+    const s = sceneRef.current;
+    if (!s.THREE || !s.camera || !s.mesh) return;
+    const THREE = s.THREE;
+    const rect = (e.target as HTMLCanvasElement).getBoundingClientRect();
+    const mouse = new THREE.Vector2(
+      ((e.clientX - rect.left) / SIZE) * 2 - 1,
+      -((e.clientY - rect.top) / SIZE) * 2 + 1,
+    );
+    const ray = new THREE.Raycaster();
+    ray.setFromCamera(mouse, s.camera);
+    const hits = ray.intersectObject(s.mesh);
+    if (hits.length) {
+      const normal = hits[0].face!.normal.clone().applyQuaternion(s.mesh.quaternion);
+      let best = 0, bDot = -Infinity;
+      s.vertexPositions.forEach((vp, i) => {
+        const d = vp.clone().normalize().dot(normal);
+        if (d > bDot) { bDot = d; best = i; }
+      });
+      if (bDot > 0.1) onPillarSelectRef.current(best);
+    }
+  }, []);
 
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 24 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-      transition={{ duration: 0.5, delay, ease: [0.25, 0.46, 0.45, 0.94] }}
-      className="flex flex-col rounded-2xl bg-white shadow-[0_4px_24px_-8px_rgba(19,38,58,0.1)] border border-[#e2ecef] overflow-hidden"
-    >
-      {/* Card header */}
-      <div className="flex items-center gap-2.5 px-5 pt-5 pb-2">
-        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#EAF8EF] font-mono text-[11px] font-bold text-[#0a6640]">
-          {card.pillar.n}
-        </span>
-        <p className="text-sm font-bold leading-tight text-[#13263A]">
-          {card.pillar.label}
-        </p>
-      </div>
-
-      {/* Illustration area */}
+    <div className="relative flex-shrink-0" style={{ width: SIZE, height: SIZE }}>
+      {/* Dark background card behind the shape */}
       <div
-        className="relative mx-3 rounded-xl overflow-hidden flex-1"
-        style={{
-          minHeight: 200,
-          background:
-            card.illustration === "stack" || card.illustration === "terminal"
-              ? "#0b1929"
-              : "#f0f7f9",
-        }}
-      >
-        {card.illustration === "engine" && <EngineIllustration />}
-        {card.illustration === "radar" && <RadarIllustration />}
-        {card.illustration === "terminal" && <TerminalIllustration />}
-        {card.illustration === "stack" && <StackIllustration />}
-        {card.illustration === "ledger" && <LedgerIllustration />}
-        {card.illustration === "web" && <WebIllustration />}
-      </div>
+        className="absolute inset-0 rounded-3xl bg-surface-charcoal/30 border border-border-subtle shadow-xl shadow-black/25"
+      />
+      <canvas
+        ref={canvasRef}
+        width={SIZE}
+        height={SIZE}
+        className="relative cursor-grab active:cursor-grabbing rounded-3xl"
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={onMouseUp}
+        onMouseLeave={onMouseUp}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+        onClick={onClick}
+      />
 
-      {/* Bottom padding */}
-      <div className="h-4" />
-    </motion.div>
+      {/* Floating pills — positioned by rAF via direct DOM refs */}
+      {PILLARS.map((p, i) => (
+        <button
+          key={p.n}
+          ref={el => { labelRefs.current[i] = el; }}
+          onClick={() => onPillarSelectRef.current(i)}
+          style={{
+            position: 'absolute',
+            display: 'none',           // rAF sets to 'flex' once coords arrive
+            alignItems: 'center',
+            gap: '6px',
+            background: 'rgba(18,20,23,0.9)',
+            border: `1px solid ${p.color}99`,
+            borderRadius: '999px',
+            padding: '5px 12px',
+            cursor: 'pointer',
+            whiteSpace: 'nowrap',
+            backdropFilter: 'blur(6px)',
+            boxShadow: `0 0 10px ${p.color}22`,
+          }}
+        >
+          <span style={{ fontSize: 11, fontWeight: 600, color: p.color, lineHeight: 1, fontFamily: 'monospace' }}>
+            {p.title}
+          </span>
+        </button>
+      ))}
+
+      {/* Hint */}
+      <div
+        className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full px-3 py-1 text-[10px] font-mono border border-border-subtle/50 bg-background/80 text-muted-foreground"
+      >
+        ✦ Click &amp; drag to rotate
+      </div>
+    </div>
   );
 }
 
 // ─── Main export ──────────────────────────────────────────────────────────────
 export const BenefitsSection = () => {
   const { ref, isInView } = useAnimatedSection();
+  const [activePillar, setActivePillar] = useState<number | null>(null);
+  const pillar = activePillar !== null ? PILLARS[activePillar] : null;
 
   return (
     <SiteSection
@@ -775,8 +407,11 @@ export const BenefitsSection = () => {
       id="benefits"
       variant="muted"
       aria-labelledby="benefits-heading"
-      className="bg-[#E1EBF0]"
+      className="relative overflow-hidden bg-background border-b border-border-subtle"
     >
+      {/* Grid background */}
+      <div className="pointer-events-none absolute inset-0 bg-grid-pattern-dark opacity-[0.15]" />
+
       <div className="container-custom relative z-10">
         {/* Header */}
         <motion.div
@@ -785,32 +420,48 @@ export const BenefitsSection = () => {
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
-          {SECTION_BENEFITS.tag && (
-            <p className="mb-3 font-mono text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[#6CD99C]">
-              {SECTION_BENEFITS.tag}
-            </p>
-          )}
+          <p className="mb-3 font-mono text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary">
+            Benefits
+          </p>
           <h2
             id="benefits-heading"
-            className="mx-auto mb-4 max-w-2xl font-display text-4xl font-bold leading-tight tracking-tight text-[#13263A] sm:text-5xl"
+            className="mx-auto mb-4 max-w-2xl font-display text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl"
           >
-            Why teams choose{" "}
-            <span className="text-[#6CD99C]">technology-first growth</span>
+            Why teams choose{' '}
+            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">technology-first growth</span>
           </h2>
-          <p className="mx-auto max-w-2xl text-base leading-relaxed text-[#475569]">
-            Clear scope, disciplined engineering, marketing and ops alignment,
-            and communication leadership can audit—so pipeline, efficiency, and
-            delivery stay aligned from kickoff to handover.
+          <p className="mx-auto max-w-2xl text-sm leading-relaxed text-muted-foreground">
+            Clear scope, disciplined engineering, marketing and ops alignment, and
+            communication leadership can audit—so pipeline, efficiency, and delivery
+            stay aligned from kickoff to handover.
           </p>
         </motion.div>
 
-        {/* 6-card grid */}
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
-          {CARDS.map((card, i) => (
-            <BenefitCard key={card.pillar.n} card={card} delay={i * 0.08} />
-          ))}
-        </div>
+        {/* 3D stage — no background box, just the canvas floating on the page */}
+        <motion.div
+          className="mx-auto mb-6 flex max-w-6xl flex-col items-center gap-10 sm:flex-row sm:items-center sm:justify-center"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.6, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
+        >
+          <Scene onPillarSelect={setActivePillar} />
+          <PillarPanel pillar={pillar} />
+        </motion.div>
       </div>
+
+      {/* Section divider */}
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          bottom: 0,
+          left: "5%",
+          right: "5%",
+          height: "1px",
+          background:
+            "linear-gradient(to right, transparent, rgba(255,255,255,0.08) 20%, rgba(255,255,255,0.08) 80%, transparent)",
+        }}
+      />
     </SiteSection>
   );
 };

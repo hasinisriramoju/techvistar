@@ -30,18 +30,26 @@ export const InternshipProgramSection = () => {
       ref={ref}
       id="internship"
       aria-labelledby="internship-heading"
-      className="relative overflow-hidden border-b border-slate-200/90 bg-gradient-to-b from-slate-50 via-white to-slate-50/80 py-16 md:py-24 lg:py-28"
+      className="relative overflow-hidden border-b border-border-subtle bg-background py-16 md:py-24 lg:py-28"
     >
+      {/* Grid background */}
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.4] [background-image:linear-gradient(hsl(var(--border)_/_0.9)_1px,transparent_1px),linear-gradient(90deg,hsl(var(--border)_/_0.9)_1px,transparent_1px)] [background-size:48px_48px]"
+        className="pointer-events-none absolute inset-0 opacity-[0.15]"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px)",
+          backgroundSize: "48px 48px",
+        }}
+        aria-hidden
+      />
+      
+      {/* Decorative ambient gradients */}
+      <div
+        className="pointer-events-none absolute -right-[min(42%,360px)] top-[8%] h-[min(80vw,440px)] w-[min(80vw,440px)] rounded-full bg-primary/[0.04] blur-[100px]"
         aria-hidden
       />
       <div
-        className="pointer-events-none absolute -right-[min(42%,360px)] top-[8%] h-[min(80vw,440px)] w-[min(80vw,440px)] rounded-full bg-primary/[0.06] blur-[100px]"
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none absolute -left-[min(38%,300px)] bottom-[5%] h-[min(65vw,380px)] w-[min(65vw,380px)] rounded-full bg-sky-500/[0.05] blur-[90px]"
+        className="pointer-events-none absolute -left-[min(38%,300px)] bottom-[5%] h-[min(65vw,380px)] w-[min(65vw,380px)] rounded-full bg-sky-500/[0.03] blur-[90px]"
         aria-hidden
       />
 
@@ -53,26 +61,25 @@ export const InternshipProgramSection = () => {
           transition={{ duration: 0.5, ease }}
           className="mx-auto mb-10 max-w-3xl text-center md:mb-12"
         >
-          <div className="mb-5 flex flex-col items-center gap-3">
-            <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.22em] text-primary">
+          <div className="mb-4 flex flex-col items-center gap-3">
+            <span className="text-[0.6875rem] font-mono font-semibold uppercase tracking-[0.22em] text-primary">
               {INTERNSHIP_PROGRAM.eyebrow}
             </span>
-            <span className="h-px w-12 rounded-full bg-primary/35" aria-hidden />
           </div>
           <Badge
-            variant="secondary"
-            className="mb-5 border border-slate-200 bg-white/90 text-[0.625rem] font-semibold uppercase tracking-[0.16em] text-slate-600 shadow-sm"
+            variant="outline"
+            className="mb-5 border border-border-subtle bg-surface-charcoal/80 text-[0.625rem] font-mono font-semibold uppercase tracking-[0.16em] text-primary"
           >
             Now enrolling — new batch
           </Badge>
           <h2
             id="internship-heading"
-            className="font-display text-[1.75rem] font-bold leading-[1.15] tracking-tight text-slate-900 sm:text-3xl md:text-4xl lg:text-[2.5rem]"
+            className="font-display text-[1.75rem] font-bold leading-[1.15] tracking-tight text-white sm:text-3xl md:text-4xl lg:text-[2.5rem]"
           >
             {INTERNSHIP_PROGRAM.title}{' '}
-            <span className="gradient-text">{INTERNSHIP_PROGRAM.titleAccent}</span>
+            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">{INTERNSHIP_PROGRAM.titleAccent}</span>
           </h2>
-          <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-slate-600 md:text-lg">
+          <p className="mx-auto mt-6 max-w-2xl text-sm leading-relaxed text-muted-foreground">
             {INTERNSHIP_PROGRAM.subtitle}
           </p>
         </motion.div>
@@ -82,7 +89,7 @@ export const InternshipProgramSection = () => {
           initial={{ opacity: 0, y: 14 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.45, delay: 0.06, ease }}
-          className="mx-auto mb-12 grid max-w-5xl grid-cols-2 gap-px overflow-hidden rounded-2xl border border-slate-200/95 bg-slate-200/80 shadow-sm md:grid-cols-4"
+          className="mx-auto mb-12 grid max-w-5xl grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border-subtle bg-border-subtle/40 shadow-xl shadow-black/20 md:grid-cols-4"
           role="list"
           aria-label="Program overview"
         >
@@ -90,38 +97,38 @@ export const InternshipProgramSection = () => {
             <div
               key={stat.label}
               role="listitem"
-              className="bg-white px-4 py-5 text-center sm:px-5 sm:py-6"
+              className="bg-surface-charcoal/40 px-4 py-5 text-center sm:px-5 sm:py-6"
             >
-              <p className="font-display text-lg font-bold tabular-nums tracking-tight text-slate-900 sm:text-xl">
+              <p className="font-display text-lg font-bold tabular-nums tracking-tight text-white sm:text-xl">
                 {stat.value}
               </p>
-              <p className="mt-1.5 text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-slate-500">
+              <p className="mt-1.5 text-[0.6875rem] font-mono font-semibold uppercase tracking-[0.14em] text-muted-foreground/60">
                 {stat.label}
               </p>
             </div>
           ))}
         </motion.div>
 
-        <div className="mx-auto mb-8 flex items-center justify-center gap-2 text-slate-500">
+        <div className="mx-auto mb-8 flex items-center justify-center gap-2 text-muted-foreground/60">
           <Layers className="h-4 w-4 text-primary" aria-hidden />
-          <span className="text-sm font-semibold tracking-tight text-slate-700">Curriculum structure</span>
-          <Separator className="hidden max-w-[120px] flex-1 sm:block" />
+          <span className="text-xs font-semibold tracking-tight uppercase font-mono text-muted-foreground">Curriculum structure</span>
+          <Separator className="hidden max-w-[120px] flex-1 bg-border-subtle sm:block" />
         </div>
 
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-14 lg:items-start">
           {/* Phases + timeline */}
           <div className="space-y-4 lg:col-span-8">
-            <div className="flex items-center justify-between gap-4 border-b border-slate-200 pb-4">
-              <h3 className="flex items-center gap-2 font-display text-xs font-bold uppercase tracking-[0.18em] text-slate-500">
+            <div className="flex items-center justify-between gap-4 border-b border-border-subtle pb-4">
+              <h3 className="flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">
                 <BookOpen className="h-4 w-4 text-primary" aria-hidden />
                 Three-phase syllabus
               </h3>
-              <span className="hidden text-xs text-slate-400 sm:inline">Week-by-week progression</span>
+              <span className="hidden text-[10px] font-mono uppercase text-muted-foreground/50 sm:inline">Week-by-week progression</span>
             </div>
 
             <div className="relative space-y-6 pl-0 sm:pl-2">
               <div
-                className="pointer-events-none absolute left-[1.125rem] top-10 hidden h-[calc(100%-2.5rem)] w-px bg-gradient-to-b from-slate-200 via-slate-200 to-transparent sm:left-[1.625rem] sm:block"
+                className="pointer-events-none absolute left-[1.125rem] top-10 hidden h-[calc(100%-2.5rem)] w-px bg-gradient-to-b from-border-subtle via-border-subtle to-transparent sm:left-[1.625rem] sm:block"
                 aria-hidden
               />
 
@@ -136,10 +143,10 @@ export const InternshipProgramSection = () => {
                   <div className="relative z-[1] flex shrink-0 flex-col items-center pt-1">
                     <div
                       className={cn(
-                        'flex h-9 w-9 items-center justify-center rounded-full border-2 border-white font-display text-sm font-bold shadow-md sm:h-10 sm:w-10',
-                        pi === 0 && 'bg-sky-600 text-white ring-2 ring-sky-200',
-                        pi === 1 && 'bg-primary text-primary-foreground ring-2 ring-primary/25',
-                        pi === 2 && 'bg-emerald-700 text-white ring-2 ring-emerald-200'
+                        'flex h-9 w-9 items-center justify-center rounded-full border border-border-subtle font-display text-sm font-bold shadow-md sm:h-10 sm:w-10 bg-surface-charcoal text-white',
+                        pi === 0 && 'ring-2 ring-primary/20 text-primary',
+                        pi === 1 && 'ring-2 ring-secondary/20 text-secondary',
+                        pi === 2 && 'ring-2 ring-electric-teal/20 text-electric-teal'
                       )}
                       aria-hidden
                     >
@@ -149,38 +156,37 @@ export const InternshipProgramSection = () => {
 
                   <div
                     className={cn(
-                      'min-w-0 flex-1 overflow-hidden rounded-2xl border border-slate-200/95 bg-white shadow-[0_8px_36px_-18px_rgba(15,23,42,0.1)]',
-                      'ring-1 ring-slate-950/[0.025]'
+                      'min-w-0 flex-1 overflow-hidden rounded-2xl border border-border-subtle bg-surface-charcoal/30 shadow-xl shadow-black/15'
                     )}
                   >
-                    <div className="flex flex-wrap items-start justify-between gap-3 border-b border-slate-100 bg-slate-50/50 px-5 py-4 sm:px-6">
+                    <div className="flex flex-wrap items-start justify-between gap-3 border-b border-border-subtle bg-surface-charcoal/50 px-5 py-4 sm:px-6">
                       <div>
                         <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-primary">
                           {phase.monthLabel}
                         </p>
-                        <h4 className="mt-1 font-display text-lg font-bold tracking-tight text-slate-900 md:text-xl">
+                        <h4 className="mt-1 font-display text-lg font-bold tracking-tight text-white md:text-xl">
                           {phase.title}
                         </h4>
                       </div>
-                      <Badge variant="outline" className="shrink-0 border-slate-200 bg-white text-slate-700">
+                      <Badge variant="outline" className="shrink-0 border-border-subtle bg-background text-muted-foreground text-[10px]">
                         Phase {pi + 1} of {phaseCount}
                       </Badge>
                     </div>
 
                     <div className="p-5 sm:p-6">
-                      <p className="mb-4 text-[0.6875rem] font-semibold uppercase tracking-[0.12em] text-slate-400">
+                      <p className="mb-4 text-[0.6875rem] font-mono font-semibold uppercase tracking-[0.12em] text-muted-foreground/50">
                         Weekly focus
                       </p>
                       <ul className="grid gap-2 sm:grid-cols-2 sm:gap-3">
                         {phase.weeks.map((w) => (
                           <li
                             key={w.label}
-                            className="flex gap-3 rounded-xl border border-slate-100 bg-slate-50/40 px-3 py-3 transition-colors hover:border-slate-200 hover:bg-white sm:px-3.5"
+                            className="flex gap-3 rounded-xl border border-border-subtle/50 bg-surface-charcoal/20 px-3 py-3 transition-colors hover:border-border-subtle hover:bg-surface-charcoal/50 sm:px-3.5"
                           >
-                            <span className="mt-0.5 flex h-7 min-w-[3.25rem] items-center justify-center self-start rounded-md bg-white font-mono text-[9px] font-bold uppercase tracking-wide text-primary shadow-sm ring-1 ring-primary/10 sm:min-w-[3.5rem] sm:text-[10px]">
+                            <span className="mt-0.5 flex h-7 min-w-[3.25rem] items-center justify-center self-start rounded bg-primary/10 font-mono text-[9px] font-bold uppercase tracking-wide text-primary border border-primary/20 sm:min-w-[3.5rem] sm:text-[10px]">
                               {w.label.replace('Week ', 'W')}
                             </span>
-                            <span className="text-sm leading-snug text-slate-700">{w.detail}</span>
+                            <span className="text-xs leading-snug text-muted-foreground">{w.detail}</span>
                           </li>
                         ))}
                       </ul>
@@ -197,16 +203,16 @@ export const InternshipProgramSection = () => {
               initial={{ opacity: 0, y: 14 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.45, delay: 0.12, ease }}
-              className="rounded-2xl border border-slate-200/95 bg-white p-6 shadow-sm"
+              className="rounded-2xl border border-border-subtle bg-surface-charcoal/40 p-6 shadow-xl"
             >
-              <h3 className="mb-4 flex items-center gap-2 border-b border-slate-100 pb-3 font-display text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
-                <Sparkles className="h-4 w-4 text-amber-500" aria-hidden />
+              <h3 className="mb-4 flex items-center gap-2 border-b border-border-subtle pb-3 font-mono text-xs font-bold uppercase tracking-[0.16em] text-muted-foreground">
+                <Sparkles className="h-4 w-4 text-amber-400" aria-hidden />
                 Program highlights
               </h3>
               <ul className="space-y-3.5">
                 {INTERNSHIP_PROGRAM.highlights.map((item) => (
-                  <li key={item} className="flex gap-3 text-sm leading-relaxed text-slate-700">
-                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                  <li key={item} className="flex gap-3 text-xs leading-relaxed text-muted-foreground">
+                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary border border-primary/10">
                       <Check className="h-3 w-3 stroke-[3]" aria-hidden />
                     </span>
                     {item}
@@ -219,15 +225,15 @@ export const InternshipProgramSection = () => {
               initial={{ opacity: 0, y: 14 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.45, delay: 0.18, ease }}
-              className="rounded-2xl border border-slate-200/95 bg-white p-6 shadow-sm"
+              className="rounded-2xl border border-border-subtle bg-surface-charcoal/40 p-6 shadow-xl"
             >
-              <h3 className="mb-4 flex items-center gap-2 border-b border-slate-100 pb-3 font-display text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
-                <Users className="h-4 w-4 text-sky-600" aria-hidden />
+              <h3 className="mb-4 flex items-center gap-2 border-b border-border-subtle pb-3 font-mono text-xs font-bold uppercase tracking-[0.16em] text-muted-foreground">
+                <Users className="h-4 w-4 text-primary" aria-hidden />
                 Who should apply
               </h3>
               <ul className="space-y-2.5">
                 {INTERNSHIP_PROGRAM.audience.map((item) => (
-                  <li key={item} className="flex gap-2.5 text-sm leading-snug text-slate-700">
+                  <li key={item} className="flex gap-2.5 text-xs leading-snug text-muted-foreground">
                     <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-primary" aria-hidden />
                     {item}
                   </li>
@@ -239,16 +245,16 @@ export const InternshipProgramSection = () => {
               initial={{ opacity: 0, y: 14 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.45, delay: 0.24, ease }}
-              className="rounded-2xl border border-slate-900/10 bg-gradient-to-br from-slate-900 via-slate-900 to-emerald-950 p-6 text-white shadow-lg"
+              className="rounded-2xl border border-primary/20 bg-gradient-to-br from-surface-charcoal via-surface-charcoal to-primary/10 p-6 text-white shadow-2xl"
             >
-              <p className="flex items-start gap-2 text-sm font-semibold leading-snug text-white">
-                <Clock className="mt-0.5 h-4 w-4 shrink-0 text-emerald-300" aria-hidden />
+              <p className="flex items-start gap-2 text-xs font-semibold leading-snug text-white">
+                <Clock className="mt-0.5 h-4 w-4 shrink-0 text-electric-teal animate-pulse" aria-hidden />
                 {INTERNSHIP_PROGRAM.cta.urgent}
               </p>
               <div className="mt-5 flex flex-col gap-2.5">
                 <Button
                   variant="secondary"
-                  className="w-full border-0 bg-white text-slate-900 hover:bg-slate-100"
+                  className="w-full border-0 bg-white text-slate-900 hover:bg-slate-100 font-bold text-xs"
                   asChild
                 >
                   <a href={`tel:${INTERNSHIP_PROGRAM.cta.phoneTel}`} className="gap-2">
@@ -258,7 +264,7 @@ export const InternshipProgramSection = () => {
                 </Button>
                 <Button
                   variant="outline"
-                  className="w-full border-white/25 bg-transparent text-white hover:bg-white/10"
+                  className="w-full border-border-subtle bg-transparent text-white hover:bg-white/[0.04] font-semibold text-xs"
                   asChild
                 >
                   <a
@@ -271,15 +277,15 @@ export const InternshipProgramSection = () => {
                     techvistar.com
                   </a>
                 </Button>
-                <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90" asChild>
+                <Button className="w-full bg-primary text-background font-bold text-xs uppercase tracking-wider hover:opacity-95 shadow-[0_0_15px_-3px_rgba(171,199,255,0.3)]" asChild>
                   <Link to="/#register" className="gap-2">
                     Enquire & register
                     <ArrowUpRight className="h-4 w-4" aria-hidden />
                   </Link>
                 </Button>
               </div>
-              <p className="mt-4 flex items-start gap-2 border-t border-white/10 pt-4 text-xs leading-relaxed text-slate-300">
-                <Award className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-400" aria-hidden />
+              <p className="mt-4 flex items-start gap-2 border-t border-white/10 pt-4 text-[10px] leading-relaxed text-muted-foreground">
+                <Award className="mt-0.5 h-3.5 w-3.5 shrink-0 text-electric-teal" aria-hidden />
                 Internship certificate and portfolio-ready project guidance on successful completion.
               </p>
             </motion.div>

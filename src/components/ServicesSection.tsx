@@ -55,12 +55,12 @@ function GrowthGraph({ activeIndex }: { activeIndex: number }) {
     >
       <defs>
         <linearGradient id="g-line" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#15803d" stopOpacity="0.85" />
-          <stop offset="100%" stopColor="#6CD99C" />
+          <stop offset="0%" stopColor="#0071e3" stopOpacity="0.85" />
+          <stop offset="100%" stopColor="#00F5FF" />
         </linearGradient>
         <linearGradient id="g-area" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stopColor="#6CD99C" stopOpacity="0.12" />
-          <stop offset="100%" stopColor="#6CD99C" stopOpacity="0.01" />
+          <stop offset="0%" stopColor="#0071e3" stopOpacity="0.12" />
+          <stop offset="100%" stopColor="#0071e3" stopOpacity="0.01" />
         </linearGradient>
         <filter id="g-glow" x="-40%" y="-40%" width="180%" height="180%">
           <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
@@ -94,7 +94,7 @@ function GrowthGraph({ activeIndex }: { activeIndex: number }) {
           y1={VH * t}
           x2={VW - 8}
           y2={VH * t}
-          stroke="rgba(52,211,153,0.08)"
+          stroke="rgba(0,245,255,0.08)"
           strokeWidth={1}
         />
       ))}
@@ -141,7 +141,7 @@ function GrowthGraph({ activeIndex }: { activeIndex: number }) {
       <polyline
         points={PTS}
         fill="none"
-        stroke="rgba(52,211,153,0.15)"
+        stroke="rgba(0,113,227,0.15)"
         strokeWidth={14}
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -184,7 +184,7 @@ function GrowthGraph({ activeIndex }: { activeIndex: number }) {
                 cx={0}
                 cy={0}
                 r={20}
-                fill="rgba(52,211,153,0.10)"
+                fill="rgba(0,245,255,0.10)"
                 style={{ animation: "sv-pulse 2.2s ease-in-out infinite" }}
               />
             )}
@@ -193,7 +193,7 @@ function GrowthGraph({ activeIndex }: { activeIndex: number }) {
                 cx={0}
                 cy={0}
                 r={active ? 15 : 10}
-                fill="rgba(52,211,153,0.06)"
+                fill="rgba(0,245,255,0.06)"
                 filter={active ? "url(#n-glow)" : undefined}
                 style={{ transition: "r 0.5s ease" }}
               />
@@ -203,7 +203,7 @@ function GrowthGraph({ activeIndex }: { activeIndex: number }) {
               cy={0}
               r={active ? 9 : past ? 6.5 : 5}
               fill={
-                active ? "#6CD99C" : past ? "#80E4AA" : "rgba(100,116,139,0.25)"
+                active ? "#00F5FF" : past ? "#abc7ff" : "rgba(100,116,139,0.25)"
               }
               stroke={
                 active
@@ -216,9 +216,9 @@ function GrowthGraph({ activeIndex }: { activeIndex: number }) {
               style={{
                 transition: "r 0.45s ease, fill 0.45s ease",
                 filter: active
-                  ? "drop-shadow(0 0 10px rgba(52,211,153,0.9))"
+                  ? "drop-shadow(0 0 10px rgba(0,245,255,0.9))"
                   : past
-                    ? "drop-shadow(0 0 5px rgba(16,185,129,0.5))"
+                    ? "drop-shadow(0 0 5px rgba(0,113,227,0.5))"
                     : "none",
               }}
             />
@@ -229,7 +229,7 @@ function GrowthGraph({ activeIndex }: { activeIndex: number }) {
               fontSize={active ? 11 : 9}
               fontWeight={active ? 700 : 500}
               fill={
-                active ? "#6CD99C" : past ? "#80E4AA" : "rgba(100,116,139,0.35)"
+                active ? "#00F5FF" : past ? "#abc7ff" : "rgba(100,116,139,0.35)"
               }
               fontFamily="inherit"
               style={{ transition: "all 0.4s ease", letterSpacing: "0.04em" }}
@@ -272,23 +272,23 @@ function ContentPanel({
           <span
             className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold"
             style={{
-              background: "rgba(52,211,153,0.12)",
-              color: "#356e4dff",
-              border: "1px solid rgba(52,211,153,0.30)",
-              boxShadow: "0 0 12px rgba(52,211,153,0.15)",
+              background: "rgba(0,245,255,0.12)",
+              color: "#00F5FF",
+              border: "1px solid rgba(0,245,255,0.30)",
+              boxShadow: "0 0 12px rgba(0,245,255,0.15)",
             }}
           >
             0{index + 1}
           </span>
           <span
             className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.2em]"
-            style={{ color: "#356e4dff" }}
+            style={{ color: "#abc7ff" }}
           >
             Milestone {index + 1} of {COUNT}
           </span>
         </div>
 
-        <h3 className="font-display text-xl font-bold leading-tight tracking-tight text-[#13263A] mb-5 sm:text-2xl">
+        <h3 className="font-display text-xl font-bold leading-tight tracking-tight text-white mb-5 sm:text-2xl">
           {group.title}
         </h3>
 
@@ -296,56 +296,29 @@ function ContentPanel({
           {group.services.map((service) => (
             <div
               key={service.title}
-              className="rounded-xl p-4 transition-all duration-300"
-              style={{
-                background: "rgba(255,255,255,0.03)",
-                border: "1px solid rgba(255,255,255,0.07)",
-                boxShadow: "0 0 0 1px rgba(52,211,153,0.04)",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLDivElement).style.border =
-                  "1px solid rgba(52,211,153,0.20)";
-                (e.currentTarget as HTMLDivElement).style.background =
-                  "rgba(52,211,153,0.05)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLDivElement).style.border =
-                  "1px solid rgba(255,255,255,0.07)";
-                (e.currentTarget as HTMLDivElement).style.background =
-                  "rgba(255,255,255,0.03)";
-              }}
+              className="rounded-xl p-4 transition-all duration-300 bg-surface-charcoal/40 border border-border-subtle hover:border-primary/40 hover:bg-surface-charcoal/70"
             >
               <div className="flex items-center gap-3 mb-2">
                 <div
-                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
-                  style={{
-                    background: "rgba(255,255,255,0.04)",
-                    border: "1px solid rgba(255,255,255,0.09)",
-                    color: "#6CD99C",
-                  }}
+                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 border border-primary/20 text-primary"
                 >
                   <service.icon className="h-4 w-4" strokeWidth={1.7} />
                 </div>
-                <span className="font-semibold text-sm text-[#13263A] leading-snug">
+                <span className="font-semibold text-sm text-white leading-snug">
                   {service.title}
                 </span>
               </div>
-              <p className="text-base leading-relaxed text-[#475569] mb-3">
+              <p className="text-sm leading-relaxed text-muted-foreground mb-3">
                 {service.description}
               </p>
               <ul className="space-y-1.5" role="list">
                 {service.deliverables.map((d) => (
                   <li
                     key={d}
-                    className="flex gap-2.5 text-base leading-snug text-[#13263A]"
+                    className="flex gap-2.5 text-sm leading-snug text-on-surface-variant"
                   >
                     <span
-                      className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-md"
-                      style={{
-                        background: "rgba(52,211,153,0.10)",
-                        border: "1px solid rgba(52,211,153,0.25)",
-                        color: "#356e4dff",
-                      }}
+                      className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-md bg-electric-teal/10 border border-electric-teal/25 text-electric-teal"
                     >
                       <Check className="h-2.5 w-2.5 stroke-[2.5]" aria-hidden />
                     </span>
@@ -366,10 +339,10 @@ function ContentPanel({
                 flex: i === index ? 4 : 1,
                 background:
                   i < index
-                    ? "#6CD99C"
+                    ? "#00F5FF"
                     : i === index
-                      ? "#6CD99C"
-                      : "rgba(52,211,153,0.15)",
+                      ? "#00F5FF"
+                      : "rgba(0,245,255,0.15)",
                 transition:
                   "flex 0.5s cubic-bezier(0.4,0,0.2,1), background 0.4s ease",
               }}
@@ -377,20 +350,20 @@ function ContentPanel({
           ))}
         </div>
 
-        <p className="mt-2.5 text-[0.65rem] text-[#475569] flex items-center gap-1.5">
+        <div className="mt-2.5 text-[0.65rem] text-muted-foreground flex items-center gap-1.5">
           {index < COUNT - 1 ? (
             <>
               <span>↓</span> Scroll to advance
             </>
           ) : (
             <>
-              <span style={{ color: "#356e4dff" }}>✓</span>
-              <span style={{ color: "#356e4dff" }} className="font-medium">
+              <span className="text-electric-teal">✓</span>
+              <span className="font-medium text-electric-teal">
                 Journey complete — scroll to continue
               </span>
             </>
           )}
-        </p>
+        </div>
       </motion.div>
     </AnimatePresence>
   );
@@ -449,29 +422,27 @@ export const ServicesSection = () => {
       id="services"
       variant="muted"
       aria-labelledby="services-heading"
-      className="relative overflow-hidden bg-[#E1EBF0]"
+      className="relative overflow-hidden bg-background border-b border-border-subtle"
     >
-      {/* Dot-grid background — identical to ProcessSection */}
+      {/* Dark Grid Background */}
       <div
-        className="pointer-events-none absolute inset-0"
+        className="pointer-events-none absolute inset-0 opacity-[0.2]"
         aria-hidden
         style={{
           backgroundImage:
-            "radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px)",
+            "radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px)",
           backgroundSize: "48px 48px",
         }}
       />
 
-      {/* Radial vignette to fade grid at edges */}
+      {/* Ambient Vignette */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(circle at top, rgba(255,255,255,0.55), transparent 70%)",
+            "radial-gradient(circle at top, rgba(0, 113, 227, 0.08) 0%, transparent 60%)",
         }}
       />
-
-      {/* Faint green ambient behind heading */}
 
       {/* Section header */}
       <div className="container-custom relative z-10 pb-0">
@@ -482,18 +453,18 @@ export const ServicesSection = () => {
           transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
           {SECTION_SERVICES.tag && (
-            <p className="mb-3 font-mono text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[#6CD99C]">
+            <p className="mb-3 font-mono text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary">
               {SECTION_SERVICES.tag}
             </p>
           )}
           <h2
             id="services-heading"
-            className="mx-auto mb-4 max-w-2xl font-display text-4xl font-bold leading-tight tracking-tight text-[#13263A] sm:text-5xl"
+            className="mx-auto mb-4 max-w-2xl font-display text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl"
           >
             {SECTION_SERVICES.title}{" "}
-            <span className="text-[#6CD99C]">{SECTION_SERVICES.highlight}</span>
+            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">{SECTION_SERVICES.highlight}</span>
           </h2>
-          <p className="mx-auto max-w-2xl text-base leading-relaxed text-[#475569]">
+          <p className="mx-auto max-w-2xl text-sm leading-relaxed text-muted-foreground">
             {SECTION_SERVICES.description}
           </p>
         </motion.div>
@@ -502,20 +473,7 @@ export const ServicesSection = () => {
       {/* ── DESKTOP ─────────────────────────────────────────────────────────── */}
       <div className="hidden md:block container-custom">
         <div
-          className="rounded-2xl overflow-hidden"
-          style={{
-            background: `
-linear-gradient(
-180deg,
-rgba(255,255,255,0.05),
-rgba(255,255,255,0.025)
-)
-`,
-            backdropFilter: "blur(18px)",
-            border: "1px solid rgba(255,255,255,0.07)",
-            boxShadow:
-              "0 0 0 1px rgba(52,211,153,0.05), 0 8px 40px -8px rgba(0,0,0,0.7)",
-          }}
+          className="rounded-2xl overflow-hidden bg-surface-charcoal/40 backdrop-blur-xl border border-border-subtle shadow-2xl shadow-black/40"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
         >
@@ -544,10 +502,10 @@ rgba(255,255,255,0.025)
                           i === activeIndex ? 22 : i < activeIndex ? 13 : 7,
                         background:
                           i === activeIndex
-                            ? "#000000ff"
+                            ? "#00F5FF"
                             : i < activeIndex
-                              ? "#356e4dff"
-                              : "rgba(52,211,153,0.20)",
+                              ? "#abc7ff"
+                              : "rgba(255,255,255,0.1)",
                         transition: "width 0.35s ease, background 0.35s ease",
                       }}
                     />
@@ -557,10 +515,10 @@ rgba(255,255,255,0.025)
                         lineHeight: 1.35,
                         color:
                           i === activeIndex
-                            ? "#356e4dff"
+                            ? "#00F5FF"
                             : i < activeIndex
-                              ? "#94a3b8"
-                              : "#4b5563",
+                              ? "#abc7ff"
+                              : "rgba(255,255,255,0.3)",
                         fontWeight: i === activeIndex ? 700 : 500,
                         transition: "color 0.3s ease",
                       }}
@@ -577,14 +535,12 @@ rgba(255,255,255,0.025)
 
               <div className="flex justify-between mt-2 px-4">
                 <span
-                  className="text-[0.6rem] font-medium tracking-wide"
-                  style={{ color: "rgba(108,217,156,0.40)" }}
+                  className="text-[0.6rem] font-mono font-semibold tracking-wide text-primary/40 uppercase"
                 >
                   Foundation
                 </span>
                 <span
-                  className="text-[0.6rem] font-medium tracking-wide"
-                  style={{ color: "rgba(108,217,156,0.40)" }}
+                  className="text-[0.6rem] font-mono font-semibold tracking-wide text-secondary/40 uppercase"
                 >
                   Scalable Business
                 </span>
@@ -600,7 +556,7 @@ rgba(255,255,255,0.025)
                       className="relative h-[3px] rounded-full overflow-hidden flex-1"
                       style={{
                         cursor: "pointer",
-                        background: "rgba(52,211,153,0.12)",
+                        background: "rgba(255,255,255,0.06)",
                       }}
                     >
                       <span
@@ -614,21 +570,21 @@ rgba(255,255,255,0.025)
                                 : "0%",
                           transition:
                             i < activeIndex ? "width 0.3s ease" : "none",
-                          background: i < activeIndex ? "#80E4AA" : "#6CD99C",
+                          background: i < activeIndex ? "#abc7ff" : "#00F5FF",
                         }}
                       />
                     </button>
                   ))}
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-[0.65rem] text-[#475569]">
+                  <span className="text-[0.65rem] text-muted-foreground">
                     {paused
                       ? "⏸ Paused"
                       : `Auto-advancing · ${activeIndex + 1} of ${COUNT}`}
                   </span>
                   <button
                     onClick={() => setPaused((p) => !p)}
-                    className="text-[0.65rem] text-[#475569] hover:text-[#475569] transition-colors"
+                    className="text-[0.65rem] text-muted-foreground hover:text-white transition-colors"
                   >
                     {paused ? "▶ Resume" : "⏸ Pause"}
                   </button>
@@ -642,8 +598,8 @@ rgba(255,255,255,0.025)
                 width: 1,
                 alignSelf: "stretch",
                 background:
-                  "linear-gradient(to bottom, transparent, rgba(148,163,184,0.35) 15%, rgba(148,163,184,0.35) 85%, transparent)",
-                boxShadow: "0 0 6px 0px rgba(52,211,153,0.25)",
+                  "linear-gradient(to bottom, transparent, rgba(255,255,255,0.08) 15%, rgba(255,255,255,0.08) 85%, transparent)",
+                boxShadow: "0 0 6px 0px rgba(0,245,255,0.05)",
               }}
             />
 
@@ -654,38 +610,20 @@ rgba(255,255,255,0.025)
           </div>
         </div>
 
-        {/* CTA */}
+        {/* CTA Banner */}
         <div className="mt-6">
           <div
-            className="flex flex-col items-center justify-between gap-5 overflow-hidden rounded-2xl px-6 py-6 sm:flex-row sm:px-8"
-            style={{
-              background: "#E1EBF0",
-              border: "1px solid #CBD5E1",
-              boxShadow: "0 10px 30px rgba(15,23,42,0.08)",
-            }}
+            className="flex flex-col items-center justify-between gap-5 overflow-hidden rounded-2xl px-6 py-6 sm:flex-row sm:px-8 border border-border-subtle bg-surface-charcoal/30 shadow-xl shadow-black/20"
           >
-            <span className="max-w-xl text-center text-sm leading-relaxed text-[#475569] sm:text-left">
+            <span className="max-w-xl text-center text-sm leading-relaxed text-muted-foreground sm:text-left">
               {SECTION_SERVICES.cta}
             </span>
             <motion.a
               href="#contact"
-              whileHover={{ scale: 1.03 }}
+              whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               transition={{ duration: 0.2 }}
-              className="inline-flex shrink-0 items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold transition-colors"
-              style={{
-                background: "#6CD99C",
-                color: "#13263A",
-                boxShadow: "0 0 20px rgba(52,211,153,0.25)",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLAnchorElement).style.background =
-                  "#80E4AA";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLAnchorElement).style.background =
-                  "#6CD99C";
-              }}
+              className="inline-flex shrink-0 items-center gap-2 rounded-lg px-5 py-2.5 bg-primary text-background font-bold text-xs uppercase tracking-wider shadow-[0_0_15px_-3px_rgba(171,199,255,0.3)] hover:opacity-95"
             >
               Reach out <ArrowUpRight className="h-4 w-4" aria-hidden />
             </motion.a>
@@ -699,28 +637,21 @@ rgba(255,255,255,0.025)
           {SVC.map((group, index) => (
             <div
               key={group.title}
-              className="rounded-2xl p-5"
-              style={{
-                background: "#F7FAFC",
-                border: "1px solid rgba(255,255,255,0.07)",
-                boxShadow:
-                  "0 0 0 1px rgba(52,211,153,0.05), 0 8px 40px -8px rgba(0,0,0,0.7)",
-              }}
+              className="rounded-2xl p-5 bg-surface-charcoal/40 border border-border-subtle shadow-lg"
             >
               <div
-                className="h-1 w-full rounded-full mb-4"
+                className="h-[2px] w-full rounded-full mb-4"
                 style={{
-                  background: "linear-gradient(to right, #13263A, #6CD99C)",
+                  background: "linear-gradient(to right, #0071e3, #00F5FF)",
                 }}
               />
               <div className="mb-4">
                 <span
-                  className="text-[0.65rem] font-semibold uppercase tracking-[0.12em]"
-                  style={{ color: "#6CD99C" }}
+                  className="text-[0.65rem] font-mono font-bold uppercase tracking-[0.12em] text-electric-teal"
                 >
                   0{index + 1}
                 </span>
-                <h3 className="font-display text-xl font-bold text-[#13263A] leading-snug">
+                <h3 className="font-display text-xl font-bold text-white leading-snug">
                   {group.title}
                 </h3>
               </div>
@@ -728,32 +659,26 @@ rgba(255,255,255,0.025)
                 <div key={service.title} className="mb-4 last:mb-0">
                   <div className="flex gap-3 mb-1.5">
                     <div
-                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
-                      style={{
-                        background: "rgba(255,255,255,0.04)",
-                        border: "1px solid rgba(255,255,255,0.09)",
-                        color: "#6CD99C",
-                      }}
+                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 border border-primary/20 text-primary"
                     >
                       <service.icon className="h-4 w-4" strokeWidth={1.75} />
                     </div>
-                    <span className="font-semibold text-sm text-[#13263A] pt-1">
+                    <span className="font-semibold text-sm text-white pt-1">
                       {service.title}
                     </span>
                   </div>
-                  <p className="text-sm leading-relaxed text-[#475569] mb-2">
+                  <p className="text-xs leading-relaxed text-muted-foreground mb-2">
                     {service.description}
                   </p>
                   <ul className="space-y-1.5">
                     {service.deliverables.map((d) => (
                       <li
                         key={d}
-                        className="flex gap-2 text-base text-[#13263A]"
+                        className="flex gap-2 text-xs text-on-surface-variant"
                       >
                         <Check
-                          className="h-3.5 w-3.5 mt-0.5 shrink-0"
+                          className="h-3.5 w-3.5 mt-0.5 shrink-0 text-electric-teal"
                           strokeWidth={2.5}
-                          style={{ color: "#6CD99C" }}
                         />
                         {d}
                       </li>
@@ -766,26 +691,16 @@ rgba(255,255,255,0.025)
         </div>
         <div className="mt-8">
           <div
-            className="flex flex-col items-center gap-5 rounded-2xl px-6 py-6"
-            style={{
-              background: "#F7FAFC",
-              border: "1px solid rgba(255,255,255,0.07)",
-              boxShadow: "0 0 0 1px rgba(52,211,153,0.05)",
-            }}
+            className="flex flex-col items-center gap-4 rounded-2xl px-6 py-6 border border-border-subtle bg-surface-charcoal/30 shadow-lg text-center"
           >
-            <span className="text-center text-sm leading-relaxed text-[#475569]">
+            <span className="text-sm leading-relaxed text-muted-foreground">
               {SECTION_SERVICES.cta}
             </span>
             <motion.a
               href="#contact"
-              whileHover={{ scale: 1.03 }}
+              whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="inline-flex shrink-0 items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold"
-              style={{
-                background: "#6CD99C",
-                color: "#13263A",
-                boxShadow: "0 0 20px rgba(52,211,153,0.25)",
-              }}
+              className="w-full inline-flex shrink-0 items-center justify-center gap-2 rounded-lg px-5 py-3 bg-primary text-background font-bold text-xs uppercase tracking-wider shadow-[0_0_15px_-3px_rgba(171,199,255,0.3)]"
             >
               Reach out <ArrowUpRight className="h-4 w-4" aria-hidden />
             </motion.a>

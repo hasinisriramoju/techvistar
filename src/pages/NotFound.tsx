@@ -1,34 +1,47 @@
-import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
-import { ArrowLeft, FileQuestion } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { ArrowLeft } from 'lucide-react';
+import { Navbar } from '@/components/layout/Navbar';
+import { Footer } from '@/components/layout/Footer';
 
 const NotFound = () => {
   useEffect(() => {
-    document.title = 'Page not found | TechVistar';
+    document.title = '404 — Page not found · TechVistar';
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-background px-4">
-      <div className="w-full max-w-md rounded-2xl border border-border bg-card p-8 md:p-10 shadow-sm text-center">
-        <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-primary/10 text-primary">
-          <FileQuestion className="h-7 w-7" aria-hidden />
+    <div className="min-h-screen bg-ink flex flex-col">
+      <Navbar />
+      <main className="flex-1 flex items-center justify-center pt-16">
+        <div className="container-site py-24 text-center">
+          {/* Background grid */}
+          <div className="pointer-events-none absolute inset-0 bg-grid-dots opacity-30" style={{ backgroundSize: '32px 32px' }} />
+
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="relative z-10"
+          >
+            <div className="text-[12rem] font-black leading-none text-white/[0.04] select-none mb-8">
+              404
+            </div>
+            <h1 className="text-3xl font-bold text-white mb-4 -mt-24">Page not found</h1>
+            <p className="text-white/40 mb-8 max-w-sm mx-auto">
+              The page you're looking for doesn't exist or has been moved.
+            </p>
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-ink text-sm font-bold hover:opacity-90 transition-opacity"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back to home
+            </Link>
+          </motion.div>
         </div>
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary mb-2">Error 404</p>
-        <h1 className="text-2xl md:text-3xl font-bold font-display text-foreground tracking-tight mb-3">
-          This page is not available
-        </h1>
-        <p className="text-muted-foreground text-sm leading-relaxed mb-8">
-          The URL you requested does not exist or may have been moved. If you followed a link from elsewhere, please
-          return to our home page and use the navigation menu.
-        </p>
-        <Button variant="hero" className="w-full sm:w-auto" asChild>
-          <Link to="/" className="inline-flex items-center justify-center gap-2">
-            <ArrowLeft className="h-4 w-4" />
-            Back to home
-          </Link>
-        </Button>
-      </div>
+      </main>
+      <Footer />
     </div>
   );
 };
