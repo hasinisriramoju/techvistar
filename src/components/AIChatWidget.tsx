@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { X, Send, Bot, Loader2, Sparkles, ChevronDown, RotateCcw } from 'lucide-react';
+import { X, Send, Bot, Loader2, Sparkles, ChevronDown, RotateCcw, AlertCircle } from 'lucide-react';
 
 /* ─────────────────────────────────────────────────────────────
    SYSTEM PROMPT — TechVistar knowledge base
@@ -15,7 +15,6 @@ CONTACT INFORMATION
 - Email: support@techvistar.com
 - Phone: +91 9573157982
 - Location: Hyderabad, Telangana, India
-- Website: https://techvistar.com
 
 KEY STATS
 - 60+ completed engagements
@@ -25,59 +24,22 @@ KEY STATS
 
 OUR 6 SERVICES
 
-1. Growth Stack Blueprint
-   What: End-to-end product foundations — web and mobile applications, APIs, and integrations scoped as one coherent system.
-   Deliverables: Roadmap & milestone plan, web/mobile/API delivery, environments & release discipline, acceptance & sign-off.
-   Technologies: React, React Native, Node.js, PostgreSQL, Docker, APIs.
-
-2. Revenue Web Engine
-   What: High-trust, high-conversion websites with performance analytics and SEO foundations.
-   Deliverables: Conversion-optimised site, analytics event setup, CMS/content handover, SEO baseline.
-   Technologies: Next.js, Webflow, GA4, GTM, Figma-to-code.
-
-3. Automate & Integrate
-   What: CRM integrations, workflow automation, and data pipelines that eliminate manual operations.
-   Deliverables: Workflow maps, automation build, CRM integration, monitoring & handover.
-   Technologies: Make.com, Zapier, n8n, REST APIs, webhooks, HubSpot, Notion.
-
-4. Brand & Growth Flywheel
-   What: Positioning, content systems, and pipeline programs that turn brand investment into pipeline.
-   Deliverables: Brand system, content calendar, channel playbooks, analytics dashboard.
-   Technologies: Figma, Canva, LinkedIn, Instagram, email platforms.
-
-5. Applied AI & Decision Support
-   What: Applied AI, LLMs, and decision-support tools integrated into existing workflows.
-   Deliverables: AI feature scoping, LLM integration, RAG pipeline, demo & documentation.
-   Technologies: OpenAI, Gemini, LangChain, Python, vector databases, fine-tuning.
-
-6. Documentation & Research Desk
-   What: Technical documentation, SRS documents, API docs, and academic research support.
-   Deliverables: SRS/PRD, API documentation, user manuals, academic writing support.
-   Technologies: Notion, Confluence, Markdown, LaTeX.
+1. Growth Stack Blueprint — End-to-end product foundations: web/mobile apps, APIs, integrations. Tech: React, Node.js, PostgreSQL, Docker.
+2. Revenue Web Engine — High-conversion websites, analytics, SEO. Tech: Next.js, GA4, GTM.
+3. Automate & Integrate — CRM integrations, workflow automation. Tech: Make.com, Zapier, n8n, HubSpot.
+4. Brand & Growth Flywheel — Positioning, content, pipeline programs. Tech: Figma, LinkedIn, email platforms.
+5. Applied AI & Decision Support — LLM integration, RAG pipelines, AI features. Tech: OpenAI, Gemini, LangChain, Python.
+6. Documentation & Research Desk — SRS, API docs, academic writing. Tech: Notion, Confluence, LaTeX.
 
 OUR PROCESS (VISTAR Framework)
-V — Vision Alignment: Understanding your goals, audience, and success metrics.
-I — Infrastructure Planning: Scoping the system architecture, timeline, and budget.
-S — Sprint Execution: Agile delivery in weekly sprints with demos and reviews.
-T — Testing & QA: Rigorous testing against acceptance criteria before handover.
-A — Analytics & Handover: Full documentation, training, and ownership transfer.
-R — Review & Iterate: Post-launch support and iterative improvements.
+V-Vision Alignment, I-Infrastructure Planning, S-Sprint Execution, T-Testing & QA, A-Analytics & Handover, R-Review & Iterate.
 
-PRICING APPROACH
-We don't publish fixed prices — every engagement is scoped based on your specific requirements. We provide a written Scope of Work (SOW) or proposal after an initial discovery call. Best to contact us for a scoped proposal.
+PRICING
+We scope every engagement individually and provide a written SOW or proposal after a discovery call. Contact us for a quote.
 
-HOW TO GET STARTED
-1. Visit the Contact page at /contact
-2. Email support@techvistar.com
-3. Call +91 9573157982
+HOW TO GET STARTED: Visit /contact, email support@techvistar.com, or call +91 9573157982.
 
-TONE GUIDELINES
-- Be warm, professional, and concise
-- Keep responses to 2-4 short paragraphs max (or use bullet points for lists)
-- If you don't know something specific, direct to contact@techvistar.com
-- Always end with a helpful CTA (visit contact page, call, or email)
-- Never make up pricing, timelines, or team member names
-- You can use light markdown formatting (bold, bullets) in your responses`;
+TONE: Be warm, professional, and concise. Keep responses to 2-4 short paragraphs or bullet points. End with a helpful CTA. Never make up pricing or timelines.`;
 
 /* ─────────────────────────────────────────────────────────────
    TYPES
@@ -94,44 +56,46 @@ interface Message {
 const WELCOME_MESSAGE: Message = {
   id: 'welcome',
   role: 'assistant',
-  content: "Hi! I'm TechVistar's AI assistant. 👋\n\nI can help you learn about our services, process, or how to get started. What would you like to know?",
+  content: "Hi! I'm TechVistar's AI assistant 👋\n\nAsk me anything about our services, process, or how to get started.",
 };
 
 const STARTER_PROMPTS = [
   'What services do you offer?',
   'How does your process work?',
   'How do I get a quote?',
-  'Tell me about Applied AI services',
+  'Tell me about your AI services',
 ];
 
-/* ─────────────────────────────────────────────────────────────
-   UTILITIES
-───────────────────────────────────────────────────────────── */
 function generateId() {
   return Math.random().toString(36).slice(2, 9);
 }
 
-function formatContent(text: string) {
-  // Basic markdown → JSX-friendly formatting
+/* ─────────────────────────────────────────────────────────────
+   TEXT RENDERER
+───────────────────────────────────────────────────────────── */
+function MessageContent({ text }: { text: string }) {
   const lines = text.split('\n');
-  return lines.map((line, i) => {
-    const key = i;
-    // Bold: **text**
-    const formatted = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    if (line.startsWith('- ') || line.startsWith('• ')) {
-      return (
-        <li key={key} className="ml-3 list-disc text-white/75 leading-relaxed" dangerouslySetInnerHTML={{ __html: formatted.replace(/^[-•]\s/, '') }} />
-      );
-    }
-    if (line === '') return <div key={key} className="h-1" />;
-    return (
-      <p key={key} className="leading-relaxed text-white/75" dangerouslySetInnerHTML={{ __html: formatted }} />
-    );
-  });
+  return (
+    <div className="space-y-1">
+      {lines.map((line, i) => {
+        if (line === '') return <div key={i} className="h-1" />;
+        const bold = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        if (/^[-•*]\s/.test(line)) {
+          return (
+            <div key={i} className="flex gap-1.5">
+              <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-white/30" />
+              <span className="leading-relaxed text-white/75" dangerouslySetInnerHTML={{ __html: bold.replace(/^[-•*]\s/, '') }} />
+            </div>
+          );
+        }
+        return <p key={i} className="leading-relaxed text-white/75" dangerouslySetInnerHTML={{ __html: bold }} />;
+      })}
+    </div>
+  );
 }
 
 /* ─────────────────────────────────────────────────────────────
-   SUB-COMPONENTS
+   TYPING DOTS
 ───────────────────────────────────────────────────────────── */
 function TypingDots() {
   return (
@@ -147,6 +111,9 @@ function TypingDots() {
   );
 }
 
+/* ─────────────────────────────────────────────────────────────
+   MESSAGE BUBBLE
+───────────────────────────────────────────────────────────── */
 function MessageBubble({ msg }: { msg: Message }) {
   const isUser = msg.role === 'user';
   return (
@@ -172,7 +139,7 @@ function MessageBubble({ msg }: { msg: Message }) {
         {msg.isStreaming && msg.content === '' ? (
           <TypingDots />
         ) : (
-          <div className="space-y-1.5">{formatContent(msg.content)}</div>
+          <MessageContent text={msg.content} />
         )}
       </div>
     </motion.div>
@@ -187,30 +154,14 @@ export function AIChatWidget() {
   const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [hasKey, setHasKey] = useState(true);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
-  const chatRef = useRef<ReturnType<InstanceType<typeof GoogleGenerativeAI>['getGenerativeModel']> | null>(null);
 
-  /* ── Init Gemini ── */
-  useEffect(() => {
-    const key = import.meta.env.VITE_GEMINI_API_KEY;
-    if (!key || key === 'your_gemini_api_key_here') {
-      setHasKey(false);
-      return;
-    }
-    try {
-      const genAI = new GoogleGenerativeAI(key);
-      chatRef.current = genAI.getGenerativeModel({
-        model: 'gemini-1.5-flash',
-        systemInstruction: SYSTEM_PROMPT,
-      });
-    } catch {
-      setHasKey(false);
-    }
-  }, []);
+  // Check if key exists and looks valid
+  const apiKey = import.meta.env.VITE_GEMINI_API_KEY as string | undefined;
+  const hasKey = Boolean(apiKey && apiKey !== 'your_gemini_api_key_here' && apiKey.length > 10);
 
   /* ── Auto scroll ── */
   useEffect(() => {
@@ -219,29 +170,27 @@ export function AIChatWidget() {
 
   /* ── Focus input on open ── */
   useEffect(() => {
-    if (isOpen) {
-      setTimeout(() => inputRef.current?.focus(), 300);
-    }
+    if (isOpen) setTimeout(() => inputRef.current?.focus(), 300);
   }, [isOpen]);
 
   const reset = useCallback(() => {
     setMessages([WELCOME_MESSAGE]);
-    setError(null);
+    setErrorMsg(null);
     setInput('');
   }, []);
 
   const sendMessage = useCallback(async (text: string) => {
     const trimmed = text.trim();
     if (!trimmed || isLoading) return;
-    if (!hasKey || !chatRef.current) {
-      setError('API key not configured. See .env.local file.');
+
+    if (!hasKey) {
+      setErrorMsg('Add your Gemini API key to .env.local and restart the dev server.');
       return;
     }
 
-    setError(null);
+    setErrorMsg(null);
     setInput('');
 
-    // Add user message
     const userMsg: Message = { id: generateId(), role: 'user', content: trimmed };
     const assistantId = generateId();
     const assistantMsg: Message = { id: assistantId, role: 'assistant', content: '', isStreaming: true };
@@ -250,17 +199,19 @@ export function AIChatWidget() {
     setIsLoading(true);
 
     try {
-      // Build history from current messages (exclude welcome and last streaming placeholder)
-      const historyMessages = messages.filter(
-        (m) => m.id !== 'welcome' && !m.isStreaming
-      );
-      const history = historyMessages.map((m) => ({
-        role: m.role === 'user' ? 'user' : 'model',
-        parts: [{ text: m.content }],
-      }));
+      const genAI = new GoogleGenerativeAI(apiKey!);
+      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
-      const chat = chatRef.current.startChat({ history });
-      const result = await chat.sendMessageStream(trimmed);
+      // Build the full prompt with system context + conversation history
+      const historyMessages = [...messages, userMsg].filter((m) => m.id !== 'welcome');
+
+      let fullPrompt = `${SYSTEM_PROMPT}\n\n--- CONVERSATION ---\n`;
+      for (const m of historyMessages) {
+        fullPrompt += m.role === 'user' ? `User: ${m.content}\n` : `Assistant: ${m.content}\n`;
+      }
+      fullPrompt += 'Assistant:';
+
+      const result = await model.generateContentStream(fullPrompt);
 
       let fullText = '';
       for await (const chunk of result.stream) {
@@ -273,26 +224,39 @@ export function AIChatWidget() {
         );
       }
 
-      // Mark as done
       setMessages((prev) =>
         prev.map((m) =>
           m.id === assistantId ? { ...m, content: fullText, isStreaming: false } : m
         )
       );
-    } catch (err) {
+    } catch (err: unknown) {
       console.error('Gemini error:', err);
+
+      // Surface a helpful error based on what went wrong
+      let friendlyError = 'Something went wrong.';
+      const errMsg = err instanceof Error ? err.message : String(err);
+      if (errMsg.includes('API_KEY_INVALID') || errMsg.includes('400')) {
+        friendlyError = 'Invalid API key. Please check your .env.local file and make sure you copied the key correctly from aistudio.google.com.';
+      } else if (errMsg.includes('429')) {
+        friendlyError = 'Rate limit reached. Please wait a moment and try again.';
+      } else if (errMsg.includes('fetch') || errMsg.includes('network')) {
+        friendlyError = 'Network error. Please check your internet connection.';
+      } else {
+        friendlyError = `Error: ${errMsg.slice(0, 120)}`;
+      }
+
       setMessages((prev) =>
         prev.map((m) =>
           m.id === assistantId
-            ? { ...m, content: 'Sorry, something went wrong. Please try again or contact support@techvistar.com directly.', isStreaming: false }
+            ? { ...m, content: '', isStreaming: false }
             : m
-        )
+        ).filter((m) => !(m.id === assistantId && m.content === ''))
       );
-      setError(null);
+      setErrorMsg(friendlyError);
     } finally {
       setIsLoading(false);
     }
-  }, [isLoading, hasKey, messages]);
+  }, [isLoading, hasKey, apiKey, messages]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -300,25 +264,6 @@ export function AIChatWidget() {
       sendMessage(input);
     }
   };
-
-  /* ── No-key banner ── */
-  const NoBanner = () => (
-    <div className="mx-3 mb-3 rounded-xl border border-amber-500/30 bg-amber-500/10 p-3">
-      <p className="text-xs text-amber-300 leading-relaxed">
-        <strong className="text-amber-200">API key needed.</strong> Add your Gemini key to{' '}
-        <code className="rounded bg-black/30 px-1 py-0.5 font-mono text-[11px]">.env.local</code>
-        , then restart the dev server.{' '}
-        <a
-          href="https://aistudio.google.com"
-          target="_blank"
-          rel="noreferrer"
-          className="underline underline-offset-2 hover:text-amber-100"
-        >
-          Get key →
-        </a>
-      </p>
-    </div>
-  );
 
   return (
     <>
@@ -334,7 +279,7 @@ export function AIChatWidget() {
             style={{ height: '520px' }}
           >
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-white/[0.07] px-4 py-3.5">
+            <div className="flex items-center justify-between border-b border-white/[0.07] px-4 py-3.5 shrink-0">
               <div className="flex items-center gap-2.5">
                 <div className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-[#6E7FEF]/20 border border-[#6E7FEF]/30">
                   <Sparkles className="h-4 w-4 text-[#8B9CF4]" />
@@ -364,16 +309,29 @@ export function AIChatWidget() {
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto px-3 py-3 space-y-3 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+            <div className="flex-1 overflow-y-auto px-3 py-3 space-y-3">
               {messages.map((msg) => (
                 <MessageBubble key={msg.id} msg={msg} />
               ))}
+
+              {/* Error banner inside messages */}
+              {errorMsg && (
+                <motion.div
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex items-start gap-2 rounded-xl border border-red-500/30 bg-red-500/10 p-3"
+                >
+                  <AlertCircle className="h-3.5 w-3.5 text-red-400 shrink-0 mt-0.5" />
+                  <p className="text-[11px] text-red-300 leading-relaxed">{errorMsg}</p>
+                </motion.div>
+              )}
+
               <div ref={bottomRef} />
             </div>
 
-            {/* Starter prompts — only show if only welcome message */}
-            {messages.length === 1 && (
-              <div className="px-3 pb-2">
+            {/* Starter prompts — only on welcome screen */}
+            {messages.length === 1 && !isLoading && (
+              <div className="px-3 pb-2 shrink-0">
                 <div className="grid grid-cols-2 gap-1.5">
                   {STARTER_PROMPTS.map((prompt) => (
                     <button
@@ -388,18 +346,22 @@ export function AIChatWidget() {
               </div>
             )}
 
-            {/* API key warning */}
-            {!hasKey && <NoBanner />}
-
-            {/* Error */}
-            {error && (
-              <div className="mx-3 mb-2 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2">
-                <p className="text-[11px] text-red-300">{error}</p>
+            {/* No API key warning */}
+            {!hasKey && (
+              <div className="mx-3 mb-3 shrink-0 rounded-xl border border-amber-500/30 bg-amber-500/10 p-3">
+                <p className="text-[11px] text-amber-300 leading-relaxed">
+                  <strong className="text-amber-200">API key needed.</strong> Add your Gemini key to{' '}
+                  <code className="rounded bg-black/30 px-1 py-0.5 font-mono text-[10px]">.env.local</code>
+                  , then restart the dev server.{' '}
+                  <a href="https://aistudio.google.com" target="_blank" rel="noreferrer" className="underline hover:text-amber-100">
+                    Get key →
+                  </a>
+                </p>
               </div>
             )}
 
             {/* Input */}
-            <div className="border-t border-white/[0.07] p-3">
+            <div className="border-t border-white/[0.07] p-3 shrink-0">
               <div className="flex items-end gap-2 rounded-xl border border-white/[0.08] bg-white/[0.04] px-3 py-2.5 focus-within:border-[#6E7FEF]/40 transition-colors duration-150">
                 <textarea
                   ref={inputRef}
@@ -441,7 +403,6 @@ export function AIChatWidget() {
         aria-label="Open AI chat"
         className="fixed bottom-5 right-5 z-50 group flex items-center gap-2.5 rounded-full border border-white/[0.12] bg-[#0e1117]/90 px-4 py-3 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.8)] backdrop-blur-xl hover:border-[#6E7FEF]/40 transition-all duration-300 hover:shadow-[0_8px_32px_-4px_rgba(110,127,239,0.25)]"
       >
-        {/* Pulse ring */}
         {!isOpen && (
           <span className="absolute inset-0 rounded-full border border-[#6E7FEF]/40 animate-ping opacity-50 pointer-events-none" />
         )}

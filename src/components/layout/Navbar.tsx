@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ArrowRight, ChevronDown, ArrowUpRight } from "lucide-react";
+import { Menu, X, ArrowRight, ChevronDown, ArrowUpRight, LayoutGrid, Compass, Briefcase } from "lucide-react";
 import { NAV_STRUCTURE, SITE } from "@/lib/constants";
 import logo from "../../logo.webp";
 
@@ -76,6 +76,98 @@ function ServiceItem({
         </p>
       </div>
     </Link>
+  );
+}
+
+/* ── Navbar Icon Link Component for unique navigation ── */
+function NavbarIconLink({
+  icon: Icon,
+  label,
+  isActive,
+  onClick,
+  onMouseEnter,
+  onMouseLeave,
+  hasDropdown,
+  to,
+}: {
+  icon: any;
+  label: string;
+  isActive: boolean;
+  onClick?: () => void;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
+  hasDropdown?: boolean;
+  to?: string;
+}) {
+  const [isHovered, setIsHovered] = useState(false);
+  const content = (
+    <div className="flex items-center gap-2">
+      <div
+        className={[
+          "flex h-8.5 w-8.5 items-center justify-center rounded-xl border transition-all duration-300",
+          isActive
+            ? "border-[#6E7FEF]/30 bg-[#6E7FEF]/10 text-[#8B9CF4]"
+            : "border-white/[0.06] bg-white/[0.02] text-white/50 group-hover:text-white group-hover:border-white/15",
+        ].join(" ")}
+      >
+        <Icon className="h-4.5 w-4.5" />
+      </div>
+      <span
+        className={[
+          "overflow-hidden text-[11px] font-bold uppercase tracking-wider font-mono text-white/70 transition-all duration-300 max-w-0 opacity-0 group-hover:max-w-[120px] group-hover:opacity-100 whitespace-nowrap",
+          isActive ? "max-w-[120px] opacity-100" : ""
+        ].join(" ")}
+      >
+        <span className="pl-1 pr-1.5">{label}</span>
+      </span>
+      {hasDropdown && (
+        <ChevronDown
+          className={[
+            "h-3 w-3 text-white/30 group-hover:text-white/80 transition-all",
+            isActive ? "rotate-180" : ""
+          ].join(" ")}
+        />
+      )}
+    </div>
+  );
+
+  const wrapperClass = [
+    "group relative flex items-center justify-center p-1 rounded-2xl transition-all duration-200",
+    isActive ? "bg-white/[0.04]" : "hover:bg-white/[0.02]",
+  ].join(" ");
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+    if (onMouseEnter) onMouseEnter();
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    if (onMouseLeave) onMouseLeave();
+  };
+
+  if (to) {
+    return (
+      <Link
+        to={to}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        className={wrapperClass}
+      >
+        {content}
+      </Link>
+    );
+  }
+
+  return (
+    <button
+      onClick={onClick}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      className={wrapperClass}
+    >
+      {content}
+    </button>
   );
 }
 
@@ -168,32 +260,22 @@ export const Navbar = () => {
           </Link>
 
           {/* ── Desktop nav ── */}
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden md:flex items-center gap-2">
             {/* Services mega-menu trigger */}
             <div
               className="relative inline-block"
               onMouseEnter={() => openMenu("services")}
               onMouseLeave={scheduleClose}
             >
-              <button
+              <NavbarIconLink
+                icon={LayoutGrid}
+                label="Services"
+                isActive={activeMenu === "services" || location.pathname.startsWith("/services")}
                 onClick={() =>
                   setActiveMenu(activeMenu === "services" ? null : "services")
                 }
-                aria-expanded={activeMenu === "services"}
-                aria-haspopup="true"
-                className={[
-                  "relative flex items-center gap-1 px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-150",
-                  activeMenu === "services"
-                    ? "text-white bg-white/[0.06]"
-                    : "text-white/60 hover:text-white hover:bg-white/[0.04]",
-                ].join(" ")}
-              >
-                Services
-                <ChevronDown
-                  className={`h-3.5 w-3.5 transition-transform duration-200 ${activeMenu === "services" ? "rotate-180" : ""}`}
-                  strokeWidth={2}
-                />
-              </button>
+                hasDropdown
+              />
 
               {/* Services mega-menu */}
               <AnimatePresence>
@@ -205,7 +287,7 @@ export const Navbar = () => {
                     exit="exit"
                     onMouseEnter={cancelClose}
                     onMouseLeave={scheduleClose}
-                    className="absolute left-0 top-full mt-2 w-[600px] rounded-2xl border border-white/[0.08] bg-ink-2/95 backdrop-blur-2xl shadow-[0_24px_64px_-12px_rgba(0,0,0,0.9)] p-3"
+                    className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-[600px] rounded-2xl border border-white/[0.08] bg-ink-2/95 backdrop-blur-2xl shadow-[0_24px_64px_-12px_rgba(0,0,0,0.9)] p-3"
                     style={{ transformOrigin: "top center" }}
                   >
                     <div>
@@ -232,25 +314,15 @@ export const Navbar = () => {
               onMouseEnter={() => openMenu("company")}
               onMouseLeave={scheduleClose}
             >
-              <button
+              <NavbarIconLink
+                icon={Compass}
+                label="Company"
+                isActive={activeMenu === "company" || ["/about", "/process"].includes(location.pathname)}
                 onClick={() =>
                   setActiveMenu(activeMenu === "company" ? null : "company")
                 }
-                aria-expanded={activeMenu === "company"}
-                aria-haspopup="true"
-                className={[
-                  "relative flex items-center gap-1 px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-150",
-                  activeMenu === "company"
-                    ? "text-white bg-white/[0.06]"
-                    : "text-white/60 hover:text-white hover:bg-white/[0.04]",
-                ].join(" ")}
-              >
-                Company
-                <ChevronDown
-                  className={`h-3.5 w-3.5 transition-transform duration-200 ${activeMenu === "company" ? "rotate-180" : ""}`}
-                  strokeWidth={2}
-                />
-              </button>
+                hasDropdown
+              />
 
               {/* Company dropdown */}
               <AnimatePresence>
@@ -262,7 +334,7 @@ export const Navbar = () => {
                     exit="exit"
                     onMouseEnter={cancelClose}
                     onMouseLeave={scheduleClose}
-                    className="absolute left-0 top-full mt-2 w-56 rounded-xl border border-white/[0.08] bg-ink-2/95 backdrop-blur-2xl shadow-[0_24px_64px_-12px_rgba(0,0,0,0.9)] p-1.5"
+                    className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56 rounded-xl border border-white/[0.08] bg-ink-2/95 backdrop-blur-2xl shadow-[0_24px_64px_-12px_rgba(0,0,0,0.9)] p-1.5"
                     style={{ transformOrigin: "top center" }}
                   >
                     {NAV_STRUCTURE.company.items.map((item) => (
@@ -285,20 +357,12 @@ export const Navbar = () => {
             </div>
 
             {/* Direct links */}
-            {[{ label: "Work", href: "/work" }].map((link) => (
-              <Link
-                key={link.href}
-                to={link.href}
-                className={[
-                  "px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-150",
-                  isActive(link.href)
-                    ? "text-white bg-white/[0.06]"
-                    : "text-white/60 hover:text-white hover:bg-white/[0.04]",
-                ].join(" ")}
-              >
-                {link.label}
-              </Link>
-            ))}
+            <NavbarIconLink
+              icon={Briefcase}
+              label="Work"
+              isActive={location.pathname === "/work"}
+              to="/work"
+            />
           </div>
 
           {/* ── Desktop CTA ── */}
