@@ -117,7 +117,7 @@ export const NAV_STRUCTURE = {
     items: [
       { title: 'About', description: 'Who we are and how we work', href: '/about' },
       { title: 'Process', description: 'Our VISTAR delivery framework', href: '/process' },
-      { title: 'Work', description: 'Portfolio and case studies', href: '/work' },
+      { title: 'Talk to us', description: 'Share goals, timeline, and budget', href: '/contact' },
     ],
   },
 } as const;
@@ -845,8 +845,7 @@ export const FOOTER_LINKS = {
   company: [
     { label: 'About', href: '/about' },
     { label: 'Process', href: '/process' },
-    { label: 'Work', href: '/work' },
-    { label: 'Contact', href: '/contact' },
+    { label: 'Talk to us', href: '/contact' },
   ],
   social: [
     { icon: Linkedin, href: 'https://www.linkedin.com/company/techvistar', label: 'LinkedIn' },

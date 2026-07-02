@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
-import { WORK_PROJECTS } from '@/lib/constants';
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { WORK_PROJECTS } from "@/lib/constants";
 
 const FEATURED = WORK_PROJECTS.slice(0, 3);
 
@@ -17,13 +17,16 @@ export function FeaturedWork() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
+          viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="mb-16 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6"
         >
           <div>
             <p className="label-mono text-[#6E7FEF] mb-3">Selected work</p>
-            <h2 id="work-heading" className="text-4xl sm:text-5xl font-bold tracking-[-0.04em] text-white leading-tight">
+            <h2
+              id="work-heading"
+              className="text-4xl sm:text-5xl font-bold tracking-[-0.04em] text-white leading-tight"
+            >
               What we've
               <br />
               <span className="text-white/30">shipped for clients</span>
@@ -44,7 +47,7 @@ export function FeaturedWork() {
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-60px' }}
+            viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-2"
           >
@@ -58,8 +61,12 @@ export function FeaturedWork() {
                 key={project.id}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.6, delay: 0.1 + i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{
+                  duration: 0.6,
+                  delay: 0.1 + i * 0.1,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
                 className="flex-1"
               >
                 <ProjectCard project={project} />
@@ -97,25 +104,32 @@ function ProjectCard({
   large?: boolean;
 }) {
   const categoryColors: Record<string, string> = {
-    AI: '#6E7FEF',
-    Web: '#22D3EE',
-    Automation: '#34D399',
+    AI: "#6E7FEF",
+    Web: "#22D3EE",
+    Automation: "#34D399",
   };
-  const color = categoryColors[project.category] ?? '#6E7FEF';
+  const color = categoryColors[project.category] ?? "#6E7FEF";
 
   return (
     <Link
       to="/work"
       className={[
-        'group relative flex flex-col rounded-2xl border border-white/[0.06] bg-ink-2/60 overflow-hidden hover:border-white/[0.12] hover:bg-ink-2/80 transition-all duration-200 hover:-translate-y-1 hover:shadow-card',
-        large ? 'min-h-[340px]' : 'flex-1',
-      ].join(' ')}
+        "group relative flex flex-col rounded-2xl border border-white/[0.06] bg-ink-2/60 overflow-hidden hover:border-white/[0.12] hover:bg-ink-2/80 transition-all duration-200 hover:-translate-y-1 hover:shadow-card",
+        large ? "min-h-[340px]" : "flex-1",
+      ].join(" ")}
       aria-label={`${project.title} case study`}
     >
       {/* Gradient accent bar */}
-      <div className="h-0.5 w-full" style={{ background: `linear-gradient(90deg, ${color}60, transparent)` }} />
+      <div
+        className="h-0.5 w-full"
+        style={{
+          background: `linear-gradient(90deg, ${color}60, transparent)`,
+        }}
+      />
 
-      <div className={['flex flex-col flex-1', large ? 'p-8' : 'p-6'].join(' ')}>
+      <div
+        className={["flex flex-col flex-1", large ? "p-8" : "p-6"].join(" ")}
+      >
         {/* Category + Industry */}
         <div className="flex items-center gap-2 mb-auto">
           <span
@@ -128,13 +142,20 @@ function ProjectCard({
         </div>
 
         {/* Title */}
-        <h3 className={['font-bold text-white leading-snug mt-5', large ? 'text-2xl' : 'text-lg'].join(' ')}>
+        <h3
+          className={[
+            "font-bold text-white leading-snug mt-5",
+            large ? "text-2xl" : "text-lg",
+          ].join(" ")}
+        >
           {project.title}
         </h3>
 
         {/* Description */}
         <p className="mt-2 text-sm text-white/40 leading-relaxed">
-          {large ? project.description : project.description.slice(0, 100) + '...'}
+          {large
+            ? project.description
+            : project.description.slice(0, 100) + "..."}
         </p>
 
         {/* Footer */}
@@ -142,7 +163,9 @@ function ProjectCard({
           {/* Outcome stat */}
           <div>
             <div className="label-mono text-white/20 mb-1">Outcome</div>
-            <div className="text-base font-bold text-white">{project.outcome}</div>
+            <div className="text-base font-bold text-white">
+              {project.outcome}
+            </div>
           </div>
 
           {/* Stack chips + arrow */}

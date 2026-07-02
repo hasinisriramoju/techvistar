@@ -11,6 +11,7 @@ import Process from "./pages/Process";
 import Work from "./pages/Work";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
+import { AIChatWidget } from "./components/AIChatWidget";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,7 @@ const App = () => (
           {/* Catch-all */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <AIChatWidget />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

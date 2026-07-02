@@ -1,8 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Brain, Globe, Workflow, Zap } from 'lucide-react';
-import { HERO_COPY } from '@/lib/constants';
+import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  AnimatePresence,
+} from "framer-motion";
+import { ArrowRight, Brain, Globe, Workflow, Zap } from "lucide-react";
+import { HERO_COPY } from "@/lib/constants";
 
 /* ── Word cycling animation ── */
 const WORDS = HERO_COPY.cyclingWords;
@@ -11,17 +16,23 @@ const INTERVAL_MS = 2200;
 function CyclingWord() {
   const [index, setIndex] = useState(0);
   useEffect(() => {
-    const id = setInterval(() => setIndex((i) => (i + 1) % WORDS.length), INTERVAL_MS);
+    const id = setInterval(
+      () => setIndex((i) => (i + 1) % WORDS.length),
+      INTERVAL_MS,
+    );
     return () => clearInterval(id);
   }, []);
   return (
-    <span className="relative inline-flex overflow-hidden h-[1.1em] align-bottom" aria-live="polite">
+    <span
+      className="relative inline-flex overflow-hidden h-[1.1em] align-bottom"
+      aria-live="polite"
+    >
       <AnimatePresence mode="wait">
         <motion.span
           key={WORDS[index]}
-          initial={{ y: '100%', opacity: 0 }}
-          animate={{ y: '0%', opacity: 1 }}
-          exit={{ y: '-100%', opacity: 0 }}
+          initial={{ y: "100%", opacity: 0 }}
+          animate={{ y: "0%", opacity: 1 }}
+          exit={{ y: "-100%", opacity: 0 }}
           transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
           className="text-gradient-signal inline-block"
         >
@@ -34,23 +45,36 @@ function CyclingWord() {
 
 /* ── Floating Badge ── */
 function FloatingBadge({
-  label, icon: Icon, color,
+  label,
+  icon: Icon,
+  color,
   style,
 }: {
-  label: string; icon: React.ElementType; color: string;
+  label: string;
+  icon: React.ElementType;
+  color: string;
   style?: React.CSSProperties;
 }) {
   return (
     <motion.div
       animate={{ y: [0, -6, 0] }}
-      transition={{ duration: 4 + Math.random() * 2, repeat: Infinity, ease: 'easeInOut' }}
+      transition={{
+        duration: 4 + Math.random() * 2,
+        repeat: Infinity,
+        ease: "easeInOut",
+      }}
       className="absolute glass rounded-full px-4 py-2.5 flex items-center gap-2.5 shadow-card"
       style={style}
     >
-      <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full" style={{ background: `${color}15` }}>
+      <div
+        className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full"
+        style={{ background: `${color}15` }}
+      >
         <Icon className="h-3.5 w-3.5" style={{ color }} strokeWidth={2.2} />
       </div>
-      <span className="text-xs font-semibold text-white/80 whitespace-nowrap">{label}</span>
+      <span className="text-xs font-semibold text-white/80 whitespace-nowrap">
+        {label}
+      </span>
     </motion.div>
   );
 }
@@ -60,13 +84,17 @@ function HeroBackground() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {/* Dot grid */}
-      <div className="absolute inset-0 bg-grid-dots opacity-60" style={{ backgroundSize: '32px 32px' }} />
+      <div
+        className="absolute inset-0 bg-grid-dots opacity-60"
+        style={{ backgroundSize: "32px 32px" }}
+      />
 
       {/* Central glow */}
       <div
         className="absolute top-[30%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full"
         style={{
-          background: 'radial-gradient(circle, rgba(94,106,210,0.12) 0%, rgba(94,106,210,0.04) 40%, transparent 70%)',
+          background:
+            "radial-gradient(circle, rgba(94,106,210,0.12) 0%, rgba(94,106,210,0.04) 40%, transparent 70%)",
         }}
       />
 
@@ -74,7 +102,8 @@ function HeroBackground() {
       <div
         className="absolute top-0 right-0 w-[400px] h-[400px]"
         style={{
-          background: 'radial-gradient(circle at top right, rgba(167,139,250,0.06) 0%, transparent 60%)',
+          background:
+            "radial-gradient(circle at top right, rgba(167,139,250,0.06) 0%, transparent 60%)",
         }}
       />
     </div>
@@ -84,7 +113,10 @@ function HeroBackground() {
 /* ── Main Hero ── */
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end start'] });
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const y = useTransform(scrollYProgress, [0, 0.5], [0, 60]);
 
@@ -112,14 +144,18 @@ export function Hero() {
             {/* Badge */}
             <div className="inline-flex items-center gap-2 rounded-full px-3 py-1.5 mb-8 border border-white/[0.08] bg-white/[0.03]">
               <span className="h-1.5 w-1.5 rounded-full bg-[#6E7FEF] animate-signal-pulse" />
-              <span className="label-mono text-white/40">{HERO_COPY.badge}</span>
+              <span className="label-mono text-white/40">
+                {HERO_COPY.badge}
+              </span>
             </div>
 
             {/* Headline */}
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-[-0.04em] leading-[1.0] text-white mb-6">
               Technology-first
               <br />
-              <span className="text-gradient-signal"><CyclingWord /></span>
+              <span className="text-gradient-signal">
+                <CyclingWord />
+              </span>
               <br />
               <span className="text-white/30">Without the chaos.</span>
             </h1>
@@ -131,17 +167,11 @@ export function Hero() {
 
             {/* CTAs */}
             <div className="flex items-center gap-3 flex-wrap">
-              <Link
-                to="/contact"
-                className="btn-primary text-base px-6 py-3.5"
-              >
+              <Link to="/contact" className="btn-primary text-base px-6 py-3.5">
                 {HERO_COPY.ctaPrimary}
                 <ArrowRight className="h-4 w-4" strokeWidth={2.5} />
               </Link>
-              <Link
-                to="/services"
-                className="btn-ghost text-base px-6 py-3.5"
-              >
+              <Link to="/services" className="btn-ghost text-base px-6 py-3.5">
                 {HERO_COPY.ctaSecondary}
               </Link>
             </div>
@@ -162,7 +192,7 @@ export function Hero() {
               <div className="absolute w-72 h-72 rounded-full border border-dashed border-white/[0.05] animate-spin-slow" />
               <div
                 className="absolute w-96 h-96 rounded-full border border-dashed border-[#6E7FEF]/10"
-                style={{ animation: 'spin-slow 30s linear infinite reverse' }}
+                style={{ animation: "spin-slow 30s linear infinite reverse" }}
               />
               <div className="absolute w-[480px] h-[480px] rounded-full border border-white/[0.02]" />
             </div>
@@ -172,8 +202,12 @@ export function Hero() {
               <div className="flex h-20 w-20 items-center justify-center rounded-3xl bg-ink-2 border border-white/[0.08] shadow-card mb-4">
                 <Zap className="h-9 w-9 text-[#6E7FEF]" strokeWidth={1.5} />
               </div>
-              <div className="label-mono text-white/20 text-center">Technology-first</div>
-              <div className="label-mono text-white/20 text-center">Growth Partner</div>
+              <div className="label-mono text-white/20 text-center">
+                Technology-first
+              </div>
+              <div className="label-mono text-white/20 text-center">
+                Growth Partner
+              </div>
             </div>
 
             {/* Floating badges */}
@@ -181,19 +215,19 @@ export function Hero() {
               label="Applied AI"
               icon={Brain}
               color="#6E7FEF"
-              style={{ top: '15%', left: '5%' }}
+              style={{ top: "15%", left: "5%" }}
             />
             <FloatingBadge
               label="Web Systems"
               icon={Globe}
               color="#22D3EE"
-              style={{ bottom: '22%', left: '3%' }}
+              style={{ bottom: "22%", left: "3%" }}
             />
             <FloatingBadge
               label="Automation"
               icon={Workflow}
               color="#34D399"
-              style={{ top: '32%', right: '4%' }}
+              style={{ top: "32%", right: "4%" }}
             />
           </motion.div>
         </div>
